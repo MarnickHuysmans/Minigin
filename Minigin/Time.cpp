@@ -13,7 +13,7 @@ void Time::Update()
 	const auto sleepTime = m_FrameTime - deltaTime;
 	if (sleepTime.count() > 0)
 	{
-		m_DeltaTime = static_cast<float>(m_FrameTime.count());
+		m_DeltaTime = m_FrameTime.count();
 		std::this_thread::sleep_for(sleepTime);
 	}
 	else

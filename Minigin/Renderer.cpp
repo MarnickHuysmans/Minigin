@@ -27,15 +27,19 @@ void dae::Renderer::Render()
 {
 	SDL_RenderClear(m_Renderer);
 
-	SceneManager::GetInstance().Render();
-
 	ImGui_ImplOpenGL2_NewFrame();
 	ImGui_ImplSDL2_NewFrame(m_Window);
 	ImGui::NewFrame();
+
+	SceneManager::GetInstance().Render();
+
+	SceneManager::GetInstance().RenderUi();
+	
 	if (m_ShowDemo)
 	{
 		ImGui::ShowDemoWindow(&m_ShowDemo);
 	}
+	
 	ImGui::Render();
 	ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 

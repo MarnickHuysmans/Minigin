@@ -1,6 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "Transform.h"
+#include "UIComponent.h"
 
 namespace dae
 {
@@ -11,11 +12,13 @@ namespace dae
 		void Start();
 		void Update();
 		void Render() const;
+		void RenderUi();
 
 		void SetPosition(float x, float y);
 		const Transform& GetTransform() const;
 
 		void AddComponent(Component* component);
+		void AddComponent(const std::shared_ptr<UIComponent>& uiComponent);
 
 		template<typename ComponentType>
 		ComponentType* GetComponent();
@@ -30,6 +33,7 @@ namespace dae
 	private:
 		Transform m_Transform{};
 		std::vector<Component*> m_Components{};
+		std::vector<std::shared_ptr<UIComponent>> m_UiComponents{};
 	};
 
 	template <typename ComponentType>

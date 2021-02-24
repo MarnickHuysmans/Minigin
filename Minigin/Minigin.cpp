@@ -74,6 +74,25 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(fps);
 	go->SetPosition(0, 0);
 	scene.Add(go);
+
+	go = std::make_shared<GameObject>();
+	auto uiComponent = std::make_shared<UIComponent>([]()
+	{
+			if (ImGui::Button("Button1"))
+			{
+				std::cout << "Button1" << std::endl;
+			}
+			if (ImGui::Button("Button2"))
+			{
+				std::cout << "Button2" << std::endl;
+			}
+			if (ImGui::Button("Button3"))
+			{
+				std::cout << "Button3" << std::endl;
+			}
+	}, "Menu");
+	go->AddComponent(uiComponent);
+	scene.Add(go);
 }
 
 void dae::Minigin::Cleanup()

@@ -16,7 +16,7 @@ namespace dae
 		friend class Singleton<Time>;
 		Time();
 		float m_DesiredFPS{ 60.0f };
-		std::chrono::duration<double> m_FrameTime{};
+		std::chrono::duration<float> m_FrameTime{};
 		std::chrono::steady_clock::time_point m_LastTime{ std::chrono::high_resolution_clock::now() };
 		float m_DeltaTime{};
 	};

@@ -13,6 +13,7 @@ namespace dae
 		void Start();
 		void Update();
 		void Render() const;
+		void RenderUi();
 
 		~Scene();
 		Scene(const Scene& other) = delete;

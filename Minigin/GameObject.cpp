@@ -34,6 +34,14 @@ void dae::GameObject::Render() const
 	}
 }
 
+void dae::GameObject::RenderUi()
+{
+	for (auto& uiComponent : m_UiComponents)
+	{
+		uiComponent->Render();
+	}
+}
+
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
@@ -48,4 +56,9 @@ void dae::GameObject::AddComponent(Component* component)
 {
 	m_Components.push_back(component);
 	component->m_GameObject = this;
+}
+
+void dae::GameObject::AddComponent(const std::shared_ptr<UIComponent>& uiComponent)
+{
+	m_UiComponents.push_back(uiComponent);
 }
