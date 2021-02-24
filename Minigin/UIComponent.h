@@ -1,6 +1,5 @@
 #pragma once
 #include <functional>
-
 #include "imgui.h"
 
 namespace dae
