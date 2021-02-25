@@ -8,7 +8,7 @@
 #include "Util.h"
 
 dae::TextComponent::TextComponent(const std::shared_ptr<Font>& font, const std::string& text, const SDL_Color& color)
-	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Color(color)
+	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Color(color), RenderComponent()
 {
 }
 
@@ -35,11 +35,6 @@ void dae::TextComponent::Update()
 		m_Texture = std::make_shared<Texture2D>(texture);
 		m_NeedsUpdate = false;
 	}
-}
-
-void dae::TextComponent::Render() const
-{
-	RenderComponent::Render();
 }
 
 void dae::TextComponent::SetText(const std::string& text)

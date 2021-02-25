@@ -4,7 +4,9 @@
 namespace dae
 {
 	class GameObject;
-	class Scene
+	class RenderComponent;
+	class UIComponent;
+	class Scene final
 	{
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
@@ -12,7 +14,7 @@ namespace dae
 
 		void Start();
 		void Update();
-		void Render() const;
+		void Render();
 		void RenderUi();
 
 		~Scene();
@@ -24,8 +26,12 @@ namespace dae
 	private: 
 		explicit Scene(const std::string& name);
 
+		void AddRenderingComponents(const std::shared_ptr<GameObject>& object);
+
 		std::string m_Name{};
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
+		std::vector<std::weak_ptr<RenderComponent>> m_RenderComponents{};
+		std::vector<std::weak_ptr<UIComponent>> m_UiComponents{};
 
 		static unsigned int m_IdCounter; 
 	};

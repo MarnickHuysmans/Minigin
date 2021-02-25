@@ -15,5 +15,13 @@ void dae::RenderComponent::Render() const
 
 void dae::RenderComponent::SetTexture(const std::string& filename)
 {
-	m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	if (!filename.empty())
+	{
+		m_Texture = ResourceManager::GetInstance().LoadTexture(filename);
+	}
+}
+
+dae::RenderComponent::RenderComponent(const std::string& filename)
+{
+	SetTexture(filename);
 }

@@ -2,12 +2,13 @@
 #include <map>
 #include <SDL_scancode.h>
 #include <SDL_stdinc.h>
-#include <XInput.h>
 #include "Command.h"
 #include "Singleton.h"
 
+struct _XINPUT_STATE;
+
 namespace dae
-{
+{	
 	enum class InputState
 	{
 		Down,
@@ -16,18 +17,20 @@ namespace dae
 	};
 	enum class ControllerButton : int
 	{
-		ButtonA = XINPUT_GAMEPAD_A,
-		ButtonB = XINPUT_GAMEPAD_B,
-		ButtonX = XINPUT_GAMEPAD_X,
-		ButtonY = XINPUT_GAMEPAD_Y,
-		ButtonBack = XINPUT_GAMEPAD_BACK,
-		ButtonStart = XINPUT_GAMEPAD_START,
-		DpadUp = XINPUT_GAMEPAD_DPAD_UP,
-		DpadDown = XINPUT_GAMEPAD_DPAD_DOWN,
-		DpadLeft = XINPUT_GAMEPAD_DPAD_LEFT,
-		DpadRight = XINPUT_GAMEPAD_DPAD_RIGHT,
-		ShoulderLeft = XINPUT_GAMEPAD_LEFT_SHOULDER,
-		ShoulderRight = XINPUT_GAMEPAD_RIGHT_SHOULDER
+		ButtonA = 0x1000,
+		ButtonB = 0x2000,
+		ButtonX = 0x4000,
+		ButtonY = 0x8000,
+		ButtonBack = 0x0020,
+		ButtonStart = 0x0010,
+		DpadUp = 0x0001,
+		DpadDown = 0x0002,
+		DpadLeft = 0x0004,
+		DpadRight = 0x0008,
+		ShoulderLeft = 0x0100,
+		ShoulderRight = 0x0200,
+		LeftThumb = 0x0040,
+		RightThumb = 0x0080
 	};
 
 	using ControllerKey = std::pair<ControllerButton, InputState>;
@@ -50,14 +53,17 @@ namespace dae
 
 	private:
 		void HandleInput();
+		void HandleControllerInput();
+		void HandleKeyboardInput();
+		void UpdateControllerStates();
 		void UpdatePreviousKeyboardState();
 
-		XINPUT_STATE m_PreviousControllerState{};
-		XINPUT_STATE m_CurrentControllerState{};
+		_XINPUT_STATE* m_PreviousControllerState;
+		_XINPUT_STATE* m_CurrentControllerState;
 		bool m_PreviousKeyboardState[SDL_NUM_SCANCODES]{ false };
 		const Uint8* m_CurrentKeyboardState{};
-		std::vector<SDL_Scancode> m_KeysDown{10};
-		std::vector<SDL_Scancode> m_KeysUp{10};
+		std::vector<SDL_Scancode> m_KeysDown{ 10 };
+		std::vector<SDL_Scancode> m_KeysUp{ 10 };
 		std::map<ControllerKey, std::unique_ptr<Command>> m_ControllerCommandMap{};
 		std::map<KeyboardKey, std::unique_ptr<Command>> m_KeyboardCommandMap{};
 	};

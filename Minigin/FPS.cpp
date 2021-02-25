@@ -7,7 +7,11 @@
 
 void dae::FPS::Start()
 {
-	m_TextComponent = m_GameObject->GetComponent<TextComponent>();
+	auto textComponent = m_GameObject->GetComponent<TextComponent>();
+	if (!textComponent.expired())
+	{
+		m_TextComponent = textComponent.lock().get();
+	}
 }
 
 void dae::FPS::Update()

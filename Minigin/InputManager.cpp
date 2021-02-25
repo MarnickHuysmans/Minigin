@@ -1,20 +1,20 @@
 #include "MiniginPCH.h"
 #include "InputManager.h"
 #include <SDL.h>
+#include <XInput.h>
 
 dae::InputManager::InputManager()
+	:m_PreviousControllerState(new _XINPUT_STATE())
+	, m_CurrentControllerState(new _XINPUT_STATE())
 {
-	ZeroMemory(&m_PreviousControllerState, sizeof(XINPUT_STATE));
-	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
+	ZeroMemory(m_PreviousControllerState, sizeof(XINPUT_STATE));
+	ZeroMemory(m_CurrentControllerState, sizeof(XINPUT_STATE));
 	m_CurrentKeyboardState = SDL_GetKeyboardState(nullptr);
 }
 
 bool dae::InputManager::ProcessInput()
 {
-	m_PreviousControllerState = m_CurrentControllerState;
-	ZeroMemory(&m_CurrentControllerState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_CurrentControllerState);
-
+	UpdateControllerStates();
 	UpdatePreviousKeyboardState();
 
 	SDL_Event e;
@@ -31,24 +31,24 @@ bool dae::InputManager::ProcessInput()
 			m_KeysUp.push_back(e.key.keysym.scancode);
 		}
 	}
-	
+
 	HandleInput();
 	return true;
 }
 
 bool dae::InputManager::IsPressed(ControllerButton button) const
 {
-	return m_CurrentControllerState.Gamepad.wButtons & static_cast<int>(button);
+	return m_CurrentControllerState->Gamepad.wButtons & static_cast<int>(button);
 }
 
 bool dae::InputManager::IsDown(ControllerButton button) const
 {
-	return !(m_PreviousControllerState.Gamepad.wButtons & static_cast<int>(button)) && m_CurrentControllerState.Gamepad.wButtons & static_cast<int>(button);
+	return !(m_PreviousControllerState->Gamepad.wButtons & static_cast<int>(button)) && m_CurrentControllerState->Gamepad.wButtons & static_cast<int>(button);
 }
 
 bool dae::InputManager::IsUp(ControllerButton button) const
 {
-	return m_PreviousControllerState.Gamepad.wButtons & static_cast<int>(button) && !(m_CurrentControllerState.Gamepad.wButtons & static_cast<int>(button));
+	return m_PreviousControllerState->Gamepad.wButtons & static_cast<int>(button) && !(m_CurrentControllerState->Gamepad.wButtons & static_cast<int>(button));
 }
 
 bool dae::InputManager::IsPressed(SDL_Scancode key) const
@@ -78,6 +78,12 @@ void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, SDL_Scanco
 
 void dae::InputManager::HandleInput()
 {
+	HandleControllerInput();
+	HandleKeyboardInput();
+}
+
+void dae::InputManager::HandleControllerInput()
+{
 	for (auto& commandPair : m_ControllerCommandMap)
 	{
 		switch (commandPair.first.second)
@@ -101,6 +107,40 @@ void dae::InputManager::HandleInput()
 			}
 		}
 	}
+}
+
+void dae::InputManager::HandleKeyboardInput()
+{
+	for (auto& commandPair : m_KeyboardCommandMap)
+	{
+		switch (commandPair.first.second)
+		{
+		case InputState::Down:
+			if (IsDown(commandPair.first.first))
+			{
+				commandPair.second->Execute();
+			}
+			break;
+		case InputState::Up:
+			if (IsUp(commandPair.first.first))
+			{
+				commandPair.second->Execute();
+			}
+			break;
+		case InputState::Hold:
+			if (IsPressed(commandPair.first.first))
+			{
+				commandPair.second->Execute();
+			}
+		}
+	}
+}
+
+void dae::InputManager::UpdateControllerStates()
+{
+	CopyMemory(m_PreviousControllerState, m_CurrentControllerState, sizeof(XINPUT_STATE));
+	ZeroMemory(m_CurrentControllerState, sizeof(XINPUT_STATE));
+	XInputGetState(0, m_CurrentControllerState);
 }
 
 void dae::InputManager::UpdatePreviousKeyboardState()

@@ -47,50 +47,46 @@ void dae::Minigin::LoadGame() const
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto go = std::make_shared<GameObject>();
-	auto* renderComponent = new RenderComponent{};
-	renderComponent->SetTexture("background.jpg");
+	auto renderComponent = std::make_shared<RenderComponent>("background.jpg");
 	go->AddComponent(renderComponent);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
-	renderComponent = new RenderComponent{};
-	renderComponent->SetTexture("logo.png");
+	renderComponent = std::make_shared<RenderComponent>("logo.png");
 	go->AddComponent(renderComponent);
 	go->SetPosition(216, 180);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto* textComponent = new TextComponent{ font, "Programming 4 Assignment" };
+	auto textComponent = std::make_shared<TextComponent>(font, "Programming 4 Assignment");
 	go->AddComponent(textComponent);
 	go->SetPosition(80, 20);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	textComponent = new TextComponent{ font, "", {255, 255, 0}};
+	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{255, 255, 0});
 	go->AddComponent(textComponent);
-	auto* fps = new FPS{};
+	auto fps = std::make_shared<FPS>();
 	go->AddComponent(fps);
 	go->SetPosition(0, 0);
 	scene.Add(go);
 
 	go = std::make_shared<GameObject>();
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 	auto uiComponent = std::make_shared<UIComponent>([]()
 	{
-			if (ImGui::Button("Button1"))
+			if (ImGui::Button("Single Player"))
 			{
-				std::cout << "Button1" << std::endl;
 			}
-			if (ImGui::Button("Button2"))
+			if (ImGui::Button("Co-op"))
 			{
-				std::cout << "Button2" << std::endl;
 			}
-			if (ImGui::Button("Button3"))
+			if (ImGui::Button("Versus"))
 			{
-				std::cout << "Button3" << std::endl;
 			}
-	}, "Menu");
+	}, "Menu", nullptr, flags);
 	go->AddComponent(uiComponent);
 	scene.Add(go);
 }

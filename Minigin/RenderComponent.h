@@ -7,11 +7,11 @@ namespace dae
 	class RenderComponent : public Component
 	{
 	public:
-		void Render() const override;
-
+		virtual void Render() const;
+		void Update() override{};
 		void SetTexture(const std::string& filename);
 
-		RenderComponent() = default;
+		explicit RenderComponent(const std::string& filename = "");
 		virtual ~RenderComponent() = default;
 		RenderComponent(const RenderComponent& other) = delete;
 		RenderComponent(RenderComponent&& other) noexcept = delete;

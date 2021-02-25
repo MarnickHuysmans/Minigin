@@ -7,8 +7,7 @@ namespace dae
 	{
 	public:
 		virtual void Start() {};
-		virtual void Update(){};
-		virtual void Render() const{};
+		virtual void Update() = 0;
 
 		const GameObject& GetGameObject() const;
 

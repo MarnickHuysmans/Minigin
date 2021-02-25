@@ -11,20 +11,22 @@ namespace dae
 	public:
 		void Start();
 		void Update();
-		void Render() const;
-		void RenderUi();
 
 		void SetPosition(float x, float y);
 		const Transform& GetTransform() const;
 
-		void AddComponent(Component* component);
+		void AddComponent(const std::shared_ptr<Component>& component);
 		void AddComponent(const std::shared_ptr<UIComponent>& uiComponent);
 
 		template<typename ComponentType>
-		ComponentType* GetComponent();
+		std::weak_ptr<ComponentType> GetComponent();
+		template<typename ComponentType>
+		std::vector<std::weak_ptr<ComponentType>> GetComponents();
+
+		const std::vector<std::shared_ptr<UIComponent>> GetUIComponents() const;
 
 		GameObject() = default;
-		virtual ~GameObject();
+		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -32,22 +34,38 @@ namespace dae
 
 	private:
 		Transform m_Transform{};
-		std::vector<Component*> m_Components{};
+		std::vector<std::shared_ptr<Component>> m_Components{};
 		std::vector<std::shared_ptr<UIComponent>> m_UiComponents{};
 	};
 
 	template <typename ComponentType>
-	ComponentType* GameObject::GetComponent()
+	std::weak_ptr<ComponentType> GameObject::GetComponent()
 	{
 		static_assert(std::is_base_of<Component, ComponentType>().value, "The type should be derived from Component");
 		for (auto component : m_Components)
 		{
-			ComponentType* found = dynamic_cast<ComponentType*>(component);
+			std::shared_ptr<ComponentType> found = std::dynamic_pointer_cast<ComponentType>(component);
 			if (found)
 			{
-				return found;
+				return std::weak_ptr<ComponentType>{found};
 			}
 		}
-		return nullptr;
+		return std::weak_ptr<ComponentType>{};
+	}
+
+	template <typename ComponentType>
+	std::vector<std::weak_ptr<ComponentType>> GameObject::GetComponents()
+	{
+		static_assert(std::is_base_of<Component, ComponentType>().value, "The type should be derived from Component");
+		std::vector<std::weak_ptr<ComponentType>> components{};
+		for (auto component : m_Components)
+		{
+			std::shared_ptr<ComponentType> found = std::dynamic_pointer_cast<ComponentType>(component);
+			if (found)
+			{
+				components.push_back(found);
+			}
+		}
+		return components;
 	}
 }

@@ -12,31 +12,23 @@ void dae::SceneManager::Start()
 
 void dae::SceneManager::Update()
 {
-	for (auto& scene : m_Scenes)
-	{
-		scene->Update();
-	}
+	m_Scenes[m_CurrentScene]->Update();
 }
 
 void dae::SceneManager::Render() const
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->Render();
-	}
+	m_Scenes[m_CurrentScene]->Render();
 }
 
 void dae::SceneManager::RenderUi()
 {
-	for (const auto& scene : m_Scenes)
-	{
-		scene->RenderUi();
-	}
+	m_Scenes[m_CurrentScene]->RenderUi();
 }
 
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto scene = std::shared_ptr<Scene>(new Scene(name));
 	m_Scenes.push_back(scene);
+	++m_CurrentScene;
 	return *scene;
 }
