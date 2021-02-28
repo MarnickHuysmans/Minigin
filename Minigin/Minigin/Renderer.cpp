@@ -1,12 +1,11 @@
 #include "MiniginPCH.h"
 #include "Renderer.h"
 #include <SDL.h>
-
 #include "imgui.h"
-#include "SceneManager.h"
-#include "Texture2D.h"
 #include "backends/imgui_impl_opengl2.h"
 #include "backends/imgui_impl_sdl.h"
+#include "SceneManager.h"
+#include "Texture2D.h"
 
 void dae::Renderer::Init(SDL_Window* window)
 {
