@@ -8,9 +8,11 @@
 
 #include "FPS.h"
 #include "GameObject.h"
+#include "Lives.h"
 #include "Qbert.h"
 #include "RenderComponent.h"
 #include "Scene.h"
+#include "Score.h"
 #include "TextComponent.h"
 #include "Time.h"
 
@@ -70,7 +72,7 @@ void dae::Minigin::LoadGame() const
 
 	//FPS
 	go = std::make_shared<GameObject>();
-	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{255, 255, 0});
 	go->AddComponent(textComponent);
 	auto fps = std::make_shared<FPS>();
@@ -80,7 +82,7 @@ void dae::Minigin::LoadGame() const
 
 	//UI
 	go = std::make_shared<GameObject>();
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 	auto uiComponent = std::make_shared<UIComponent>([]()
 	{
 			if (ImGui::Button("Single Player"))
@@ -93,13 +95,69 @@ void dae::Minigin::LoadGame() const
 			{
 			}
 	}, "Menu", nullptr, flags);
+	uiComponent->SetPosition({ 100, 100 });
+	go->AddComponent(uiComponent);
+	uiComponent = std::make_shared<UIComponent>([]()
+		{
+			ImGui::Text("Player1: 4 face buttons and right shoulder");
+			ImGui::Text("Player2: WASD and E");
+		}, "Controls", nullptr, flags);
+	uiComponent->SetPosition({ 100, 300 });
 	go->AddComponent(uiComponent);
 	scene.Add(go);
 
-	//qBert
-	go = std::make_shared<GameObject>();
+	//qBert1
+	auto qbertObject = std::make_shared<GameObject>();
 	auto qBert = std::make_shared<qbert::Qbert>();
-	go->AddComponent(qBert);
+	qBert->SetButtons(ControllerButton::ShoulderRight, ControllerButton::ButtonA, ControllerButton::ButtonB, ControllerButton::ButtonX, ControllerButton::ButtonY);
+	qbertObject->AddComponent(qBert);
+	scene.Add(qbertObject);
+
+	//Lives display1
+	go = std::make_shared<GameObject>();
+	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 255,0,255 });
+	go->AddComponent(textComponent);
+	auto lives = std::make_shared<qbert::Lives>(qBert.get());
+	go->AddComponent(lives);
+	qBert->AddObserver(lives.get());
+	go->SetPosition(540, 200);
+	scene.Add(go);
+
+	//Score1
+	go = std::make_shared<GameObject>();
+	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 255,0,255 });
+	go->AddComponent(textComponent);
+	auto score = std::make_shared<qbert::Score>();
+	go->AddComponent(score);
+	qBert->AddObserver(score.get());
+	go->SetPosition(0, 200);
+	scene.Add(go);
+
+	//qBert2
+	qbertObject = std::make_shared<GameObject>();
+	qBert = std::make_shared<qbert::Qbert>();
+	qBert->SetButtons(SDL_SCANCODE_E, SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D);
+	qbertObject->AddComponent(qBert);
+	scene.Add(qbertObject);
+
+	//Lives display2
+	go = std::make_shared<GameObject>();
+	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 0,255,255 });
+	go->AddComponent(textComponent);
+	lives = std::make_shared<qbert::Lives>(qBert.get());
+	go->AddComponent(lives);
+	qBert->AddObserver(lives.get());
+	go->SetPosition(540, 300);
+	scene.Add(go);
+
+	//Score2
+	go = std::make_shared<GameObject>();
+	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 0,255,255 });
+	go->AddComponent(textComponent);
+	score = std::make_shared<qbert::Score>();
+	go->AddComponent(score);
+	qBert->AddObserver(score.get());
+	go->SetPosition(0, 300);
 	scene.Add(go);
 }
 

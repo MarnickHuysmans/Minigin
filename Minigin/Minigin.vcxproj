@@ -205,6 +205,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_rectpack.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_textedit.h" />
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
+    <ClInclude Include="Minigin\Lives.h" />
     <ClInclude Include="Minigin\Controller.h" />
     <ClInclude Include="Minigin\Command.h" />
     <ClInclude Include="Minigin\Component.h" />
@@ -231,6 +232,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Minigin\Subject.h" />
     <ClInclude Include="Minigin\Observer.h" />
     <ClInclude Include="Minigin\Qbert.h" />
+    <ClInclude Include="Minigin\Score.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\backends\imgui_impl_opengl2.cpp">
@@ -275,6 +277,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Minigin\Lives.cpp" />
     <ClCompile Include="Minigin\Controller.cpp" />
     <ClCompile Include="Minigin\EntryPoint.h" />
     <ClCompile Include="Minigin\Component.cpp" />
@@ -303,6 +306,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="Minigin\Subject.cpp" />
     <ClCompile Include="Minigin\Observer.cpp" />
     <ClCompile Include="Minigin\Qbert.cpp" />
+    <ClCompile Include="Minigin\Score.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -36,6 +36,9 @@ namespace dae
 		InputManager();
 
 		bool ProcessInput();
+		bool IsPressed(ControllerButton button, Player player = Player::Player1) const;
+		bool IsDown(ControllerButton button, Player player = Player::Player1) const;
+		bool IsUp(ControllerButton button, Player player = Player::Player1) const;
 		bool IsPressed(SDL_Scancode key) const;
 		bool IsDown(SDL_Scancode key) const;
 		bool IsUp(SDL_Scancode key) const;

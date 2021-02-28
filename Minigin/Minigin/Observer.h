@@ -5,6 +5,7 @@ namespace dae
 	class Observer
 	{
 	public:
+		Observer() = default;
 		virtual ~Observer() = default;
 		virtual void Notify(const std::string& message = "") = 0;
 		

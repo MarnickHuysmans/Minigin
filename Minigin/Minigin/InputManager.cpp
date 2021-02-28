@@ -33,6 +33,21 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
+bool dae::InputManager::IsPressed(ControllerButton button, Player player) const
+{
+	return m_Controllers[static_cast<int>(player)].IsPressed(button);
+}
+
+bool dae::InputManager::IsDown(ControllerButton button, Player player) const
+{
+	return m_Controllers[static_cast<int>(player)].IsDown(button);
+}
+
+bool dae::InputManager::IsUp(ControllerButton button, Player player) const
+{
+	return m_Controllers[static_cast<int>(player)].IsUp(button);
+}
+
 bool dae::InputManager::IsPressed(SDL_Scancode key) const
 {
 	return m_CurrentKeyboardState[key];

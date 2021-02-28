@@ -120,6 +120,12 @@
     <ClInclude Include="Minigin\Qbert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Minigin\Lives.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigin\Score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\imgui.cpp">
@@ -207,6 +213,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minigin\Qbert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin\Lives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin\Score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
