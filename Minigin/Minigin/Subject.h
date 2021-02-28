@@ -11,7 +11,6 @@ namespace dae
 
 		void RemoveObserver(Observer* observer);
 
-	protected:
 		void Notify(const std::string& message);
 
 	private:

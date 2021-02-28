@@ -9,7 +9,7 @@ namespace dae
 		Minigin() = default;
 		virtual ~Minigin() = default;
 		void Initialize();
-		void LoadGame() const;
+		virtual void LoadGame() const;
 		void Cleanup();
 		void Run();
 	private:

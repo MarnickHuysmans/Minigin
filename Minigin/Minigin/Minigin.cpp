@@ -8,6 +8,7 @@
 
 #include "FPS.h"
 #include "GameObject.h"
+#include "Qbert.h"
 #include "RenderComponent.h"
 #include "Scene.h"
 #include "TextComponent.h"
@@ -46,17 +47,20 @@ void dae::Minigin::LoadGame() const
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
+	//Background
 	auto go = std::make_shared<GameObject>();
 	auto renderComponent = std::make_shared<RenderComponent>("background.jpg");
 	go->AddComponent(renderComponent);
 	scene.Add(go);
 
+	//DAE Logo
 	go = std::make_shared<GameObject>();
 	renderComponent = std::make_shared<RenderComponent>("logo.png");
 	go->AddComponent(renderComponent);
 	go->SetPosition(216, 180);
 	scene.Add(go);
 
+	//Title
 	go = std::make_shared<GameObject>();
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textComponent = std::make_shared<TextComponent>(font, "Programming 4 Assignment");
@@ -64,6 +68,7 @@ void dae::Minigin::LoadGame() const
 	go->SetPosition(80, 20);
 	scene.Add(go);
 
+	//FPS
 	go = std::make_shared<GameObject>();
 	font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{255, 255, 0});
@@ -73,6 +78,7 @@ void dae::Minigin::LoadGame() const
 	go->SetPosition(0, 0);
 	scene.Add(go);
 
+	//UI
 	go = std::make_shared<GameObject>();
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 	auto uiComponent = std::make_shared<UIComponent>([]()
@@ -88,6 +94,12 @@ void dae::Minigin::LoadGame() const
 			}
 	}, "Menu", nullptr, flags);
 	go->AddComponent(uiComponent);
+	scene.Add(go);
+
+	//qBert
+	go = std::make_shared<GameObject>();
+	auto qBert = std::make_shared<qbert::Qbert>();
+	go->AddComponent(qBert);
 	scene.Add(go);
 }
 

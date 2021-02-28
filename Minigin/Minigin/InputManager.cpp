@@ -4,12 +4,9 @@
 #include <XInput.h>
 
 dae::InputManager::InputManager()
-	:m_PreviousControllerState(new _XINPUT_STATE())
-	, m_CurrentControllerState(new _XINPUT_STATE())
 {
-	ZeroMemory(m_PreviousControllerState, sizeof(XINPUT_STATE));
-	ZeroMemory(m_CurrentControllerState, sizeof(XINPUT_STATE));
 	m_CurrentKeyboardState = SDL_GetKeyboardState(nullptr);
+	UpdateConnectedControllers();
 }
 
 bool dae::InputManager::ProcessInput()
@@ -36,21 +33,6 @@ bool dae::InputManager::ProcessInput()
 	return true;
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button) const
-{
-	return m_CurrentControllerState->Gamepad.wButtons & static_cast<int>(button);
-}
-
-bool dae::InputManager::IsDown(ControllerButton button) const
-{
-	return !(m_PreviousControllerState->Gamepad.wButtons & static_cast<int>(button)) && m_CurrentControllerState->Gamepad.wButtons & static_cast<int>(button);
-}
-
-bool dae::InputManager::IsUp(ControllerButton button) const
-{
-	return m_PreviousControllerState->Gamepad.wButtons & static_cast<int>(button) && !(m_CurrentControllerState->Gamepad.wButtons & static_cast<int>(button));
-}
-
 bool dae::InputManager::IsPressed(SDL_Scancode key) const
 {
 	return m_CurrentKeyboardState[key];
@@ -66,14 +48,31 @@ bool dae::InputManager::IsUp(SDL_Scancode key) const
 	return m_PreviousKeyboardState[key] && !m_CurrentKeyboardState[key];
 }
 
-void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, ControllerButton button, InputState inputState)
+void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, Player player, ControllerButton button, InputState inputState)
 {
-	m_ControllerCommandMap[ControllerKey{ button, inputState }] = std::move(command);
+	m_ControllerCommandMap[player][ControllerKey{ button, inputState }] = std::move(command);
 }
 
 void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, SDL_Scancode key, InputState inputState)
 {
 	m_KeyboardCommandMap[KeyboardKey{ key, inputState }] = std::move(command);
+}
+
+void dae::InputManager::UpdateConnectedControllers()
+{
+	DWORD dwResult;
+	for (DWORD i = 0; i < XUSER_MAX_COUNT; ++i)
+	{
+		XINPUT_STATE state;
+		ZeroMemory(&state, sizeof(XINPUT_STATE));
+
+		dwResult = XInputGetState(i, &state);
+
+		if (dwResult == ERROR_SUCCESS)
+		{
+			m_Controllers[i].ActivateController();
+		}
+	}
 }
 
 void dae::InputManager::HandleInput()
@@ -84,26 +83,30 @@ void dae::InputManager::HandleInput()
 
 void dae::InputManager::HandleControllerInput()
 {
-	for (auto& commandPair : m_ControllerCommandMap)
+	for (auto& playerPair : m_ControllerCommandMap)
 	{
-		switch (commandPair.first.second)
+		const int player = static_cast<int>(playerPair.first);
+		for (auto& commandPair : playerPair.second)
 		{
-		case InputState::Down:
-			if (IsDown(commandPair.first.first))
+			switch (commandPair.first.second)
 			{
-				commandPair.second->Execute();
-			}
-			break;
-		case InputState::Up:
-			if (IsUp(commandPair.first.first))
-			{
-				commandPair.second->Execute();
-			}
-			break;
-		case InputState::Hold:
-			if (IsPressed(commandPair.first.first))
-			{
-				commandPair.second->Execute();
+			case InputState::Down:
+				if (m_Controllers[player].IsDown(commandPair.first.first))
+				{
+					commandPair.second->Execute();
+				}
+				break;
+			case InputState::Up:
+				if (m_Controllers[player].IsUp(commandPair.first.first))
+				{
+					commandPair.second->Execute();
+				}
+				break;
+			case InputState::Hold:
+				if (m_Controllers[player].IsPressed(commandPair.first.first))
+				{
+					commandPair.second->Execute();
+				}
 			}
 		}
 	}
@@ -138,9 +141,10 @@ void dae::InputManager::HandleKeyboardInput()
 
 void dae::InputManager::UpdateControllerStates()
 {
-	CopyMemory(m_PreviousControllerState, m_CurrentControllerState, sizeof(XINPUT_STATE));
-	ZeroMemory(m_CurrentControllerState, sizeof(XINPUT_STATE));
-	XInputGetState(0, m_CurrentControllerState);
+	for (DWORD i = 0; i < m_MaxControllers; ++i)
+	{
+		m_Controllers[i].UpdateController(i);
+	}
 }
 
 void dae::InputManager::UpdatePreviousKeyboardState()

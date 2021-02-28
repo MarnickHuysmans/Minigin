@@ -114,6 +114,12 @@
     <ClInclude Include="Minigin\Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Minigin\Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Minigin\Qbert.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\imgui.cpp">
@@ -195,6 +201,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Minigin\EntryPoint.h">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin\Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Minigin\Qbert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
