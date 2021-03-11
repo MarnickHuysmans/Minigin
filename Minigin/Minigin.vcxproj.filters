@@ -42,88 +42,82 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\backends\imgui_impl_sdl.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Command.h">
+    <ClInclude Include="Command.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Component.h">
+    <ClInclude Include="Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Font.h">
+    <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\FPS.h">
+    <ClInclude Include="Font.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\GameObject.h">
+    <ClInclude Include="FPS.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\InputManager.h">
+    <ClInclude Include="GameObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Minigin.h">
+    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\MiniginPCH.h">
+    <ClInclude Include="Lives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\RenderComponent.h">
+    <ClInclude Include="Minigin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Renderer.h">
+    <ClInclude Include="MiniginPCH.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\ResourceManager.h">
+    <ClInclude Include="Observer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Scene.h">
+    <ClInclude Include="Qbert.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\SceneManager.h">
+    <ClInclude Include="RenderComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Singleton.h">
+    <ClInclude Include="Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\TextComponent.h">
+    <ClInclude Include="ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Texture2D.h">
+    <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Time.h">
+    <ClInclude Include="SceneManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Transform.h">
+    <ClInclude Include="Score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\UIComponent.h">
+    <ClInclude Include="Singleton.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Util.h">
+    <ClInclude Include="Subject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Core.h">
+    <ClInclude Include="TextComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MiniginEngine.h">
+    <ClInclude Include="Texture2D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Subject.h">
+    <ClInclude Include="Time.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Observer.h">
+    <ClInclude Include="Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Controller.h">
+    <ClInclude Include="UIComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Minigin\Qbert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Minigin\Lives.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Minigin\Score.h">
+    <ClInclude Include="Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,76 +143,73 @@
     <ClCompile Include="..\3rdParty\imgui-1.81\backends\imgui_impl_sdl.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Component.cpp">
+    <ClCompile Include="Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Font.cpp">
+    <ClCompile Include="Controller.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\FPS.cpp">
+    <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\GameObject.cpp">
+    <ClCompile Include="FPS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\InputManager.cpp">
+    <ClCompile Include="GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Minigin.cpp">
+    <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\MiniginPCH.cpp">
+    <ClCompile Include="Lives.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\RenderComponent.cpp">
+    <ClCompile Include="Minigin.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Renderer.cpp">
+    <ClCompile Include="MiniginPCH.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\ResourceManager.cpp">
+    <ClCompile Include="Observer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Scene.cpp">
+    <ClCompile Include="Qbert.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\SceneManager.cpp">
+    <ClCompile Include="RenderComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\TextComponent.cpp">
+    <ClCompile Include="Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Texture2D.cpp">
+    <ClCompile Include="ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Time.cpp">
+    <ClCompile Include="Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Transform.cpp">
+    <ClCompile Include="SceneManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\UIComponent.cpp">
+    <ClCompile Include="Score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Subject.cpp">
+    <ClCompile Include="Subject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Observer.cpp">
+    <ClCompile Include="TextComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\EntryPoint.h">
+    <ClCompile Include="Texture2D.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Controller.cpp">
+    <ClCompile Include="Time.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Qbert.cpp">
+    <ClCompile Include="Transform.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Minigin\Lives.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Minigin\Score.cpp">
+    <ClCompile Include="UIComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

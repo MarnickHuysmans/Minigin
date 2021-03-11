@@ -1,9 +1,8 @@
 #pragma once
-#include "Core.h"
 struct SDL_Window;
 namespace dae
 {
-	class MINIGIN_API Minigin
+	class Minigin
 	{
 	public:
 		Minigin() = default;
