@@ -19,6 +19,12 @@
     <Filter Include="SimpleSDL2Audio">
       <UniqueIdentifier>{df658125-733f-4d9d-a6f5-762167de6e89}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Services">
+      <UniqueIdentifier>{11fb13a4-4d9a-45ed-86c6-955f8e1411e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{efeaa73d-2574-48f6-bfe5-732fcac62f29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\3rdParty\imgui-1.81\imconfig.h">
@@ -45,13 +51,7 @@
     <ClInclude Include="..\3rdParty\imgui-1.81\backends\imgui_impl_sdl.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Font.h">
@@ -61,9 +61,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Lives.h">
@@ -123,17 +120,29 @@
     <ClInclude Include="Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Locator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ISoundSystem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Services</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleSoundSystem.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="ServiceLocator.h">
+      <Filter>Services</Filter>
     </ClInclude>
     <ClInclude Include="LoggingSoundSystem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleSoundSystem.h">
+      <Filter>Services</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3rdParty\Simple-SDL2-Audio\audio.h">
+      <Filter>SimpleSDL2Audio</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +170,6 @@
     <ClCompile Include="Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Controller.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Font.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -171,9 +177,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Lives.cpp">
@@ -227,14 +230,23 @@
     <ClCompile Include="UIComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Locator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SimpleSoundSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="ServiceLocator.cpp">
+      <Filter>Services</Filter>
     </ClCompile>
     <ClCompile Include="LoggingSoundSystem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleSoundSystem.cpp">
+      <Filter>Services</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3rdParty\Simple-SDL2-Audio\audio.c">
+      <Filter>SimpleSDL2Audio</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

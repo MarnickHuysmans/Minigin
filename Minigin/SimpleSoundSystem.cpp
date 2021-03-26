@@ -59,6 +59,8 @@ dae::SimpleSoundSystem::SimpleSoundSystem()
 	, m_SoundVolume(SDL_MIX_MAXVOLUME)
 	, m_MusicVolume(SDL_MIX_MAXVOLUME)
 {
+	// Needed to make sdl play sound
+	_putenv("SDL_AUDIODRIVER=DirectSound");
 	if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -81,6 +83,7 @@ dae::SimpleSoundSystem::~SimpleSoundSystem()
 void dae::SimpleSoundSystem::Update()
 {
 	std::unique_lock<std::mutex> uniqueLock(m_Mutex);
+	uniqueLock.unlock();
 	std::unique_lock<std::mutex> pauseUniqueLock(m_PauseMutex);
 	while (m_Running)
 	{
@@ -113,6 +116,7 @@ void dae::SimpleSoundSystem::Update()
 		else
 		{
 			m_ConditionVariable.wait(uniqueLock);
+			uniqueLock.unlock();
 		}
 	}
 }

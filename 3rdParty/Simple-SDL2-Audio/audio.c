@@ -23,6 +23,9 @@
 #include <SDL.h>
 
 #include "audio.h"
+#pragma warning(push)
+#pragma warning (disable:4244)
+#pragma warning (disable:4013)
 
 /*
  * Native WAVE format
@@ -34,10 +37,10 @@
  *      ffmpeg -i in.mp3 -acodec pcm_s16le -ac 2 -ar 48000 out.wav
  */
 /* SDL_AudioFormat of files, such as s16 little endian */
-#define AUDIO_FORMAT AUDIO_S16LSB
+#define AUDIO_FORMAT AUDIO_S16
 
 /* Frequency of the file */
-#define AUDIO_FREQUENCY 48000
+#define AUDIO_FREQUENCY 24000
 
 /* 1 mono, 2 stereo, 4 quad, 6 (5.1) */
 #define AUDIO_CHANNELS 2
@@ -467,3 +470,4 @@ static void addAudio(Audio * root, Audio * newAudio)
 
     root->next = newAudio;
 }
+#pragma warning(pop)

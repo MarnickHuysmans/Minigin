@@ -15,7 +15,7 @@ namespace dae
 		void IncreaseMusicVolume(int) override {}
 	};
 
-	class Locator final
+	class ServiceLocator final
 	{
 		static ISoundSystem* m_SoundSystemInstance;
 		static NullSoundSystem m_DefaultSoundSystem;
@@ -27,7 +27,4 @@ namespace dae
 			m_SoundSystemInstance = soundSystem == nullptr ? m_SoundSystemInstance : soundSystem;
 		}
 	};
-
-	NullSoundSystem Locator::m_DefaultSoundSystem;
-	ISoundSystem* Locator::m_SoundSystemInstance = &m_DefaultSoundSystem;
 }

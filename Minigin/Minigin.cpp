@@ -9,10 +9,13 @@
 #include "FPS.h"
 #include "GameObject.h"
 #include "Lives.h"
+#include "LoggingSoundSystem.h"
 #include "Qbert.h"
 #include "RenderComponent.h"
 #include "Scene.h"
 #include "Score.h"
+#include "ServiceLocator.h"
+#include "SimpleSoundSystem.h"
 #include "TextComponent.h"
 #include "Time.h"
 
@@ -21,7 +24,7 @@ using namespace std::chrono;
 
 void dae::Minigin::Initialize()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
 		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
 	}
@@ -34,7 +37,7 @@ void dae::Minigin::Initialize()
 		480,
 		SDL_WINDOW_OPENGL
 	);
-	if (m_Window == nullptr) 
+	if (m_Window == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
@@ -73,7 +76,7 @@ void dae::Minigin::LoadGame() const
 	//FPS
 	go = std::make_shared<GameObject>();
 	//font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{255, 255, 0});
+	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 255, 255, 0 });
 	go->AddComponent(textComponent);
 	auto fps = std::make_shared<FPS>();
 	go->AddComponent(fps);
@@ -84,7 +87,7 @@ void dae::Minigin::LoadGame() const
 	go = std::make_shared<GameObject>();
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 	auto uiComponent = std::make_shared<UIComponent>([]()
-	{
+		{
 			if (ImGui::Button("Single Player"))
 			{
 			}
@@ -94,7 +97,7 @@ void dae::Minigin::LoadGame() const
 			if (ImGui::Button("Versus"))
 			{
 			}
-	}, "Menu", nullptr, flags);
+		}, "Menu", nullptr, flags);
 	uiComponent->SetPosition({ 100, 100 });
 	go->AddComponent(uiComponent);
 	uiComponent = std::make_shared<UIComponent>([]()
@@ -159,6 +162,8 @@ void dae::Minigin::LoadGame() const
 	qBert->AddObserver(score.get());
 	go->SetPosition(0, 300);
 	scene.Add(go);
+
+	ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/GameStartMusic.wav");
 }
 
 void dae::Minigin::Cleanup()
@@ -176,6 +181,9 @@ void dae::Minigin::Run()
 	// tell the resource manager where he can find the game data
 	ResourceManager::GetInstance().Init("../Data/");
 
+	// Default SoundService
+	ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SimpleSoundSystem()));
+
 	LoadGame();
 
 	{
@@ -188,11 +196,11 @@ void dae::Minigin::Run()
 
 		bool doContinue = true;
 		while (doContinue)
-		{	
+		{
 			doContinue = input.ProcessInput();
 			sceneManager.Update();
 			renderer.Render();
-			
+
 			time.Update();
 		}
 	}
