@@ -88,7 +88,7 @@ void qbert::Qbert::SetButtons(ControllerButton button1, ControllerButton button2
 	m_ControllerButton[4] = button5;
 }
 
-void qbert::Qbert::SetButtons(::SDL_Scancode button1, ::SDL_Scancode button2, ::SDL_Scancode button3, ::SDL_Scancode button4, ::SDL_Scancode button5)
+void qbert::Qbert::SetButtons(KeyboardSDL button1, KeyboardSDL button2, KeyboardSDL button3, KeyboardSDL button4, KeyboardSDL button5)
 {
 	m_ControlsrSet = true;
 	m_UseController = false;

@@ -139,7 +139,7 @@ void dae::Minigin::LoadGame() const
 	//qBert2
 	qbertObject = std::make_shared<GameObject>();
 	qBert = std::make_shared<qbert::Qbert>();
-	qBert->SetButtons(SDL_SCANCODE_E, SDL_SCANCODE_W, SDL_SCANCODE_A, SDL_SCANCODE_S, SDL_SCANCODE_D);
+	qBert->SetButtons(KeyboardSDL::SDL_SCANCODE_E, KeyboardSDL::SDL_SCANCODE_W, KeyboardSDL::SDL_SCANCODE_A, KeyboardSDL::SDL_SCANCODE_S, KeyboardSDL::SDL_SCANCODE_D);
 	qbertObject->AddComponent(qBert);
 	scene.Add(qbertObject);
 

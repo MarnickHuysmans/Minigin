@@ -21,11 +21,11 @@ bool dae::InputManager::ProcessInput()
 		}
 		if (e.type == SDL_KEYDOWN)
 		{
-			m_KeysDown.push_back(e.key.keysym.scancode);
+			m_KeysDown.push_back(static_cast<KeyboardSDL>(e.key.keysym.scancode));
 		}
 		else if (e.type == SDL_KEYUP)
 		{
-			m_KeysUp.push_back(e.key.keysym.scancode);
+			m_KeysUp.push_back(static_cast<KeyboardSDL>(e.key.keysym.scancode));
 		}
 	}
 
@@ -48,19 +48,19 @@ bool dae::InputManager::IsUp(ControllerButton button, Player player) const
 	return m_Controllers[static_cast<int>(player)].IsUp(button);
 }
 
-bool dae::InputManager::IsPressed(SDL_Scancode key) const
+bool dae::InputManager::IsPressed(KeyboardSDL key) const
 {
-	return m_CurrentKeyboardState[key];
+	return m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
 
-bool dae::InputManager::IsDown(SDL_Scancode key) const
+bool dae::InputManager::IsDown(KeyboardSDL key) const
 {
-	return !m_PreviousKeyboardState[key] && m_CurrentKeyboardState[key];
+	return !m_PreviousKeyboardState[static_cast<int>(key)] && m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
 
-bool dae::InputManager::IsUp(SDL_Scancode key) const
+bool dae::InputManager::IsUp(KeyboardSDL key) const
 {
-	return m_PreviousKeyboardState[key] && !m_CurrentKeyboardState[key];
+	return m_PreviousKeyboardState[static_cast<int>(key)] && !m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
 
 void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, Player player, ControllerButton button, InputState inputState)
@@ -68,7 +68,7 @@ void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, Player pla
 	m_ControllerCommandMap[player][ControllerKey{ button, inputState }] = std::move(command);
 }
 
-void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, SDL_Scancode key, InputState inputState)
+void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, KeyboardSDL key, InputState inputState)
 {
 	m_KeyboardCommandMap[KeyboardKey{ key, inputState }] = std::move(command);
 }
@@ -166,12 +166,12 @@ void dae::InputManager::UpdatePreviousKeyboardState()
 {
 	for (auto down : m_KeysDown)
 	{
-		m_PreviousKeyboardState[down] = true;
+		m_PreviousKeyboardState[static_cast<int>(down)] = true;
 	}
 	m_KeysDown.clear();
 	for (auto up : m_KeysUp)
 	{
-		m_PreviousKeyboardState[up] = false;
+		m_PreviousKeyboardState[static_cast<int>(up)] = false;
 	}
 	m_KeysUp.clear();
 }

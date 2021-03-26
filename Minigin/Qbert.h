@@ -1,10 +1,10 @@
 #pragma once
-#include <SDL_scancode.h>
 #include "Component.h"
 #include "Subject.h"
 
 namespace dae {
 	enum class ControllerButton;
+	enum class KeyboardSDL;
 }
 
 namespace qbert
@@ -23,7 +23,7 @@ namespace qbert
 		void RemoveObserver(Observer* observer);
 
 		void SetButtons(ControllerButton button1, ControllerButton button2, ControllerButton button3, ControllerButton button4, ControllerButton button5);
-		void SetButtons(SDL_Scancode button1, SDL_Scancode button2, SDL_Scancode button3, SDL_Scancode button4, SDL_Scancode button5);
+		void SetButtons(KeyboardSDL button1, KeyboardSDL button2, KeyboardSDL button3, KeyboardSDL button4, KeyboardSDL button5);
 
 	private:
 
@@ -34,6 +34,6 @@ namespace qbert
 		bool m_ControlsrSet = false;
 		bool m_UseController = true;
 		ControllerButton m_ControllerButton[5]{};
-		SDL_Scancode m_Scancode[5]{};
+		KeyboardSDL m_Scancode[5]{};
 	};
 }
