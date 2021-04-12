@@ -237,7 +237,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="..\3rdParty\imgui-1.81\imstb_truetype.h" />
     <ClInclude Include="..\3rdParty\Simple-SDL2-Audio\audio.h" />
     <ClInclude Include="ISoundSystem.h" />
-    <ClInclude Include="Lives.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Command.h" />
     <ClInclude Include="Component.h" />
@@ -261,11 +260,8 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="UIComponent.h" />
-    <ClInclude Include="Util.h" />
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Observer.h" />
-    <ClInclude Include="Qbert.h" />
-    <ClInclude Include="Score.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\backends\imgui_impl_opengl2.cpp">
@@ -316,7 +312,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Lives.cpp" />
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="Font.cpp" />
@@ -346,8 +341,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="UIComponent.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="Qbert.cpp" />
-    <ClCompile Include="Score.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,10 @@
 #pragma once
 #include "Singleton.h"
 
+#include <string>
+#include <memory>
+#include <vector>
+
 namespace dae
 {
 	class Scene;
@@ -10,6 +14,7 @@ namespace dae
 	{
 	public:
 		Scene& CreateScene(const std::string& name);
+		Scene* GetScene(const std::string& name);
 
 		void Start();
 		void Update();

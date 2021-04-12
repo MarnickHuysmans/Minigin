@@ -1,8 +1,6 @@
-#include "MiniginPCH.h"
+#include "pch.h"
 #include "Qbert.h"
-
 #include "InputManager.h"
-
 
 void qbert::Qbert::Start()
 {
@@ -12,7 +10,7 @@ void qbert::Qbert::Update()
 {
 	if (m_ControlsrSet)
 	{
-		auto& inputManager = InputManager::GetInstance();
+		auto& inputManager = dae::InputManager::GetInstance();
 		if (m_UseController)
 		{
 			if (inputManager.IsDown(m_ControllerButton[0]))
@@ -67,17 +65,17 @@ int qbert::Qbert::GetLives() const
 	return m_Lives;
 }
 
-void qbert::Qbert::AddObserver(Observer* observer)
+void qbert::Qbert::AddObserver(dae::Observer* observer)
 {
 	m_Subject.AddObserver(observer);
 }
 
-void qbert::Qbert::RemoveObserver(Observer* observer)
+void qbert::Qbert::RemoveObserver(dae::Observer* observer)
 {
 	m_Subject.RemoveObserver(observer);
 }
 
-void qbert::Qbert::SetButtons(ControllerButton button1, ControllerButton button2, ControllerButton button3, ControllerButton button4, ControllerButton button5)
+void qbert::Qbert::SetButtons(dae::ControllerButton button1, dae::ControllerButton button2, dae::ControllerButton button3, dae::ControllerButton button4, dae::ControllerButton button5)
 {
 	m_ControlsrSet = true;
 	m_UseController = true;
@@ -88,7 +86,7 @@ void qbert::Qbert::SetButtons(ControllerButton button1, ControllerButton button2
 	m_ControllerButton[4] = button5;
 }
 
-void qbert::Qbert::SetButtons(KeyboardSDL button1, KeyboardSDL button2, KeyboardSDL button3, KeyboardSDL button4, KeyboardSDL button5)
+void qbert::Qbert::SetButtons(dae::KeyboardCode button1, dae::KeyboardCode button2, dae::KeyboardCode button3, dae::KeyboardCode button4, dae::KeyboardCode button5)
 {
 	m_ControlsrSet = true;
 	m_UseController = false;
@@ -105,7 +103,7 @@ void qbert::Qbert::Die()
 	if (m_Lives > 0)
 	{
 		--m_Lives;
-		std::cout << "Qbert dies: " << m_Lives << " left" << std::endl;
+		//std::cout << "Qbert dies: " << m_Lives << " left" << std::endl;
 		m_Subject.Notify("PlayerDied");
 	}
 }

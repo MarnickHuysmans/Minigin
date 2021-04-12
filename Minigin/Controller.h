@@ -28,7 +28,7 @@ namespace dae
 		~Controller();
 
 		void ActivateController();
-		void UpdateController(DWORD index);
+		void UpdateController(unsigned long index);
 
 		bool IsPressed(ControllerButton button) const;
 		bool IsDown(ControllerButton button) const;

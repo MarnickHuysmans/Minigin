@@ -1,14 +1,14 @@
 #pragma once
-#include <map>
-
 #include "Command.h"
 #include "Controller.h"
 #include "Singleton.h"
 
-struct _XINPUT_STATE;
+#include <map>
+#include <memory>
+#include <vector>
 
 namespace dae
-{
+{	
 	enum class InputState
 	{
 		Down,
@@ -24,7 +24,7 @@ namespace dae
 		Player4 = 3
 	};
 
-	enum class KeyboardSDL : int
+	enum class KeyboardCode : int
 	{
 		SDL_SCANCODE_UNKNOWN = 0,
 
@@ -299,10 +299,10 @@ namespace dae
 		 SDL_NUM_SCANCODES = 512
 	};
 
-	using ControllerKey = std::pair<ControllerButton, InputState>;
-	using ControllerCommandMap = std::map<Player, std::map<ControllerKey, std::unique_ptr<Command>>>;
-	using KeyboardKey = std::pair<KeyboardSDL, InputState>;
-	using KeyboardCommandMap = std::map<KeyboardKey, std::unique_ptr<Command>>;
+	typedef std::pair<ControllerButton, InputState> ControllerKey;
+	typedef std::map<Player, std::map<ControllerKey, std::unique_ptr<Command>>> ControllerCommandMap;
+	typedef std::pair<KeyboardCode, InputState> KeyboardKey;
+	typedef std::map<KeyboardKey, std::unique_ptr<Command>> KeyboardCommandMap;
 
 	class InputManager final : public Singleton<InputManager>
 	{
@@ -313,11 +313,11 @@ namespace dae
 		bool IsPressed(ControllerButton button, Player player = Player::Player1) const;
 		bool IsDown(ControllerButton button, Player player = Player::Player1) const;
 		bool IsUp(ControllerButton button, Player player = Player::Player1) const;
-		bool IsPressed(KeyboardSDL key) const;
-		bool IsDown(KeyboardSDL key) const;
-		bool IsUp(KeyboardSDL key) const;
+		bool IsPressed(KeyboardCode key) const;
+		bool IsDown(KeyboardCode key) const;
+		bool IsUp(KeyboardCode key) const;
 		void AddCommand(std::unique_ptr<Command>& command, Player player, ControllerButton button, InputState inputState = InputState::Down);
-		void AddCommand(std::unique_ptr<Command>& command, KeyboardSDL key, InputState inputState = InputState::Down);
+		void AddCommand(std::unique_ptr<Command>& command, KeyboardCode key, InputState inputState = InputState::Down);
 		void UpdateConnectedControllers();
 
 	private:
@@ -327,12 +327,12 @@ namespace dae
 		void UpdateControllerStates();
 		void UpdatePreviousKeyboardState();
 
-		const static DWORD m_MaxControllers = 4;
+		const static unsigned long m_MaxControllers = 4;
 		Controller m_Controllers[m_MaxControllers]{};
-		bool m_PreviousKeyboardState[static_cast<int>(KeyboardSDL::SDL_NUM_SCANCODES)]{ false };
+		bool m_PreviousKeyboardState[static_cast<int>(KeyboardCode::SDL_NUM_SCANCODES)]{ false };
 		const uint8_t* m_CurrentKeyboardState{};
-		std::vector<KeyboardSDL> m_KeysDown{ 10 };
-		std::vector<KeyboardSDL> m_KeysUp{ 10 };
+		std::vector<KeyboardCode> m_KeysDown{ 10 };
+		std::vector<KeyboardCode> m_KeysUp{ 10 };
 		ControllerCommandMap m_ControllerCommandMap{};
 		KeyboardCommandMap m_KeyboardCommandMap{};
 	};

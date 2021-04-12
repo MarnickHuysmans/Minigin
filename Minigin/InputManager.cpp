@@ -21,11 +21,11 @@ bool dae::InputManager::ProcessInput()
 		}
 		if (e.type == SDL_KEYDOWN)
 		{
-			m_KeysDown.push_back(static_cast<KeyboardSDL>(e.key.keysym.scancode));
+			m_KeysDown.push_back(static_cast<KeyboardCode>(e.key.keysym.scancode));
 		}
 		else if (e.type == SDL_KEYUP)
 		{
-			m_KeysUp.push_back(static_cast<KeyboardSDL>(e.key.keysym.scancode));
+			m_KeysUp.push_back(static_cast<KeyboardCode>(e.key.keysym.scancode));
 		}
 	}
 
@@ -48,17 +48,17 @@ bool dae::InputManager::IsUp(ControllerButton button, Player player) const
 	return m_Controllers[static_cast<int>(player)].IsUp(button);
 }
 
-bool dae::InputManager::IsPressed(KeyboardSDL key) const
+bool dae::InputManager::IsPressed(KeyboardCode key) const
 {
 	return m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
 
-bool dae::InputManager::IsDown(KeyboardSDL key) const
+bool dae::InputManager::IsDown(KeyboardCode key) const
 {
 	return !m_PreviousKeyboardState[static_cast<int>(key)] && m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
 
-bool dae::InputManager::IsUp(KeyboardSDL key) const
+bool dae::InputManager::IsUp(KeyboardCode key) const
 {
 	return m_PreviousKeyboardState[static_cast<int>(key)] && !m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
@@ -68,7 +68,7 @@ void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, Player pla
 	m_ControllerCommandMap[player][ControllerKey{ button, inputState }] = std::move(command);
 }
 
-void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, KeyboardSDL key, InputState inputState)
+void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, KeyboardCode key, InputState inputState)
 {
 	m_KeyboardCommandMap[KeyboardKey{ key, inputState }] = std::move(command);
 }

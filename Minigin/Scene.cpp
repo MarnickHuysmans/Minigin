@@ -60,6 +60,11 @@ void Scene::RenderUi()
 		}), std::end(m_UiComponents));
 }
 
+const std::string& Scene::GetName() const
+{
+	return m_Name;
+}
+
 void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>&object)
 {
 	for (auto& component : object->GetUIComponents())

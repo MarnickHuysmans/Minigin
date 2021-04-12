@@ -8,12 +8,9 @@
 
 #include "FPS.h"
 #include "GameObject.h"
-#include "Lives.h"
 #include "LoggingSoundSystem.h"
-#include "Qbert.h"
 #include "RenderComponent.h"
 #include "Scene.h"
-#include "Score.h"
 #include "ServiceLocator.h"
 #include "SimpleSoundSystem.h"
 #include "TextComponent.h"
@@ -50,7 +47,7 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
 
 	//Background
 	auto go = std::make_shared<GameObject>();
@@ -75,8 +72,7 @@ void dae::Minigin::LoadGame() const
 
 	//FPS
 	go = std::make_shared<GameObject>();
-	//font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 255, 255, 0 });
+	textComponent = std::make_shared<TextComponent>(font, "", Color{ 255, 255, 0 });
 	go->AddComponent(textComponent);
 	auto fps = std::make_shared<FPS>();
 	go->AddComponent(fps);
@@ -107,60 +103,6 @@ void dae::Minigin::LoadGame() const
 		}, "Controls", nullptr, flags);
 	uiComponent->SetPosition({ 100, 300 });
 	go->AddComponent(uiComponent);
-	scene.Add(go);
-
-	//qBert1
-	auto qbertObject = std::make_shared<GameObject>();
-	auto qBert = std::make_shared<qbert::Qbert>();
-	qBert->SetButtons(ControllerButton::ShoulderRight, ControllerButton::ButtonA, ControllerButton::ButtonB, ControllerButton::ButtonX, ControllerButton::ButtonY);
-	qbertObject->AddComponent(qBert);
-	scene.Add(qbertObject);
-
-	//Lives display1
-	go = std::make_shared<GameObject>();
-	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 255,0,255 });
-	go->AddComponent(textComponent);
-	auto lives = std::make_shared<qbert::Lives>(qBert.get());
-	go->AddComponent(lives);
-	qBert->AddObserver(lives.get());
-	go->SetPosition(540, 200);
-	scene.Add(go);
-
-	//Score1
-	go = std::make_shared<GameObject>();
-	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 255,0,255 });
-	go->AddComponent(textComponent);
-	auto score = std::make_shared<qbert::Score>();
-	go->AddComponent(score);
-	qBert->AddObserver(score.get());
-	go->SetPosition(0, 200);
-	scene.Add(go);
-
-	//qBert2
-	qbertObject = std::make_shared<GameObject>();
-	qBert = std::make_shared<qbert::Qbert>();
-	qBert->SetButtons(KeyboardSDL::SDL_SCANCODE_E, KeyboardSDL::SDL_SCANCODE_W, KeyboardSDL::SDL_SCANCODE_A, KeyboardSDL::SDL_SCANCODE_S, KeyboardSDL::SDL_SCANCODE_D);
-	qbertObject->AddComponent(qBert);
-	scene.Add(qbertObject);
-
-	//Lives display2
-	go = std::make_shared<GameObject>();
-	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 0,255,255 });
-	go->AddComponent(textComponent);
-	lives = std::make_shared<qbert::Lives>(qBert.get());
-	go->AddComponent(lives);
-	qBert->AddObserver(lives.get());
-	go->SetPosition(540, 300);
-	scene.Add(go);
-
-	//Score2
-	go = std::make_shared<GameObject>();
-	textComponent = std::make_shared<TextComponent>(font, "", SDL_Color{ 0,255,255 });
-	go->AddComponent(textComponent);
-	score = std::make_shared<qbert::Score>();
-	go->AddComponent(score);
-	qBert->AddObserver(score.get());
-	go->SetPosition(0, 300);
 	scene.Add(go);
 
 	ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/GameStartMusic.wav");

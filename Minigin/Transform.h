@@ -5,7 +5,7 @@
 #pragma warning(pop)
 
 namespace dae
-{
+{	
 	class Transform final
 	{
 	public:

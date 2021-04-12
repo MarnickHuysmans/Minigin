@@ -1,12 +1,12 @@
-#include "MiniginPCH.h"
+#include "pch.h"
 #include "Lives.h"
-#include "Qbert.h"
 #include "GameObject.h"
+#include "Qbert.h"
 #include "TextComponent.h"
 
 void qbert::Lives::Start()
 {
-	auto textComponent = m_GameObject->GetComponent<TextComponent>();
+	auto textComponent = m_GameObject->GetComponent<dae::TextComponent>();
 	if (!textComponent.expired())
 	{
 		m_TextComponent = textComponent.lock().get();

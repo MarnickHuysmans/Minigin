@@ -5,10 +5,9 @@
 #include "Renderer.h"
 #include "Font.h"
 #include "Texture2D.h"
-#include "Util.h"
 
-dae::TextComponent::TextComponent(const std::shared_ptr<Font>& font, const std::string& text, const SDL_Color& color)
-	: m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Color(color), RenderComponent()
+dae::TextComponent::TextComponent(const std::shared_ptr<Font>& font, const std::string& text, const Color& color)
+	: RenderComponent(), m_NeedsUpdate(true), m_Text(text), m_Font(font), m_Color(color)
 {
 }
 
@@ -21,7 +20,8 @@ void dae::TextComponent::Update()
 			m_Texture = nullptr;
 			return;
 		}
-		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), m_Color);
+		SDL_Color color{ m_Color.r, m_Color.g, m_Color.b, m_Color.a };
+		const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
 		if (surf == nullptr)
 		{
 			throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
@@ -46,7 +46,7 @@ void dae::TextComponent::SetText(const std::string& text)
 	}
 }
 
-void dae::TextComponent::SetColor(const SDL_Color& color)
+void dae::TextComponent::SetColor(const Color& color)
 {
 	if (m_Color != color)
 	{

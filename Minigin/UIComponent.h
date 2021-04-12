@@ -2,6 +2,8 @@
 #include <functional>
 #include "imgui.h"
 
+#include <string>
+
 namespace dae
 {
 	class UIComponent

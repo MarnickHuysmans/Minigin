@@ -20,7 +20,7 @@ void dae::Controller::ActivateController()
 	m_Active = true;
 }
 
-void dae::Controller::UpdateController(DWORD index)
+void dae::Controller::UpdateController(unsigned long index)
 {
 	if (!m_Active)
 	{

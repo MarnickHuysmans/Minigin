@@ -3,6 +3,9 @@
 #include "Transform.h"
 #include "UIComponent.h"
 
+#include <memory>
+#include <vector>
+
 namespace dae
 {
 	class Texture2D;
@@ -42,7 +45,7 @@ namespace dae
 	std::weak_ptr<ComponentType> GameObject::GetComponent()
 	{
 		static_assert(std::is_base_of<Component, ComponentType>().value, "The type should be derived from Component");
-		for (auto component : m_Components)
+		for (auto& component : m_Components)
 		{
 			std::shared_ptr<ComponentType> found = std::dynamic_pointer_cast<ComponentType>(component);
 			if (found)
@@ -58,7 +61,7 @@ namespace dae
 	{
 		static_assert(std::is_base_of<Component, ComponentType>().value, "The type should be derived from Component");
 		std::vector<std::weak_ptr<ComponentType>> components{};
-		for (auto component : m_Components)
+		for (auto& component : m_Components)
 		{
 			std::shared_ptr<ComponentType> found = std::dynamic_pointer_cast<ComponentType>(component);
 			if (found)

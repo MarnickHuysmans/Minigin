@@ -1,11 +1,11 @@
-#include "MiniginPCH.h"
+#include "pch.h"
 #include "Score.h"
 #include "GameObject.h"
 #include "TextComponent.h"
 
 void qbert::Score::Start()
 {
-	auto textComponent = m_GameObject->GetComponent<TextComponent>();
+	auto textComponent = m_GameObject->GetComponent<dae::TextComponent>();
 	if (!textComponent.expired())
 	{
 		m_TextComponent = textComponent.lock().get();

@@ -14,7 +14,4 @@ namespace dae
 	private:
 		SDL_Window* m_Window{};
 	};
-
-	// To be defined in CLIENT
-	//Minigin* CreateApplication();
 }

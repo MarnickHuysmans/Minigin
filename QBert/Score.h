@@ -8,8 +8,7 @@ namespace dae {
 
 namespace qbert
 {
-	using namespace dae;
-	class Score final : public Component, public Observer
+	class Score final : public dae::Component, public dae::Observer
 	{
 	public:
 		void Start() override;
@@ -24,8 +23,7 @@ namespace qbert
 		Score& operator=(Score&& other) noexcept = delete;
 
 	private:
-		TextComponent* m_TextComponent = nullptr;
+		dae::TextComponent* m_TextComponent = nullptr;
 		int m_Score = 0;
 	};
-
 }

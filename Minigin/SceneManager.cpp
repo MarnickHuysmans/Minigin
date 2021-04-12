@@ -28,7 +28,20 @@ void dae::SceneManager::RenderUi()
 dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
 {
 	const auto scene = std::shared_ptr<Scene>(new Scene(name));
+	m_CurrentScene = m_Scenes.size();
 	m_Scenes.push_back(scene);
-	++m_CurrentScene;
 	return *scene;
+}
+
+dae::Scene* dae::SceneManager::GetScene(const std::string& name)
+{
+	auto it = std::find_if(std::begin(m_Scenes), std::end(m_Scenes), [&name](std::shared_ptr<Scene>& scene)
+		{
+			return scene->GetName() == name;
+		});
+	if (it != std::end(m_Scenes))
+	{
+		return it->get();
+	}
+	return nullptr;
 }
