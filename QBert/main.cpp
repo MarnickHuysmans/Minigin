@@ -9,6 +9,7 @@
 #include "Score.h"
 #include "TextComponent.h"
 #include "InputManager.h"
+#include "ServiceLocator.h"
 
 class QBert : public dae::Minigin
 {
@@ -78,6 +79,34 @@ void QBert::LoadGame() const
 	qBert->AddObserver(score.get());
 	go->SetPosition(0, 300);
 	scene.Add(go);
+
+	//UI
+	go = std::make_shared<dae::GameObject>();
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+	auto uiComponent = std::make_shared<dae::UIComponent>([]()
+	{
+		if (ImGui::Button("Single Player"))
+		{
+		}
+		if (ImGui::Button("Co-op"))
+		{
+		}
+		if (ImGui::Button("Versus"))
+		{
+		}
+	}, "Menu", nullptr, flags);
+	uiComponent->SetPosition({ 100, 100 });
+	go->AddComponent(uiComponent);
+	uiComponent = std::make_shared<dae::UIComponent>([]()
+	{
+		ImGui::Text("Player1: 4 face buttons and right shoulder");
+		ImGui::Text("Player2: WASD and E");
+	}, "Controls", nullptr, flags);
+	uiComponent->SetPosition({ 100, 300 });
+	go->AddComponent(uiComponent);
+	scene.Add(go);
+
+	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/GameStartMusic.wav");
 }
 
 int main(int, char* [])
