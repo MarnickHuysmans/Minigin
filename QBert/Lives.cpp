@@ -1,5 +1,5 @@
-#include "pch.h"
 #include "Lives.h"
+
 #include "GameObject.h"
 #include "Qbert.h"
 #include "TextComponent.h"

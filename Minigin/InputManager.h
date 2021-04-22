@@ -4,6 +4,7 @@
 #include "Singleton.h"
 
 #include <map>
+
 #include <memory>
 #include <vector>
 

@@ -1,5 +1,6 @@
 #include "MiniginPCH.h"
 #include "Minigin.h"
+#include <vld.h>
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -96,7 +97,8 @@ void dae::Minigin::Run()
 	ResourceManager::GetInstance().Init("../Data/");
 
 	// Default SoundService
-	ServiceLocator::RegisterSoundSystem(new LoggingSoundSystem(new SimpleSoundSystem()));
+	auto pLoggingSoundSystem = new LoggingSoundSystem(new SimpleSoundSystem());
+	ServiceLocator::RegisterSoundSystem(pLoggingSoundSystem);
 
 	LoadGame();
 
@@ -118,6 +120,8 @@ void dae::Minigin::Run()
 			time.Update();
 		}
 	}
+
+	delete pLoggingSoundSystem;
 
 	Cleanup();
 }

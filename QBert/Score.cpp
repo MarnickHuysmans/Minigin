@@ -1,5 +1,5 @@
-#include "pch.h"
 #include "Score.h"
+
 #include "GameObject.h"
 #include "TextComponent.h"
 

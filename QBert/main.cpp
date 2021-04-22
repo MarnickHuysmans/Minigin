@@ -1,8 +1,9 @@
-#include "pch.h"
+#include <vld.h>
+
+#include "Minigin.h"
 
 #include "GameObject.h"
 #include "Lives.h"
-#include "Minigin.h"
 #include "Qbert.h"
 #include "ResourceManager.h"
 #include "Scene.h"
@@ -111,7 +112,7 @@ void QBert::LoadGame() const
 
 int main(int, char* [])
 {
-	QBert game;
+	QBert game{};
 	game.Run();
 	return 0;
 }
