@@ -207,6 +207,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Level.cpp" />
+    <ClCompile Include="LevelCube.cpp" />
+    <ClCompile Include="LevelFactory.cpp" />
     <ClCompile Include="Lives.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp">
@@ -217,12 +220,18 @@
     </ClCompile>
     <ClCompile Include="Qbert.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="Walkable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Level.h" />
+    <ClInclude Include="LevelCube.h" />
+    <ClInclude Include="LevelFactory.h" />
+    <ClInclude Include="LevelType.h" />
     <ClInclude Include="Lives.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Qbert.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="Walkable.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minigin\Minigin.vcxproj">

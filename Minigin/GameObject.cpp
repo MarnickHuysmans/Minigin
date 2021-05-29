@@ -39,7 +39,7 @@ void dae::GameObject::AddComponent(const std::shared_ptr<UIComponent>& uiCompone
 	m_UiComponents.push_back(uiComponent);
 }
 
-const std::vector<std::shared_ptr<dae::UIComponent>> dae::GameObject::GetUIComponents() const
+std::vector<std::shared_ptr<dae::UIComponent>> dae::GameObject::GetUIComponents() const
 {
 	return m_UiComponents;
 }

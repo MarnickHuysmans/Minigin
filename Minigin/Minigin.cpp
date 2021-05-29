@@ -48,7 +48,7 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = *SceneManager::GetInstance().CreateScene("Demo");
 
 	//Background
 	auto go = std::make_shared<GameObject>();

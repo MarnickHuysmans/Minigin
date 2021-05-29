@@ -25,7 +25,7 @@ namespace dae
 		template<typename ComponentType>
 		std::vector<std::weak_ptr<ComponentType>> GetComponents();
 
-		const std::vector<std::shared_ptr<UIComponent>> GetUIComponents() const;
+		std::vector<std::shared_ptr<UIComponent>> GetUIComponents() const;
 
 		GameObject() = default;
 		~GameObject() = default;

@@ -11,7 +11,6 @@ namespace dae
 	{
 	public:
 		virtual void Render() const;
-		void Update() override{};
 		void SetTexture(const std::string& filename);
 
 		explicit RenderComponent(const std::string& filename = "");

@@ -21,6 +21,9 @@ namespace dae
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
+
+		void GetWindowSize(int& width, int& height) const;
+		
 	private:
 		int GetOpenGLDriverIndex();
 		

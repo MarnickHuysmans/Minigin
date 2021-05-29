@@ -5,3 +5,7 @@ const dae::GameObject& dae::Component::GetGameObject() const
 {
 	return *m_GameObject;
 }
+
+dae::Component::~Component()
+{
+}
