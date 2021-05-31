@@ -20,7 +20,7 @@ void Scene::Add(const std::shared_ptr<GameObject>&object)
 
 void Scene::Start()
 {
-	for (auto gameObject : m_Objects)
+	for (auto& gameObject : m_Objects)
 	{
 		gameObject->Start();
 	}

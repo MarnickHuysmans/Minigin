@@ -25,7 +25,7 @@ namespace dae
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	private: 
+	private:
 		explicit Scene(const std::string& name);
 
 		void AddRenderingComponents(const std::shared_ptr<GameObject>& object);

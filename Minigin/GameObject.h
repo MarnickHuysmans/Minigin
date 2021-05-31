@@ -15,6 +15,7 @@ namespace dae
 		void Update();
 
 		void SetPosition(float x, float y);
+		Transform& GetTransform();
 		const Transform& GetTransform() const;
 
 		void AddComponent(const std::shared_ptr<Component>& component);

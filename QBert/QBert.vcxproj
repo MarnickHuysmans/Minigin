@@ -226,7 +226,7 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelCube.h" />
     <ClInclude Include="LevelFactory.h" />
-    <ClInclude Include="LevelType.h" />
+    <ClInclude Include="LevelEnums.h" />
     <ClInclude Include="Lives.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Qbert.h" />

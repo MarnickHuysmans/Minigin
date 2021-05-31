@@ -4,7 +4,7 @@
 
 void dae::GameObject::Start()
 {
-	for (auto component : m_Components)
+	for (auto& component : m_Components)
 	{
 		component->Start();
 	}
@@ -12,7 +12,7 @@ void dae::GameObject::Start()
 
 void dae::GameObject::Update()
 {
-	for (auto component : m_Components)
+	for (auto& component : m_Components)
 	{
 		component->Update();
 	}
@@ -21,6 +21,11 @@ void dae::GameObject::Update()
 void dae::GameObject::SetPosition(float x, float y)
 {
 	m_Transform.SetPosition(x, y, 0.0f);
+}
+
+dae::Transform& dae::GameObject::GetTransform()
+{
+	return m_Transform;
 }
 
 const dae::Transform& dae::GameObject::GetTransform() const

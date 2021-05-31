@@ -68,7 +68,7 @@
     <ClInclude Include="LevelFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelType.h">
+    <ClInclude Include="LevelEnums.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
