@@ -99,7 +99,7 @@ void dae::GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	}
 	child->m_Parent = this;
 	child->GetTransform().UpdateTransform();
-	if (m_Started)
+	if (m_Started && !child->m_Started)
 	{
 		GetScene()->AddRenderingComponents(child);
 		child->Start();
