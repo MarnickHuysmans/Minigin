@@ -19,9 +19,9 @@ const std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& s
 	auto levelObject = std::make_shared<dae::GameObject>();
 	levelObject->AddComponent(level);
 
-	auto cubeTexture1 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube1");
-	auto cubeTexture2 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube2");
-	auto cubeTexture3 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube3");
+	auto cubeTexture1 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube1.png");
+	auto cubeTexture2 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube2.png");
+	auto cubeTexture3 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube3.png");
 
 	int cubeWidth = 0;
 	int cubeHeight = 0;
@@ -52,8 +52,10 @@ const std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& s
 			float x = static_cast<float>(windowMiddle - (row + 1) * cubeWidth * scale / 2 + col * cubeWidth * scale);
 			float y = static_cast<float>(startHeight + heightIncrement * row * scale);
 			
-			cubeObject->GetTransform().SetPosition(x, y, 0);
-			scene.Add(cubeObject);
+			cubeObject->GetTransform().SetWorldPosition(x, y, 0);
+			cubeObject->GetTransform().SetWorldScale(static_cast<float>(scale), static_cast<float>(scale));
+			levelObject->AddChild(cubeObject);
+			//scene.Add(cubeObject);
 
 			level->SetLevel(levelCube, row, col);
 		}

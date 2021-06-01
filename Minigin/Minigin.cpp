@@ -60,7 +60,7 @@ void dae::Minigin::LoadGame() const
 	go = std::make_shared<GameObject>();
 	renderComponent = std::make_shared<RenderComponent>("logo.png");
 	go->AddComponent(renderComponent);
-	go->SetPosition(216, 180);
+	go->GetTransform().SetWorldPosition(216, 180, 0);
 	scene.Add(go);
 
 	//Title
@@ -68,7 +68,7 @@ void dae::Minigin::LoadGame() const
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textComponent = std::make_shared<TextComponent>(font, "Programming 4 Assignment");
 	go->AddComponent(textComponent);
-	go->SetPosition(80, 20);
+	go->GetTransform().SetWorldPosition(80, 20, 0);
 	scene.Add(go);
 
 	//FPS
@@ -77,7 +77,6 @@ void dae::Minigin::LoadGame() const
 	go->AddComponent(textComponent);
 	auto fps = std::make_shared<FPS>();
 	go->AddComponent(fps);
-	go->SetPosition(0, 0);
 	scene.Add(go);
 }
 

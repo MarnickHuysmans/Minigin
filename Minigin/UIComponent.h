@@ -26,5 +26,10 @@ namespace dae
 		ImGuiWindowFlags m_Flags = 0;
 		std::function<void()> m_Function{};
 		ImVec2 m_Position{};
+
+	private:
+		bool m_InScene;
+
+		friend class Scene;
 	};
 }

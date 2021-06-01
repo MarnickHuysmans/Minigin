@@ -22,5 +22,10 @@ namespace dae
 		RenderComponent& operator=(RenderComponent&& other) noexcept = delete;
 	protected:
 		std::shared_ptr<Texture2D> m_Texture{};
+
+	private:
+		bool m_InScene;
+
+		friend class Scene;
 	};
 }

@@ -10,23 +10,24 @@
 #include "Score.h"
 #include "TextComponent.h"
 #include "InputManager.h"
+#include "LevelFactory.h"
 #include "ServiceLocator.h"
 
-class QBert : public dae::Minigin
+class QBertGame : public dae::Minigin
 {
 public:
 
 	void LoadGame() const override;
 };
 
-void QBert::LoadGame() const
+void QBertGame::LoadGame() const
 {
 	Minigin::LoadGame();
-	
+
 	auto& scene = *dae::SceneManager::GetInstance().GetScene("Demo");
 
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	
+
 	//qBert1
 	auto qbertObject = std::make_shared<dae::GameObject>();
 	auto qBert = std::make_shared<qbert::Qbert>();
@@ -41,7 +42,7 @@ void QBert::LoadGame() const
 	auto lives = std::make_shared<qbert::Lives>(qBert.get());
 	go->AddComponent(lives);
 	qBert->AddObserver(lives.get());
-	go->SetPosition(540, 200);
+	go->GetTransform().SetWorldPosition(540, 200, 0);
 	scene.Add(go);
 
 	//Score1
@@ -51,7 +52,7 @@ void QBert::LoadGame() const
 	auto score = std::make_shared<qbert::Score>();
 	go->AddComponent(score);
 	qBert->AddObserver(score.get());
-	go->SetPosition(0, 200);
+	go->GetTransform().SetWorldPosition(0, 200, 0);
 	scene.Add(go);
 
 	//qBert2
@@ -68,7 +69,7 @@ void QBert::LoadGame() const
 	lives = std::make_shared<qbert::Lives>(qBert.get());
 	go->AddComponent(lives);
 	qBert->AddObserver(lives.get());
-	go->SetPosition(540, 300);
+	go->GetTransform().SetWorldPosition(540, 300, 0);
 	scene.Add(go);
 
 	//Score2
@@ -78,41 +79,43 @@ void QBert::LoadGame() const
 	score = std::make_shared<qbert::Score>();
 	go->AddComponent(score);
 	qBert->AddObserver(score.get());
-	go->SetPosition(0, 300);
+	go->GetTransform().SetWorldPosition(0, 300, 0);
 	scene.Add(go);
 
 	//UI
 	go = std::make_shared<dae::GameObject>();
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 	auto uiComponent = std::make_shared<dae::UIComponent>([]()
-	{
-		if (ImGui::Button("Single Player"))
 		{
-		}
-		if (ImGui::Button("Co-op"))
-		{
-		}
-		if (ImGui::Button("Versus"))
-		{
-		}
-	}, "Menu", nullptr, flags);
+			if (ImGui::Button("Single Player"))
+			{
+			}
+			if (ImGui::Button("Co-op"))
+			{
+			}
+			if (ImGui::Button("Versus"))
+			{
+			}
+		}, "Menu", nullptr, flags);
 	uiComponent->SetPosition({ 100, 100 });
 	go->AddComponent(uiComponent);
 	uiComponent = std::make_shared<dae::UIComponent>([]()
-	{
-		ImGui::Text("Player1: 4 face buttons and right shoulder");
-		ImGui::Text("Player2: WASD and E");
-	}, "Controls", nullptr, flags);
-	uiComponent->SetPosition({ 100, 300 });
+		{
+			ImGui::Text("Player1: 4 face buttons and right shoulder");
+			ImGui::Text("Player2: WASD and E");
+		}, "Controls", nullptr, flags);
+	uiComponent->SetPosition({ 100, 400 });
 	go->AddComponent(uiComponent);
 	scene.Add(go);
+
+	qbert::LevelFactory::CreateLevel(scene, qbert::LevelType::Single, 2, 2);
 
 	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/GameStartMusic.wav");
 }
 
 int main(int, char* [])
 {
-	QBert game{};
+	QBertGame game{};
 	game.Run();
 	return 0;
 }

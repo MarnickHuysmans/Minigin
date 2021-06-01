@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+
 namespace dae
 {
 	class GameObject;
@@ -9,7 +11,7 @@ namespace dae
 		virtual void Start() {}
 		virtual void Update() {}
 
-		const GameObject& GetGameObject() const;
+		std::shared_ptr<GameObject> GetGameObject() const;
 
 		Component() = default;
 		virtual ~Component() = 0;

@@ -11,6 +11,7 @@ namespace dae
 		friend Scene* SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
+		void Remove(const std::weak_ptr<GameObject>& object);
 
 		void Start();
 		void Update();
@@ -29,13 +30,16 @@ namespace dae
 		explicit Scene(const std::string& name);
 
 		void AddRenderingComponents(const std::shared_ptr<GameObject>& object);
+		void SortRenderComponents();
 
 		std::string m_Name{};
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
 		std::vector<std::weak_ptr<RenderComponent>> m_RenderComponents{};
 		std::vector<std::weak_ptr<UIComponent>> m_UiComponents{};
 
-		static unsigned int m_IdCounter; 
+		bool m_Started;
+
+		friend class GameObject;
 	};
 
 }

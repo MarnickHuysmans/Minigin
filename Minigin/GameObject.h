@@ -8,27 +8,39 @@
 
 namespace dae
 {
-	class GameObject final
+	class Scene;
+
+	class GameObject final : public std::enable_shared_from_this<GameObject>
 	{
 	public:
 		void Start();
 		void Update();
 
-		void SetPosition(float x, float y);
 		Transform& GetTransform();
 		const Transform& GetTransform() const;
 
 		void AddComponent(const std::shared_ptr<Component>& component);
 		void AddComponent(const std::shared_ptr<UIComponent>& uiComponent);
+		void RemoveComponent(const std::weak_ptr<Component>& component);
+		void RemoveComponent(const std::weak_ptr<UIComponent>& uiComponent);
+
+		void AddChild(const std::shared_ptr<GameObject>& child);
+		void RemoveChild(const std::weak_ptr<GameObject>& child);
+		const std::vector<std::shared_ptr<GameObject>>& GetChildren() const;
 
 		template<typename ComponentType>
 		std::weak_ptr<ComponentType> GetComponent();
 		template<typename ComponentType>
-		std::vector<std::weak_ptr<ComponentType>> GetComponents();
+		std::vector<std::weak_ptr<ComponentType>> GetComponents(bool children = true);
 
-		std::vector<std::shared_ptr<UIComponent>> GetUIComponents() const;
+		std::vector<std::shared_ptr<UIComponent>> GetUIComponents(bool children = true) const;
 
-		GameObject() = default;
+		Scene* GetScene();
+		const Scene* GetScene() const;
+		GameObject* GetParent();
+		const GameObject* GetParent() const;
+
+		GameObject();
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -36,9 +48,15 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
-		Transform m_Transform{};
+		Transform m_Transform;
+		Scene* m_Scene;
+		GameObject* m_Parent;
 		std::vector<std::shared_ptr<Component>> m_Components{};
 		std::vector<std::shared_ptr<UIComponent>> m_UiComponents{};
+		std::vector<std::shared_ptr<GameObject>> m_Children{};
+		bool m_Started;
+
+		friend class Scene;
 	};
 
 	template <typename ComponentType>
@@ -57,7 +75,7 @@ namespace dae
 	}
 
 	template <typename ComponentType>
-	std::vector<std::weak_ptr<ComponentType>> GameObject::GetComponents()
+	std::vector<std::weak_ptr<ComponentType>> GameObject::GetComponents(bool children)
 	{
 		static_assert(std::is_base_of<Component, ComponentType>().value, "The type should be derived from Component");
 		std::vector<std::weak_ptr<ComponentType>> components{};
@@ -68,6 +86,15 @@ namespace dae
 			{
 				components.push_back(found);
 			}
+		}
+		if (!children)
+		{
+			return components;
+		}
+		for (auto& child : m_Children)
+		{
+			std::vector<std::weak_ptr<ComponentType>> childComponents = child->GetComponents<ComponentType>(true);
+			components.insert(std::end(components), std::begin(childComponents), std::end(childComponents));
 		}
 		return components;
 	}

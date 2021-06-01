@@ -20,7 +20,8 @@ dae::UIComponent::UIComponent(const std::function<void()>& function, const std::
 	:m_Name(name),
 	m_Open(open),
 	m_Flags(flags),
-	m_Function(function)
+	m_Function(function),
+	m_InScene(false)
 {
 
 }

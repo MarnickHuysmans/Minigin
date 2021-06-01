@@ -2,6 +2,7 @@
 #include <memory>
 
 #include "Level.h"
+#include "LevelEnums.h"
 
 namespace dae {
 	class Scene;
@@ -9,8 +10,6 @@ namespace dae {
 
 namespace qbert
 {
-	enum class LevelType;
-
 	class LevelFactory
 	{
 	public:
