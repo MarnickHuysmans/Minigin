@@ -13,7 +13,7 @@ namespace dae
 	public:
 		Transform(GameObject* gameObject);
 		~Transform() = default;
-		
+
 		const glm::vec3& GetWorldPosition() const { return m_WorldPosition; }
 		const glm::vec3& GetLocalPosition() const { return m_LocalPosition; }
 		void SetWorldPosition(float x, float y, float z);
@@ -27,7 +27,7 @@ namespace dae
 		void SetWorldScale(const glm::vec2& scale);
 		void SetLocalScale(float x, float y);
 		void SetLocalScale(const glm::vec2& scale);
-		
+
 	private:
 		void UpdatePosition();
 		void UpdateChildrenPosition();
@@ -36,18 +36,20 @@ namespace dae
 
 		void UpdateTransform();
 		void UpdateChildrenTransform();
-		
+
 		glm::vec3 WorldPosition() const;
 		glm::vec2 WorldScale() const;
 
 		glm::vec3 LocalPosition() const;
 		glm::vec2 LocalScale() const;
-		
+
+		void SortCheck(float previousZ) const;
+
 		GameObject* m_GameObject;
-		
+
 		glm::vec3 m_LocalPosition;
 		glm::vec3 m_WorldPosition;
-		
+
 		glm::vec2 m_LocalScale;
 		glm::vec2 m_WorldScale;
 

@@ -1,6 +1,5 @@
 #pragma once
 #include <Component.h>
-#include <memory>
 #include <vector>
 
 namespace qbert

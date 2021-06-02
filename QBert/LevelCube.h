@@ -7,11 +7,11 @@
 namespace qbert
 {
 	enum class LevelType;
-	
+
 	class LevelCube final : public Walkable
 	{
 	public:
-		LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col, const glm::vec2& topMiddle = glm::vec2(0, 0), const glm::vec2& rightMiddle = glm::vec2(0, 0), const glm::vec2& leftMiddle = glm::vec2(0, 0));
+		LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col, const glm::vec3& topMiddle = glm::vec3(0, 0, 0), const glm::vec3& rightMiddle = glm::vec3(0, 0, 0), const glm::vec3& leftMiddle = glm::vec3(0, 0, 0));
 		virtual ~LevelCube() = default;
 
 		void SetTexture(std::shared_ptr<dae::Texture2D>& texture, size_t index);
@@ -20,9 +20,10 @@ namespace qbert
 
 		WalkableType GetWalkableType() override;
 
-		void StepOn(bool forward = true);
-		
+		void StepOn(Movement* movement) override;
+
 	private:
+		void StepOn(bool forward = true);
 		size_t MaxStates(LevelType type) const;
 		void SetCurrentTexture();
 

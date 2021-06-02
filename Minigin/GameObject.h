@@ -25,7 +25,7 @@ namespace dae
 		void RemoveComponent(const std::weak_ptr<UIComponent>& uiComponent);
 
 		void AddChild(const std::shared_ptr<GameObject>& child);
-		void RemoveChild(const std::weak_ptr<GameObject>& child);
+		void Destroy();
 		const std::vector<std::shared_ptr<GameObject>>& GetChildren() const;
 
 		template<typename ComponentType>
@@ -48,6 +48,8 @@ namespace dae
 		GameObject& operator=(GameObject&& other) = delete;
 
 	private:
+		void RemoveChild(const std::weak_ptr<GameObject>& child);
+		
 		Transform m_Transform;
 		Scene* m_Scene;
 		GameObject* m_Parent;

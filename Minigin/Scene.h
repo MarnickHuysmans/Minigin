@@ -19,6 +19,7 @@ namespace dae
 		void RenderUi();
 
 		const std::string& GetName() const;
+		void Sort();
 
 		~Scene();
 		Scene(const Scene& other) = delete;
@@ -36,8 +37,10 @@ namespace dae
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
 		std::vector<std::weak_ptr<RenderComponent>> m_RenderComponents{};
 		std::vector<std::weak_ptr<UIComponent>> m_UiComponents{};
+		std::vector<std::weak_ptr<GameObject>> m_ObjectsToDelete{};
 
 		bool m_Started;
+		bool m_Sort;
 
 		friend class GameObject;
 	};

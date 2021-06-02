@@ -15,10 +15,15 @@
 #include "ServiceLocator.h"
 #include "SimpleSoundSystem.h"
 #include "TextComponent.h"
-#include "Time.h"
+#include "GameTime.h"
 
 using namespace std;
 using namespace std::chrono;
+
+dae::Minigin::Minigin()
+{
+	srand(static_cast<unsigned>(time(nullptr)));
+}
 
 void dae::Minigin::Initialize()
 {
@@ -105,7 +110,7 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-		auto& time = Time::GetInstance();
+		auto& time = GameTime::GetInstance();
 
 		sceneManager.Start();
 

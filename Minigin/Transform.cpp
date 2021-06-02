@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "Transform.h"
 #include "GameObject.h"
+#include "Scene.h"
 
 dae::Transform::Transform(GameObject* gameObject) :
 	m_GameObject(gameObject),
@@ -18,9 +19,11 @@ void dae::Transform::SetWorldPosition(const float x, const float y, const float 
 
 void dae::Transform::SetWorldPosition(const glm::vec3& position)
 {
+	float previousZ = m_WorldPosition.z;
 	m_WorldPosition = position;
 	m_LocalPosition = LocalPosition();
 	UpdateChildrenPosition();
+	SortCheck(previousZ);
 }
 
 void dae::Transform::SetLocalPosition(float x, float y, float z)
@@ -30,8 +33,11 @@ void dae::Transform::SetLocalPosition(float x, float y, float z)
 
 void dae::Transform::SetLocalPosition(const glm::vec3& position)
 {
+	float previousZ = m_WorldPosition.z;
 	m_LocalPosition = position;
-	UpdatePosition();
+	m_WorldPosition = WorldPosition();
+	UpdateChildrenPosition();
+	SortCheck(previousZ);
 }
 
 void dae::Transform::SetWorldScale(float x, float y)
@@ -150,4 +156,16 @@ glm::vec2 dae::Transform::LocalScale() const
 	}
 	const auto& parentScale = m_GameObject->GetParent()->GetTransform().GetWorldScale();
 	return m_WorldScale / parentScale;
+}
+
+void dae::Transform::SortCheck(float previousZ) const
+{
+	if (previousZ != m_WorldPosition.z)
+	{
+		auto* scene = m_GameObject->GetScene();
+		if (scene != nullptr)
+		{
+			scene->Sort();
+		}
+	}
 }

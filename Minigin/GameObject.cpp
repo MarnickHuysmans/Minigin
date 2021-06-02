@@ -117,6 +117,16 @@ void dae::GameObject::RemoveChild(const std::weak_ptr<GameObject>& child)
 	m_Children.erase(std::remove(std::begin(m_Children), std::end(m_Children), gameObject), std::end(m_Children));
 }
 
+void dae::GameObject::Destroy()
+{
+	auto* scene = GetScene();
+	if (scene == nullptr)
+	{
+		return;
+	}
+	scene->m_ObjectsToDelete.push_back(this->weak_from_this());
+}
+
 const std::vector<std::shared_ptr<dae::GameObject>>& dae::GameObject::GetChildren() const
 {
 	return m_Children;

@@ -207,11 +207,14 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Disc.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelCube.cpp" />
+    <ClCompile Include="LevelCubeActivator.cpp" />
     <ClCompile Include="LevelFactory.cpp" />
     <ClCompile Include="Lives.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -223,11 +226,15 @@
     <ClCompile Include="Walkable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Disc.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelCube.h" />
+    <ClInclude Include="LevelCubeActivator.h" />
     <ClInclude Include="LevelFactory.h" />
     <ClInclude Include="LevelEnums.h" />
     <ClInclude Include="Lives.h" />
+    <ClInclude Include="Movement.h" />
+    <ClInclude Include="MovementObserver.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Qbert.h" />
     <ClInclude Include="Score.h" />

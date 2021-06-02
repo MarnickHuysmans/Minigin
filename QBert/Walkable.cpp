@@ -2,8 +2,9 @@
 
 #include <utility>
 #include "Level.h"
+#include "LevelEnums.h"
 
-qbert::Walkable::Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec2& topMiddle, const glm::vec2& rightMiddle, const glm::vec2& leftMiddle) :
+qbert::Walkable::Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec3& topMiddle, const glm::vec3& rightMiddle, const glm::vec3& leftMiddle) :
 	m_TopMiddle(topMiddle),
 	m_RightMiddle(rightMiddle),
 	m_LeftMiddle(leftMiddle),
@@ -16,6 +17,21 @@ qbert::Walkable::Walkable(std::weak_ptr<Level> level, int row, int col, const gl
 
 qbert::Walkable::~Walkable()
 {
+}
+
+const glm::vec3& qbert::Walkable::GetMiddleOffset(Side side) const
+{
+	switch (side)
+	{
+	case Side::Top:
+		return m_TopMiddle;
+	case Side::Right:
+		return m_RightMiddle;
+	case Side::Left:
+		return m_LeftMiddle;
+	default:
+		return m_TopMiddle;
+	}
 }
 
 std::weak_ptr<qbert::Walkable> qbert::Walkable::GetWalkable(Side side, Direction direction)

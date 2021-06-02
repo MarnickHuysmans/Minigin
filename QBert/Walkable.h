@@ -1,6 +1,5 @@
 #pragma once
 #include <Component.h>
-#include <memory>
 #pragma warning(push)
 #pragma warning (disable:4201)
 #include <glm/glm.hpp>
@@ -8,6 +7,7 @@
 
 namespace qbert
 {
+	class Movement;
 	enum class Direction;
 	enum class Side;
 	class Level;
@@ -20,13 +20,11 @@ namespace qbert
 			LevelCube,
 			Disc
 		};
-		
-		Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec2& topMiddle = glm::vec2(0, 0), const glm::vec2& rightMiddle = glm::vec2(0, 0), const glm::vec2& leftMiddle = glm::vec2(0, 0));
+
+		Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec3& topMiddle = glm::vec3(0, 0, 0), const glm::vec3& rightMiddle = glm::vec3(0, 0, 0), const glm::vec3& leftMiddle = glm::vec3(0, 0, 0));
 		virtual ~Walkable() = 0;
 
-		const glm::vec2& GetTopMiddle() const { return m_TopMiddle; }
-		const glm::vec2& GetRightMiddle() const { return m_RightMiddle; }
-		const glm::vec2& GetLeftMiddle() const { return m_LeftMiddle; }
+		const glm::vec3& GetMiddleOffset(Side side) const;
 
 		std::weak_ptr<Walkable> GetWalkable(Side side, Direction direction);
 
@@ -36,13 +34,17 @@ namespace qbert
 
 		virtual WalkableType GetWalkableType() = 0;
 
-	protected:
-		glm::vec2 m_TopMiddle;
-		glm::vec2 m_RightMiddle;
-		glm::vec2 m_LeftMiddle;
+		virtual void StepOn(Movement*) {}
 
+	private:
+		glm::vec3 m_TopMiddle;
+		glm::vec3 m_RightMiddle;
+		glm::vec3 m_LeftMiddle;
+
+	protected:
 		std::weak_ptr<Level> m_Level;
 
+	private:
 		int m_Row;
 		int m_Column;
 	};

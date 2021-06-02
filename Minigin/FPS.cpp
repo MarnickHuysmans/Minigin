@@ -3,7 +3,7 @@
 #include <iomanip>
 #include "GameObject.h"
 #include "TextComponent.h"
-#include "Time.h"
+#include "GameTime.h"
 
 void dae::FPS::Start()
 {
@@ -18,7 +18,7 @@ void dae::FPS::Update()
 {
 	if (m_TextComponent)
 	{
-		float deltaTime = Time::GetInstance().GetDeltaTime();
+		float deltaTime = GameTime::GetInstance().GetDeltaTime();
 		m_Counter += deltaTime;
 		m_DeltaTime += deltaTime;
 		++m_DeltaCount;

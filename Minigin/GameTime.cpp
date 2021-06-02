@@ -1,11 +1,11 @@
 #include "MiniginPCH.h"
-#include "Time.h"
+#include "GameTime.h"
 
 #include <thread>
 
 using namespace dae;
 
-void Time::Update()
+void GameTime::Update()
 {
 	const auto currentTime = std::chrono::high_resolution_clock::now();
 	const auto deltaTime = currentTime - m_LastTime;
@@ -22,12 +22,12 @@ void Time::Update()
 	}
 }
 
-float Time::GetDeltaTime() const
+float GameTime::GetDeltaTime() const
 {
 	return m_DeltaTime;
 }
 
-Time::Time()
+GameTime::GameTime()
 {
 	m_FrameTime = std::chrono::duration<double>(1.0 / static_cast<double>(m_DesiredFPS));
 }

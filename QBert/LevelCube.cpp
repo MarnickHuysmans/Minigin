@@ -1,9 +1,11 @@
 #include "LevelCube.h"
 
 #include "GameObject.h"
+#include "LevelCubeActivator.h"
 #include "LevelEnums.h"
+#include "Movement.h"
 
-qbert::LevelCube::LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col, const glm::vec2& topMiddle, const glm::vec2& rightMiddle, const glm::vec2& leftMiddle) :
+qbert::LevelCube::LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col, const glm::vec3& topMiddle, const glm::vec3& rightMiddle, const glm::vec3& leftMiddle) :
 	Walkable(level, row, col, topMiddle, rightMiddle, leftMiddle),
 	m_State(0),
 	m_MaxStates(MaxStates(type)),
@@ -30,6 +32,21 @@ void qbert::LevelCube::Start()
 qbert::Walkable::WalkableType qbert::LevelCube::GetWalkableType()
 {
 	return WalkableType::LevelCube;
+}
+
+void qbert::LevelCube::StepOn(qbert::Movement* movement)
+{
+	if (movement == nullptr)
+	{
+		return;
+	}
+	
+	auto activator = movement->GetGameObject()->GetComponent<LevelCubeActivator>();
+	if (activator.expired())
+	{
+		return;
+	}
+	StepOn(activator.lock()->GetForward());
 }
 
 void qbert::LevelCube::StepOn(bool forward)

@@ -60,6 +60,25 @@ void Scene::Start()
 
 void Scene::Update()
 {
+	for (auto& object : m_ObjectsToDelete)
+	{
+		if (object.expired())
+		{
+			continue;
+		}
+		auto gameObject = object.lock();
+		if (gameObject->m_Scene != nullptr)
+		{
+			Remove(object);
+			continue;
+		}
+		auto parent = gameObject->m_Parent;
+		if (parent != nullptr)
+		{
+			parent->RemoveChild(object);
+		}
+	}
+	m_ObjectsToDelete.clear();
 	for (auto& object : m_Objects)
 	{
 		object->Update();
@@ -68,6 +87,10 @@ void Scene::Update()
 
 void Scene::Render()
 {
+	if (m_Sort)
+	{
+		SortRenderComponents();
+	}
 	m_RenderComponents.erase(std::remove_if(std::begin(m_RenderComponents), std::end(m_RenderComponents), [](std::weak_ptr<RenderComponent>& renderComponent)
 		{
 			if (renderComponent.expired())
@@ -97,6 +120,14 @@ const std::string& Scene::GetName() const
 	return m_Name;
 }
 
+void Scene::Sort()
+{
+	if (!m_Sort)
+	{
+		m_Sort = true;
+	}
+}
+
 void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>&object)
 {
 	for (auto& component : object->GetUIComponents())
@@ -109,11 +140,13 @@ void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>&object)
 		component->m_InScene = true;
 	}
 
+	bool newRenderComponents = false;
+	
 	for (auto& component : object->GetComponents<RenderComponent>())
 	{
 		if (component.expired())
 		{
-			return;
+			continue;
 		}
 		auto renderComponent = component.lock();
 		if (renderComponent->m_InScene)
@@ -122,8 +155,12 @@ void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>&object)
 		}
 		m_RenderComponents.push_back(component);
 		renderComponent->m_InScene = true;
+		newRenderComponents = true;
 	}
-	SortRenderComponents();
+	if (newRenderComponents)
+	{
+		Sort();
+	}
 }
 
 void Scene::SortRenderComponents()
@@ -140,4 +177,5 @@ void Scene::SortRenderComponents()
 			}
 			return renderComponent1.lock()->GetGameObject()->GetTransform().GetWorldPosition().z < renderComponent2.lock()->GetGameObject()->GetTransform().GetWorldPosition().z;
 		});
+	m_Sort = false;
 }
