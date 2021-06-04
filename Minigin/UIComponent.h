@@ -11,6 +11,7 @@ namespace dae
 	public:
 		void Render();
 		void SetPosition(const ImVec2& position);
+		void SetPivot(const ImVec2& pivot);
 
 		UIComponent(const std::function<void()>& function, const std::string& name = "UI", bool* open = nullptr, ImGuiWindowFlags flags = 0);
 		virtual ~UIComponent() = default;
@@ -26,6 +27,7 @@ namespace dae
 		ImGuiWindowFlags m_Flags = 0;
 		std::function<void()> m_Function{};
 		ImVec2 m_Position{};
+		ImVec2 m_Pivot{};
 
 	private:
 		bool m_InScene;

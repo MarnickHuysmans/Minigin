@@ -63,14 +63,33 @@ bool dae::InputManager::IsUp(KeyboardCode key) const
 	return m_PreviousKeyboardState[static_cast<int>(key)] && !m_CurrentKeyboardState[static_cast<unsigned int>(key)];
 }
 
-void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, Player player, ControllerButton button, InputState inputState)
+void dae::InputManager::AddCommand(const std::function<void()>& command, Player player, ControllerButton button, InputState inputState)
 {
-	m_ControllerCommandMap[player][ControllerKey{ button, inputState }] = std::move(command);
+	m_ControllerCommandMap[player].insert_or_assign(ControllerKey{ button, inputState }, command);
 }
 
-void dae::InputManager::AddCommand(std::unique_ptr<Command>& command, KeyboardCode key, InputState inputState)
+void dae::InputManager::AddCommand(const std::function<void()>& command, KeyboardCode key, InputState inputState)
 {
-	m_KeyboardCommandMap[KeyboardKey{ key, inputState }] = std::move(command);
+	m_KeyboardCommandMap.insert_or_assign(KeyboardKey{ key, inputState }, command);
+}
+
+void dae::InputManager::RemoveCommand(Player player, ControllerButton button, InputState inputState)
+{
+	m_ControllerCommandMap[player].erase(ControllerKey{ button, inputState });
+}
+
+void dae::InputManager::RemoveCommand(KeyboardCode key, InputState inputState)
+{
+	m_KeyboardCommandMap.erase(KeyboardKey{ key, inputState });
+}
+
+void dae::InputManager::ClearCommands()
+{
+	for (auto& pair : m_ControllerCommandMap)
+	{
+		pair.second.clear();
+	}
+	m_KeyboardCommandMap.clear();
 }
 
 void dae::InputManager::UpdateConnectedControllers()
@@ -108,19 +127,19 @@ void dae::InputManager::HandleControllerInput()
 			case InputState::Down:
 				if (m_Controllers[player].IsDown(commandPair.first.first))
 				{
-					commandPair.second->Execute();
+					commandPair.second();
 				}
 				break;
 			case InputState::Up:
 				if (m_Controllers[player].IsUp(commandPair.first.first))
 				{
-					commandPair.second->Execute();
+					commandPair.second();
 				}
 				break;
 			case InputState::Hold:
 				if (m_Controllers[player].IsPressed(commandPair.first.first))
 				{
-					commandPair.second->Execute();
+					commandPair.second();
 				}
 			}
 		}
@@ -136,19 +155,19 @@ void dae::InputManager::HandleKeyboardInput()
 		case InputState::Down:
 			if (IsDown(commandPair.first.first))
 			{
-				commandPair.second->Execute();
+				commandPair.second();
 			}
 			break;
 		case InputState::Up:
 			if (IsUp(commandPair.first.first))
 			{
-				commandPair.second->Execute();
+				commandPair.second();
 			}
 			break;
 		case InputState::Hold:
 			if (IsPressed(commandPair.first.first))
 			{
-				commandPair.second->Execute();
+				commandPair.second();
 			}
 		}
 	}

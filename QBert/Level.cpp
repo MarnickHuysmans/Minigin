@@ -3,8 +3,10 @@
 #include "LevelEnums.h"
 
 qbert::Level::Level(int levelSize) :
+	m_Level(LevelIndex(levelSize, -1)),
 	m_LevelSize(levelSize),
-	m_Level(LevelIndex(levelSize, -1))
+	m_Win(LevelIndex(levelSize - 2, -1)),
+	m_WinCounter(0)
 {
 }
 
@@ -63,6 +65,16 @@ size_t qbert::Level::LevelIndex(int row, int col)
 	row += 2;
 	col += 1;
 	return (row * row - row) / 2 + row + col;
+}
+
+void qbert::Level::Done()
+{
+	++m_WinCounter;
+}
+
+void qbert::Level::Undone()
+{
+	--m_WinCounter;
 }
 
 std::weak_ptr<qbert::Walkable> qbert::Level::GetWalkableTop(Direction direction, int row, int col) const

@@ -3,7 +3,7 @@
 #include <XInput.h>
 
 dae::Controller::Controller()
-	:m_PreviousControllerState(new _XINPUT_STATE)
+	:m_PreviousControllerState(new _XINPUT_STATE())
 	, m_CurrentControllerState(new _XINPUT_STATE())
 	, m_Active(false)
 {

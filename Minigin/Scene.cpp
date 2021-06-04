@@ -8,12 +8,13 @@ using namespace dae;
 
 Scene::Scene(const std::string& name) :
 	m_Name(name),
-	m_Started(false)
-{}
+	m_Started(false),
+	m_Sort(false)
+{
+}
 
-Scene::~Scene() = default;
 
-void Scene::Add(const std::shared_ptr<GameObject>&object)
+void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
 	auto parentScene = object->GetScene();
 	if (parentScene != nullptr && parentScene != this)
@@ -38,7 +39,7 @@ void Scene::Add(const std::shared_ptr<GameObject>&object)
 	}
 }
 
-void Scene::Remove(const std::weak_ptr<GameObject>&object)
+void Scene::Remove(const std::weak_ptr<GameObject>& object)
 {
 	if (object.expired())
 	{
@@ -128,7 +129,7 @@ void Scene::Sort()
 	}
 }
 
-void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>&object)
+void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>& object)
 {
 	for (auto& component : object->GetUIComponents())
 	{
@@ -141,7 +142,7 @@ void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>&object)
 	}
 
 	bool newRenderComponents = false;
-	
+
 	for (auto& component : object->GetComponents<RenderComponent>())
 	{
 		if (component.expired())

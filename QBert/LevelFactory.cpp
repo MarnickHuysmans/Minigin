@@ -62,6 +62,7 @@ const std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& s
 			levelObject->AddChild(cubeObject);
 
 			level->SetLevel(levelCube, row, col);
+			levelCube->AddObserver(level);
 		}
 	}
 

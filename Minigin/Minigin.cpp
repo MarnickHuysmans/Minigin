@@ -53,36 +53,37 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = *SceneManager::GetInstance().CreateScene("Demo");
+	SceneManager::GetInstance().CreateScene("Demo", [](Scene& scene)
+		{
+			//Background
+			auto go = std::make_shared<GameObject>();
+			auto renderComponent = std::make_shared<RenderComponent>("background.jpg");
+			go->AddComponent(renderComponent);
+			scene.Add(go);
 
-	//Background
-	auto go = std::make_shared<GameObject>();
-	auto renderComponent = std::make_shared<RenderComponent>("background.jpg");
-	go->AddComponent(renderComponent);
-	scene.Add(go);
+			//DAE Logo
+			go = std::make_shared<GameObject>();
+			renderComponent = std::make_shared<RenderComponent>("logo.png");
+			go->AddComponent(renderComponent);
+			go->GetTransform().SetWorldPosition(216, 180, 0);
+			scene.Add(go);
 
-	//DAE Logo
-	go = std::make_shared<GameObject>();
-	renderComponent = std::make_shared<RenderComponent>("logo.png");
-	go->AddComponent(renderComponent);
-	go->GetTransform().SetWorldPosition(216, 180, 0);
-	scene.Add(go);
+			//Title
+			go = std::make_shared<GameObject>();
+			auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+			auto textComponent = std::make_shared<TextComponent>(font, "Programming 4 Assignment");
+			go->AddComponent(textComponent);
+			go->GetTransform().SetWorldPosition(80, 20, 0);
+			scene.Add(go);
 
-	//Title
-	go = std::make_shared<GameObject>();
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textComponent = std::make_shared<TextComponent>(font, "Programming 4 Assignment");
-	go->AddComponent(textComponent);
-	go->GetTransform().SetWorldPosition(80, 20, 0);
-	scene.Add(go);
-
-	//FPS
-	go = std::make_shared<GameObject>();
-	textComponent = std::make_shared<TextComponent>(font, "", Color{ 255, 255, 0 });
-	go->AddComponent(textComponent);
-	auto fps = std::make_shared<FPS>();
-	go->AddComponent(fps);
-	scene.Add(go);
+			//FPS
+			go = std::make_shared<GameObject>();
+			textComponent = std::make_shared<TextComponent>(font, "", Color{ 255, 255, 0 });
+			go->AddComponent(textComponent);
+			auto fps = std::make_shared<FPS>();
+			go->AddComponent(fps);
+			scene.Add(go);
+		});
 }
 
 void dae::Minigin::Cleanup()

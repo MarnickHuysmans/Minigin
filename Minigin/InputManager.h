@@ -1,11 +1,11 @@
 #pragma once
-#include "Command.h"
+#include <functional>
+
 #include "Controller.h"
 #include "Singleton.h"
 
 #include <map>
 
-#include <memory>
 #include <vector>
 
 namespace dae
@@ -301,9 +301,9 @@ namespace dae
 	};
 
 	typedef std::pair<ControllerButton, InputState> ControllerKey;
-	typedef std::map<Player, std::map<ControllerKey, std::unique_ptr<Command>>> ControllerCommandMap;
+	typedef std::map<Player, std::map<ControllerKey, std::function<void()>>> ControllerCommandMap;
 	typedef std::pair<KeyboardCode, InputState> KeyboardKey;
-	typedef std::map<KeyboardKey, std::unique_ptr<Command>> KeyboardCommandMap;
+	typedef std::map<KeyboardKey, std::function<void()>> KeyboardCommandMap;
 
 	class InputManager final : public Singleton<InputManager>
 	{
@@ -317,8 +317,11 @@ namespace dae
 		bool IsPressed(KeyboardCode key) const;
 		bool IsDown(KeyboardCode key) const;
 		bool IsUp(KeyboardCode key) const;
-		void AddCommand(std::unique_ptr<Command>& command, Player player, ControllerButton button, InputState inputState = InputState::Down);
-		void AddCommand(std::unique_ptr<Command>& command, KeyboardCode key, InputState inputState = InputState::Down);
+		void AddCommand(const std::function<void()>& command, Player player, ControllerButton button, InputState inputState = InputState::Down);
+		void AddCommand(const std::function<void()>& command, KeyboardCode key, InputState inputState = InputState::Down);
+		void RemoveCommand(Player player, ControllerButton button, InputState inputState = InputState::Down);
+		void RemoveCommand(KeyboardCode key, InputState inputState = InputState::Down);
+		void ClearCommands();
 		void UpdateConnectedControllers();
 
 	private:

@@ -42,7 +42,7 @@ void qbert::Movement::Update()
 
 void qbert::Movement::Move(Direction direction)
 {
-	if (!m_CanMove)
+	if (!m_CanMove || m_MoveTimer > 0)
 	{
 		return;
 	}

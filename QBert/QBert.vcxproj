@@ -221,6 +221,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="PlayerInput.cpp" />
     <ClCompile Include="Qbert.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Walkable.cpp" />
@@ -230,12 +231,14 @@
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelCube.h" />
     <ClInclude Include="LevelCubeActivator.h" />
+    <ClInclude Include="LevelCubeObserver.h" />
     <ClInclude Include="LevelFactory.h" />
     <ClInclude Include="LevelEnums.h" />
     <ClInclude Include="Lives.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MovementObserver.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="PlayerInput.h" />
     <ClInclude Include="Qbert.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Walkable.h" />

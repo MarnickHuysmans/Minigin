@@ -8,7 +8,6 @@ namespace dae
 	class UIComponent;
 	class Scene final
 	{
-		friend Scene* SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<GameObject>& object);
 		void Remove(const std::weak_ptr<GameObject>& object);
@@ -21,14 +20,14 @@ namespace dae
 		const std::string& GetName() const;
 		void Sort();
 
-		~Scene();
+		~Scene() = default;
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
 	private:
-		explicit Scene(const std::string& name);
+		Scene(const std::string& name);
 
 		void AddRenderingComponents(const std::shared_ptr<GameObject>& object);
 		void SortRenderComponents();
@@ -43,6 +42,7 @@ namespace dae
 		bool m_Sort;
 
 		friend class GameObject;
+		friend void SceneManager::Start();
 	};
 
 }

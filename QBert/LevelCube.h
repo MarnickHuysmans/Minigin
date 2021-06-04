@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <vector>
 
 #include "RenderComponent.h"
@@ -7,6 +8,8 @@
 namespace qbert
 {
 	enum class LevelType;
+
+	class LevelCubeObserver;
 
 	class LevelCube final : public Walkable
 	{
@@ -22,6 +25,8 @@ namespace qbert
 
 		void StepOn(Movement* movement) override;
 
+		void AddObserver(const std::weak_ptr<LevelCubeObserver>& observer);
+
 	private:
 		void StepOn(bool forward = true);
 		size_t MaxStates(LevelType type) const;
@@ -30,10 +35,14 @@ namespace qbert
 		void StepOnStandard(bool forward);
 		void StepOnCycle(bool forward);
 
+		void NotifyObservers(std::function<void(LevelCubeObserver*)> observerFunction);
+
 		size_t m_State;
 		size_t m_MaxStates;
 
 		std::vector<std::shared_ptr<dae::Texture2D>> m_Textures;
+
+		std::vector<std::weak_ptr<LevelCubeObserver>> m_LevelCubeObservers;
 
 		std::weak_ptr<dae::RenderComponent> m_RenderComponent;
 
