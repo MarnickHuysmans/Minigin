@@ -1,36 +1,40 @@
 #pragma once
-#include "Component.h"
-#include "Subject.h"
-
-namespace dae {
-	enum class ControllerButton;
-	enum class KeyboardCode;
-}
+#include <Component.h>
+#include <functional>
+#include <vector>
+#include "MovementObserver.h"
+#include "RenderComponent.h"
 
 namespace qbert
 {
-	class Qbert final : public dae::Component
+	class QbertObserver;
+	class Movement;
+
+	class Qbert : public dae::Component, public MovementObserver
 	{
 	public:
+		Qbert();
+		virtual ~Qbert() = default;
+
 		void Start() override;
 		void Update() override;
 
-		int GetLives() const;
+		void Damage();
 
-		void AddObserver(dae::Observer* observer);
-		void RemoveObserver(dae::Observer* observer);
+		void Fall() override;
 
-		void SetButtons(dae::ControllerButton button1, dae::ControllerButton button2, dae::ControllerButton button3, dae::ControllerButton button4, dae::ControllerButton button5);
-		void SetButtons(dae::KeyboardCode button1, dae::KeyboardCode button2, dae::KeyboardCode button3, dae::KeyboardCode button4, dae::KeyboardCode button5);
-		
+		void AddObserver(const std::weak_ptr<QbertObserver>& observer);
+
+		int GetLives() const { return m_Lives; }
+
 	private:
-		void Die();
+		void NotifyObservers(std::function<void(QbertObserver*)> observerFunction);
 
-		dae::Subject m_Subject{};
-		int m_Lives{ 10 };
-		bool m_ControlsrSet = false;
-		bool m_UseController = true;
-		dae::ControllerButton m_ControllerButton[5]{};
-		dae::KeyboardCode m_Scancode[5]{};
+		std::vector<std::weak_ptr<QbertObserver>> m_QbertObservers;
+		std::weak_ptr<Movement> m_Movement;
+		std::weak_ptr<dae::RenderComponent> m_RenderComponent;
+		int m_Lives;
+		float m_RespawnTimer;
+		float m_RespawnTime;
 	};
 }

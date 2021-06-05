@@ -8,7 +8,7 @@ namespace dae {
 
 namespace qbert
 {
-	class Qbert;
+	class QbertDeleteThis;
 
 	class Lives final : public dae::Component, public dae::Observer
 	{
@@ -17,7 +17,7 @@ namespace qbert
 		void Update() override;
 		void Notify(const std::string& message) override;
 
-		explicit Lives(Qbert* qbert);
+		explicit Lives(QbertDeleteThis* qbert);
 		~Lives() = default;
 		Lives(const Lives & other) = delete;
 		Lives(Lives && other) noexcept = delete;
@@ -26,6 +26,6 @@ namespace qbert
 
 	private:
 		dae::TextComponent* m_TextComponent = nullptr;
-		Qbert* m_Qbert = nullptr;
+		QbertDeleteThis* m_Qbert = nullptr;
 	};
 }

@@ -19,6 +19,10 @@ void dae::Transform::SetWorldPosition(const float x, const float y, const float 
 
 void dae::Transform::SetWorldPosition(const glm::vec3& position)
 {
+	if (m_WorldPosition == position)
+	{
+		return;
+	}
 	float previousZ = m_WorldPosition.z;
 	m_WorldPosition = position;
 	m_LocalPosition = LocalPosition();
@@ -33,6 +37,10 @@ void dae::Transform::SetLocalPosition(float x, float y, float z)
 
 void dae::Transform::SetLocalPosition(const glm::vec3& position)
 {
+	if (m_LocalPosition == position)
+	{
+		return;
+	}
 	float previousZ = m_WorldPosition.z;
 	m_LocalPosition = position;
 	m_WorldPosition = WorldPosition();
@@ -47,6 +55,10 @@ void dae::Transform::SetWorldScale(float x, float y)
 
 void dae::Transform::SetWorldScale(const glm::vec2& scale)
 {
+	if (m_WorldScale == scale)
+	{
+		return;
+	}
 	m_WorldScale = scale;
 	m_LocalScale = LocalScale();
 	UpdateChildrenScale();
@@ -59,8 +71,13 @@ void dae::Transform::SetLocalScale(float x, float y)
 
 void dae::Transform::SetLocalScale(const glm::vec2& scale)
 {
+	if (m_LocalScale == scale)
+	{
+		return;
+	}
 	m_LocalScale = scale;
-	UpdateScale();
+	m_WorldScale = WorldScale();
+	UpdateChildrenScale();
 }
 
 void dae::Transform::UpdatePosition()
@@ -84,6 +101,7 @@ void dae::Transform::UpdateChildrenPosition()
 void dae::Transform::UpdateScale()
 {
 	m_WorldScale = WorldScale();
+	m_WorldPosition = WorldPosition();
 	UpdateChildrenScale();
 }
 
@@ -101,8 +119,8 @@ void dae::Transform::UpdateChildrenScale()
 
 void dae::Transform::UpdateTransform()
 {
+	m_WorldScale = WorldScale();
 	m_WorldPosition = WorldPosition();
-	m_LocalScale = WorldScale();
 	UpdateChildrenTransform();
 }
 
@@ -125,7 +143,8 @@ glm::vec3 dae::Transform::WorldPosition() const
 		return m_LocalPosition;
 	}
 	const auto& parentPosition = m_GameObject->GetParent()->GetTransform().GetWorldPosition();
-	return parentPosition + m_LocalPosition;
+	const auto& parentScale = m_GameObject->GetParent()->GetTransform().GetWorldScale();
+	return parentPosition + m_LocalPosition * glm::vec3(parentScale.x, parentScale.y, 1);
 }
 
 glm::vec2 dae::Transform::WorldScale() const
@@ -145,7 +164,8 @@ glm::vec3 dae::Transform::LocalPosition() const
 		return m_WorldPosition;
 	}
 	const auto& parentPosition = m_GameObject->GetParent()->GetTransform().GetWorldPosition();
-	return m_WorldPosition - parentPosition;
+	const auto& parentScale = m_GameObject->GetParent()->GetTransform().GetWorldScale();
+	return (m_WorldPosition - parentPosition) / glm::vec3(parentScale.x, parentScale.y, 1);
 }
 
 glm::vec2 dae::Transform::LocalScale() const

@@ -40,6 +40,10 @@ namespace dae
 		GameObject* GetParent();
 		const GameObject* GetParent() const;
 
+		bool IsActive() const { return m_Active; }
+		void SetActive(bool active) { m_Active = active; }
+		bool ActiveInScene() const;
+
 		GameObject();
 		~GameObject() = default;
 		GameObject(const GameObject& other) = delete;
@@ -49,7 +53,7 @@ namespace dae
 
 	private:
 		void RemoveChild(const std::weak_ptr<GameObject>& child);
-		
+
 		Transform m_Transform;
 		Scene* m_Scene;
 		GameObject* m_Parent;
@@ -57,6 +61,7 @@ namespace dae
 		std::vector<std::shared_ptr<UIComponent>> m_UiComponents{};
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		bool m_Started;
+		bool m_Active;
 
 		friend class Scene;
 	};

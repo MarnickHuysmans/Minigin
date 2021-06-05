@@ -24,12 +24,13 @@ namespace qbert
 
 		void Start() override;
 		void Update() override;
-		
+
 		void Move(Direction direction);
 		bool CanMove() const { return m_CanMove; }
 		void CanMove(bool canMove);
 		std::weak_ptr<Walkable> GetCurrentWalkable() const { return m_CurrentWalkable; }
 		void SetCurrentWalkable(const std::weak_ptr<Walkable>& walkable);
+		void Respawn();
 
 		void AddObserver(const std::weak_ptr<MovementObserver>& observer);
 
@@ -38,9 +39,10 @@ namespace qbert
 		void Fall();
 
 		std::vector<std::weak_ptr<MovementObserver>> m_MovementObservers;
-		
+
 		std::weak_ptr<Walkable> m_CurrentWalkable;
 		std::weak_ptr<Walkable> m_NextWalkable;
+		std::weak_ptr<Walkable> m_StartWalkable;
 
 		dae::Transform* m_Transform;
 

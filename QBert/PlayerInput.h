@@ -16,7 +16,7 @@ namespace qbert
 	class PlayerInput : public dae::Component
 	{
 	public:
-		PlayerInput(dae::Player player, bool keyboard = true);
+		PlayerInput(dae::Player player);
 		virtual ~PlayerInput();
 
 		void Start() override;
@@ -36,7 +36,7 @@ namespace qbert
 
 		std::weak_ptr<Movement> m_Movement;
 		dae::Player m_Player;
-		bool m_Keyboard;
+		InputType m_InputType;
 		bool m_Enabled;
 
 		static InputType m_Player1;

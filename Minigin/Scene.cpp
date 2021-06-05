@@ -32,7 +32,6 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 	}
 	object->m_Scene = this;
 	object->GetTransform().UpdateTransform();
-	AddRenderingComponents(object);
 	if (m_Started)
 	{
 		object->Start();
@@ -131,7 +130,7 @@ void Scene::Sort()
 
 void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>& object)
 {
-	for (auto& component : object->GetUIComponents())
+	for (auto& component : object->GetUIComponents(false))
 	{
 		if (component->m_InScene)
 		{
@@ -143,7 +142,7 @@ void Scene::AddRenderingComponents(const std::shared_ptr<GameObject>& object)
 
 	bool newRenderComponents = false;
 
-	for (auto& component : object->GetComponents<RenderComponent>())
+	for (auto& component : object->GetComponents<RenderComponent>(false))
 	{
 		if (component.expired())
 		{

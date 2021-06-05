@@ -6,6 +6,10 @@
 
 void dae::RenderComponent::Render() const
 {
+	if (!ActiveInScene())
+	{
+		return;
+	}
 	if (m_Texture != nullptr)
 	{
 		const auto& pos = m_GameObject->GetTransform().GetWorldPosition();

@@ -6,6 +6,7 @@
 
 qbert::Movement::Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime, bool enemy) :
 	m_CurrentWalkable(currentWalkable),
+	m_StartWalkable(currentWalkable),
 	m_Transform(nullptr),
 	m_PositionOffset(positionOffset),
 	m_Side(side),
@@ -66,14 +67,29 @@ void qbert::Movement::CanMove(bool canMove)
 
 void qbert::Movement::SetCurrentWalkable(const std::weak_ptr<Walkable>& walkable)
 {
-	if (walkable.expired())
+	m_CurrentWalkable = walkable;
+	if (m_CurrentWalkable.expired() || !m_CurrentWalkable.lock()->ActiveInScene())
 	{
 		Fall();
 		return;
 	}
-	m_CurrentWalkable = walkable;
 	MoveToCurrent();
 	m_CurrentWalkable.lock()->StepOn(this);
+}
+
+void qbert::Movement::Respawn()
+{
+	if (m_CurrentWalkable.expired())
+	{
+		if (m_StartWalkable.expired())
+		{
+			return;
+		}
+		m_CurrentWalkable = m_StartWalkable;
+	}
+	MoveToCurrent();
+	m_CanMove = true;
+	m_MoveTimer = 0;
 }
 
 void qbert::Movement::AddObserver(const std::weak_ptr<MovementObserver>& observer)
@@ -93,6 +109,7 @@ void qbert::Movement::MoveToCurrent()
 
 void qbert::Movement::Fall()
 {
+	m_CurrentWalkable = std::weak_ptr<Walkable>();
 	if (m_MovementObservers.empty())
 	{
 		GetGameObject()->Destroy();

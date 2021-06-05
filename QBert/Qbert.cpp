@@ -1,108 +1,87 @@
 #include "Qbert.h"
-#include "InputManager.h"
+#include "QbertObserver.h"
+#include "GameObject.h"
+#include "GameTime.h"
+#include "Movement.h"
+
+qbert::Qbert::Qbert() :
+	m_Lives(3),
+	m_RespawnTimer(0),
+	m_RespawnTime(1)
+{
+}
 
 void qbert::Qbert::Start()
 {
+	m_Movement = m_GameObject->GetComponent<Movement>();
+	m_RenderComponent = m_GameObject->GetComponent<dae::RenderComponent>();
 }
 
 void qbert::Qbert::Update()
 {
-	if (m_ControlsrSet)
+	if (m_Lives <= 0 || m_RespawnTimer <= 0)
 	{
-		auto& inputManager = dae::InputManager::GetInstance();
-		if (m_UseController)
-		{
-			if (inputManager.IsDown(m_ControllerButton[0]))
-			{
-				Die();
-			}
-			if (inputManager.IsDown(m_ControllerButton[1]))
-			{
-				m_Subject.Notify("Color");
-			}
-			if (inputManager.IsDown(m_ControllerButton[2]))
-			{
-				m_Subject.Notify("Coily");
-			}
-			if (inputManager.IsDown(m_ControllerButton[3]))
-			{
-				m_Subject.Notify("Discs");
-			}
-			if (inputManager.IsDown(m_ControllerButton[4]))
-			{
-				m_Subject.Notify("SlickSam");
-			}
-		}
-		else
-		{
-			if (inputManager.IsDown(m_Scancode[0]))
-			{
-				Die();
-			}
-			if (inputManager.IsDown(m_Scancode[1]))
-			{
-				m_Subject.Notify("Color");
-			}
-			if (inputManager.IsDown(m_Scancode[2]))
-			{
-				m_Subject.Notify("Coily");
-			}
-			if (inputManager.IsDown(m_Scancode[3]))
-			{
-				m_Subject.Notify("Discs");
-			}
-			if (inputManager.IsDown(m_Scancode[4]))
-			{
-				m_Subject.Notify("SlickSam");
-			}
-		}
+		return;
 	}
-}
-
-int qbert::Qbert::GetLives() const
-{
-	return m_Lives;
-}
-
-void qbert::Qbert::AddObserver(dae::Observer* observer)
-{
-	m_Subject.AddObserver(observer);
-}
-
-void qbert::Qbert::RemoveObserver(dae::Observer* observer)
-{
-	m_Subject.RemoveObserver(observer);
-}
-
-void qbert::Qbert::SetButtons(dae::ControllerButton button1, dae::ControllerButton button2, dae::ControllerButton button3, dae::ControllerButton button4, dae::ControllerButton button5)
-{
-	m_ControlsrSet = true;
-	m_UseController = true;
-	m_ControllerButton[0] = button1;
-	m_ControllerButton[1] = button2;
-	m_ControllerButton[2] = button3;
-	m_ControllerButton[3] = button4;
-	m_ControllerButton[4] = button5;
-}
-
-void qbert::Qbert::SetButtons(dae::KeyboardCode button1, dae::KeyboardCode button2, dae::KeyboardCode button3, dae::KeyboardCode button4, dae::KeyboardCode button5)
-{
-	m_ControlsrSet = true;
-	m_UseController = false;
-	m_Scancode[0] = button1;
-	m_Scancode[1] = button2;
-	m_Scancode[2] = button3;
-	m_Scancode[3] = button4;
-	m_Scancode[4] = button5;
-}
-
-
-void qbert::Qbert::Die()
-{
-	if (m_Lives > 0)
+	m_RespawnTimer -= dae::GameTime::GetInstance().GetDeltaTime();
+	if (m_RespawnTimer > 0)
 	{
-		--m_Lives;
-		//std::cout << "Qbert dies: " << m_Lives << " left" << std::endl;
-		m_Subject.Notify("PlayerDied");
+		return;
 	}
+	NotifyObservers(&QbertObserver::QbertRespawn);
+	if (!m_RenderComponent.expired())
+	{
+		m_RenderComponent.lock()->SetActive(true);
+	}
+	if (m_Movement.expired())
+	{
+		return;
+	}
+	auto movement = m_Movement.lock();
+	movement->CanMove(true);
+	movement->Respawn();
+}
+
+void qbert::Qbert::Damage()
+{
+	if (m_RespawnTimer > 0)
+	{
+		return;
+	}
+	--m_Lives;
+	NotifyObservers([this](QbertObserver* observer) {observer->QbertLives(m_Lives); });
+	m_RespawnTimer = m_RespawnTime;
+	if (!m_RenderComponent.expired())
+	{
+		m_RenderComponent.lock()->SetActive(false);
+	}
+	if (m_Movement.expired())
+	{
+		return;
+	}
+	m_Movement.lock()->CanMove(false);
+}
+
+void qbert::Qbert::Fall()
+{
+	Damage();
+}
+
+void qbert::Qbert::AddObserver(const std::weak_ptr<QbertObserver>& observer)
+{
+	m_QbertObservers.push_back(observer);
+}
+
+void qbert::Qbert::NotifyObservers(std::function<void(QbertObserver*)> observerFunction)
+{
+	m_QbertObservers.erase(std::remove_if(std::begin(m_QbertObservers), std::end(m_QbertObservers),
+		[&observerFunction](const std::weak_ptr<QbertObserver>& observer)
+		{
+			if (observer.expired())
+			{
+				return true;
+			}
+			observerFunction(observer.lock().get());
+			return false;
+		}), std::end(m_QbertObservers));
 }

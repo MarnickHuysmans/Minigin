@@ -3,6 +3,10 @@
 
 void dae::UIComponent::Render()
 {
+	if (!m_Active)
+	{
+		return;
+	}
 	ImGui::SetNextWindowPos(m_Position, 0, m_Pivot);
 	if (ImGui::Begin(m_Name.c_str(), m_Open, m_Flags))
 	{
@@ -26,7 +30,8 @@ dae::UIComponent::UIComponent(const std::function<void()>& function, const std::
 	m_Open(open),
 	m_Flags(flags),
 	m_Function(function),
-	m_InScene(false)
+	m_InScene(false),
+	m_Active(true)
 {
 
 }

@@ -17,6 +17,7 @@ bool dae::InputManager::ProcessInput()
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
 		if (e.type == SDL_QUIT) {
+			m_Quitting = true;
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN)
@@ -75,11 +76,19 @@ void dae::InputManager::AddCommand(const std::function<void()>& command, Keyboar
 
 void dae::InputManager::RemoveCommand(Player player, ControllerButton button, InputState inputState)
 {
+	if (m_Quitting)
+	{
+		return;
+	}
 	m_ControllerCommandMap[player].erase(ControllerKey{ button, inputState });
 }
 
 void dae::InputManager::RemoveCommand(KeyboardCode key, InputState inputState)
 {
+	if (m_Quitting)
+	{
+		return;
+	}
 	m_KeyboardCommandMap.erase(KeyboardKey{ key, inputState });
 }
 

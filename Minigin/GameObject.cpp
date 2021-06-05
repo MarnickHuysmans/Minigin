@@ -17,14 +17,19 @@ void dae::GameObject::Start()
 	{
 		child->Start();
 	}
+	GetScene()->AddRenderingComponents(this->shared_from_this());
 	m_Started = true;
 }
 
 void dae::GameObject::Update()
 {
+	if (!m_Active)
+	{
+		return;
+	}
 	for (auto& component : m_Components)
 	{
-		component->Update();
+		component->RootUpdate();
 	}
 	for (auto& child : m_Children)
 	{
@@ -88,6 +93,10 @@ void dae::GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	{
 		return;
 	}
+	if (child->m_Parent == this)
+	{
+		return;
+	}
 	m_Children.push_back(child);
 	if (child->m_Parent != nullptr)
 	{
@@ -101,7 +110,6 @@ void dae::GameObject::AddChild(const std::shared_ptr<GameObject>& child)
 	child->GetTransform().UpdateTransform();
 	if (m_Started && !child->m_Started)
 	{
-		GetScene()->AddRenderingComponents(child);
 		child->Start();
 	}
 }
@@ -183,10 +191,25 @@ const dae::GameObject* dae::GameObject::GetParent() const
 	return m_Parent;
 }
 
+bool dae::GameObject::ActiveInScene() const
+{
+	auto* gameObject = this;
+	while (gameObject != nullptr)
+	{
+		if (!gameObject->IsActive())
+		{
+			return false;
+		}
+		gameObject = gameObject->GetParent();
+	}
+	return true;
+}
+
 dae::GameObject::GameObject() :
 	m_Transform(this),
 	m_Scene(nullptr),
 	m_Parent(nullptr),
-	m_Started(false)
+	m_Started(false),
+	m_Active(true)
 {
 }

@@ -17,7 +17,7 @@ qbert::LevelCube::LevelCube(LevelType type, const std::weak_ptr<Level>& level, i
 
 void qbert::LevelCube::SetTexture(std::shared_ptr<dae::Texture2D>& texture, size_t index)
 {
-	if (index >= m_MaxStates)
+	if (index >= m_Textures.size())
 	{
 		return;
 	}
@@ -48,6 +48,27 @@ void qbert::LevelCube::StepOn(qbert::Movement* movement)
 		return;
 	}
 	StepOn(activator.lock()->GetForward());
+}
+
+void qbert::LevelCube::NextLevel()
+{
+	m_State = 0;
+	switch (m_Type)
+	{
+	case LevelType::Single:
+		m_Type = LevelType::Double;
+		break;
+	case LevelType::Double:
+		m_Type = LevelType::Cycle;
+		break;
+	case LevelType::Cycle:
+		m_Type = LevelType::Single;
+		break;
+	default:
+		m_Type = LevelType::Single;
+	}
+	m_MaxStates = MaxStates(m_Type);
+	SetCurrentTexture();
 }
 
 void qbert::LevelCube::AddObserver(const std::weak_ptr<LevelCubeObserver>& observer)
@@ -147,7 +168,7 @@ void qbert::LevelCube::StepOnCycle(bool forward)
 
 void qbert::LevelCube::NotifyObservers(std::function<void(LevelCubeObserver*)> observerFunction)
 {
-	m_LevelCubeObservers.erase(std::remove_if(std::begin(m_LevelCubeObservers), std::begin(m_LevelCubeObservers),
+	m_LevelCubeObservers.erase(std::remove_if(std::begin(m_LevelCubeObservers), std::end(m_LevelCubeObservers),
 		[&observerFunction](const std::weak_ptr<LevelCubeObserver>& observer)
 		{
 			if (observer.expired())

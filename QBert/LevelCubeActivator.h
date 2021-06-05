@@ -3,7 +3,7 @@
 
 namespace qbert
 {
-	class LevelCubeActivator : dae::Component
+	class LevelCubeActivator : public dae::Component
 	{
 	public:
 

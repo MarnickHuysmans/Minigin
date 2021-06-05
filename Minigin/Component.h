@@ -8,10 +8,15 @@ namespace dae
 	class Component
 	{
 	public:
+		void RootUpdate();
 		virtual void Start() {}
 		virtual void Update() {}
 
 		std::shared_ptr<GameObject> GetGameObject() const;
+
+		bool IsActive() const { return m_Active; }
+		void SetActive(bool active) { m_Active = active; }
+		bool ActiveInScene() const;
 
 		Component() = default;
 		virtual ~Component() = 0;
@@ -22,5 +27,6 @@ namespace dae
 	protected:
 		friend class GameObject;
 		GameObject* m_GameObject = nullptr;
+		bool m_Active = true;
 	};
 }

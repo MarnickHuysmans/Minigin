@@ -208,6 +208,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Disc.cpp" />
+    <ClCompile Include="GameDone.cpp" />
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelCube.cpp" />
     <ClCompile Include="LevelCubeActivator.cpp" />
@@ -223,23 +225,32 @@
     </ClCompile>
     <ClCompile Include="PlayerInput.cpp" />
     <ClCompile Include="Qbert.cpp" />
+    <ClCompile Include="QbertDeleteThis.cpp" />
+    <ClCompile Include="QbertFactory.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Walkable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Disc.h" />
+    <ClInclude Include="GameDone.h" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelCube.h" />
     <ClInclude Include="LevelCubeActivator.h" />
     <ClInclude Include="LevelCubeObserver.h" />
     <ClInclude Include="LevelFactory.h" />
     <ClInclude Include="LevelEnums.h" />
+    <ClInclude Include="LevelObserver.h" />
     <ClInclude Include="Lives.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MovementObserver.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerInput.h" />
     <ClInclude Include="Qbert.h" />
+    <ClInclude Include="QbertDeleteThis.h" />
+    <ClInclude Include="QbertFactory.h" />
+    <ClInclude Include="QbertObserver.h" />
+    <ClInclude Include="QbertScenes.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Walkable.h" />
   </ItemGroup>

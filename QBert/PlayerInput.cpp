@@ -5,23 +5,38 @@
 qbert::InputType qbert::PlayerInput::m_Player1 = InputType::Keyboard;
 qbert::InputType qbert::PlayerInput::m_Player2 = InputType::Keyboard;
 
-qbert::PlayerInput::PlayerInput(dae::Player player, bool keyboard) :
+qbert::PlayerInput::PlayerInput(dae::Player player) :
 	m_Player(player),
-	m_Keyboard(keyboard),
 	m_Enabled(true)
 {
+	switch (m_Player)
+	{
+	case dae::Player::Player1:
+		m_InputType = m_Player1;
+		break;
+	case dae::Player::Player2:
+		if (m_Player1 != m_Player2)
+		{
+			m_Player = dae::Player::Player1;
+		}
+		m_InputType = m_Player2;
+		break;
+	default:
+		m_InputType = m_Player2;
+	}
 }
 
 qbert::PlayerInput::~PlayerInput()
 {
 	auto& inputManager = dae::InputManager::GetInstance();
-	if (m_Keyboard)
+	switch (m_InputType)
 	{
+	case InputType::Keyboard:
 		RemoveKeyboardInput(inputManager);
-	}
-	else
-	{
+		break;
+	case InputType::Controller:
 		RemoveControllerInput(inputManager);
+		break;
 	}
 }
 
@@ -33,13 +48,14 @@ void qbert::PlayerInput::Start()
 		return;
 	}
 	auto& inputManager = dae::InputManager::GetInstance();
-	if (m_Keyboard)
+	switch (m_InputType)
 	{
+	case InputType::Keyboard:
 		KeyboardInput(inputManager);
-	}
-	else
-	{
+		break;
+	case InputType::Controller:
 		ControllerInput(inputManager);
+		break;
 	}
 }
 

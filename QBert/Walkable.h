@@ -36,6 +36,8 @@ namespace qbert
 
 		virtual void StepOn(Movement*) {}
 
+		virtual void NextLevel() {}
+
 	private:
 		glm::vec3 m_TopMiddle;
 		glm::vec3 m_RightMiddle;

@@ -41,9 +41,15 @@ void qbert::Disc::StepOn(qbert::Movement* movement)
 	m_MoveTimer = m_MoveTime;
 }
 
+void qbert::Disc::NextLevel()
+{
+	m_MoveTimer = 0;
+	m_GameObject->SetActive(false);
+}
+
 void qbert::Disc::DoneMoving() const
 {
-	GetGameObject()->Destroy();
+	m_GameObject->SetActive(false);
 	if (m_Movement == nullptr || m_Level.expired())
 	{
 		return;

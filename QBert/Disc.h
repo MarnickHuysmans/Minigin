@@ -15,6 +15,8 @@ namespace qbert
 
 		void StepOn(Movement* movement) override;
 
+		void NextLevel() override;
+
 	private:
 		void DoneMoving() const;
 		

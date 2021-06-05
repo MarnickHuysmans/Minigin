@@ -6,22 +6,27 @@
 
 namespace dae
 {
-	class UIComponent
+	class UIComponent final
 	{
 	public:
 		void Render();
 		void SetPosition(const ImVec2& position);
 		void SetPivot(const ImVec2& pivot);
 
+		void SetOpen(bool* open) { m_Open = open; }
+
+		bool IsActive() const { return  m_Active; }
+		void SetActive(bool active) { m_Active = active; }
+
 		UIComponent(const std::function<void()>& function, const std::string& name = "UI", bool* open = nullptr, ImGuiWindowFlags flags = 0);
-		virtual ~UIComponent() = default;
+		~UIComponent() = default;
 		UIComponent(const UIComponent& other) = delete;
 		UIComponent(UIComponent&& other) noexcept = delete;
 		UIComponent& operator=(const UIComponent& other) = delete;
 		UIComponent& operator=(UIComponent&& other) noexcept = delete;
-		
+
 	protected:
-		
+
 		std::string m_Name{};
 		bool* m_Open = nullptr;
 		ImGuiWindowFlags m_Flags = 0;
@@ -31,6 +36,7 @@ namespace dae
 
 	private:
 		bool m_InScene;
+		bool m_Active;
 
 		friend class Scene;
 	};

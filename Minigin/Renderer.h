@@ -23,10 +23,12 @@ namespace dae
 		SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 
 		void GetWindowSize(int& width, int& height) const;
-		
+
 	private:
+		friend class Singleton<Renderer>;
+		Renderer() = default;
 		int GetOpenGLDriverIndex();
-		
+
 		SDL_Renderer* m_Renderer{};
 		SDL_Window* m_Window{};
 		bool m_ShowDemo = false;

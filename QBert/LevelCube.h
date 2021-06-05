@@ -25,6 +25,8 @@ namespace qbert
 
 		void StepOn(Movement* movement) override;
 
+		void NextLevel() override;
+
 		void AddObserver(const std::weak_ptr<LevelCubeObserver>& observer);
 
 	private:

@@ -1,7 +1,7 @@
 #include "Lives.h"
 
 #include "GameObject.h"
-#include "Qbert.h"
+#include "QbertDeleteThis.h"
 #include "TextComponent.h"
 
 void qbert::Lives::Start()
@@ -26,7 +26,7 @@ void qbert::Lives::Notify(const std::string& message)
 	}
 }
 
-qbert::Lives::Lives(Qbert* qbert)
+qbert::Lives::Lives(QbertDeleteThis* qbert)
 	:m_Qbert(qbert)
 {
 }
