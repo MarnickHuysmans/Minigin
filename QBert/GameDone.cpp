@@ -17,6 +17,10 @@ void qbert::GameDone::Start()
 	m_UiComponent.lock()->SetActive(false);
 }
 
+void qbert::GameDone::LevelDisc()
+{
+}
+
 void qbert::GameDone::NextLevel()
 {
 }

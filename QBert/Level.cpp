@@ -6,9 +6,13 @@
 #include "LevelEnums.h"
 #include "GameObject.h"
 #include "LevelObserver.h"
+#include "Score.h"
 
-qbert::Level::Level(int levelSize, int discAmount) :
+unsigned int qbert::Level::m_CubeScore = 25;
+
+qbert::Level::Level(int levelSize, int discAmount, std::weak_ptr<Score> score) :
 	m_Level(LevelIndex(levelSize, -1)),
+	m_Score(score),
 	m_LevelSize(levelSize),
 	m_DiscAmount(discAmount),
 	m_Win(LevelIndex(levelSize - 2, -1)),
@@ -80,9 +84,10 @@ size_t qbert::Level::LevelIndex(int row, int col)
 	return (row * row - row) / 2 + row + col;
 }
 
-void qbert::Level::Done()
+void qbert::Level::CubeDone()
 {
 	++m_WinCounter;
+	AddScore(m_CubeScore);
 	if (m_WinCounter >= m_Win)
 	{
 		if (m_LevelCounter >= m_MaxLevel)
@@ -94,9 +99,28 @@ void qbert::Level::Done()
 	}
 }
 
-void qbert::Level::Undone()
+void qbert::Level::CubeActivated()
+{
+	AddScore(m_CubeScore);
+}
+
+void qbert::Level::CubeUndone()
 {
 	--m_WinCounter;
+}
+
+void qbert::Level::DiscDoneMoving()
+{
+	NotifyObservers(&LevelObserver::LevelDisc);
+}
+
+void qbert::Level::AddScore(unsigned score)
+{
+	if (m_Score.expired())
+	{
+		return;
+	}
+	m_Score.lock()->AddScore(score);
 }
 
 void qbert::Level::AddObserver(const std::weak_ptr<LevelObserver>& observer)

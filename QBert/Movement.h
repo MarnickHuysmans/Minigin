@@ -19,7 +19,7 @@ namespace qbert
 	class Movement : public dae::Component
 	{
 	public:
-		Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime, bool enemy = true);
+		Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime = 0.5f, bool enemy = true);
 		virtual ~Movement() = default;
 
 		void Start() override;
@@ -33,6 +33,9 @@ namespace qbert
 		void Respawn();
 
 		void AddObserver(const std::weak_ptr<MovementObserver>& observer);
+
+		void SetPositionOffset(const glm::vec3& offset) { m_PositionOffset = offset; }
+		void SetMoveTime(float moveTime = 0.5f) { m_MoveTime = moveTime; }
 
 	private:
 		void MoveToCurrent();
@@ -52,6 +55,7 @@ namespace qbert
 
 		float m_MoveTimer;
 		float m_MoveTime;
+		bool m_Moving;
 
 		bool m_CanMove;
 		bool m_Enemy;

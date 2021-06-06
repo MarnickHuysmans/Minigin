@@ -1,29 +1,25 @@
 #pragma once
-#include "Component.h"
-#include "Observer.h"
+#include <Component.h>
 
-namespace dae {
+namespace dae
+{
 	class TextComponent;
 }
 
 namespace qbert
 {
-	class Score final : public dae::Component, public dae::Observer
+	class Score : public dae::Component
 	{
 	public:
-		void Start() override;
-		void Update() override;
-		void Notify(const std::string& message) override;
+		Score();
+		virtual ~Score() = default;
 
-		Score() = default;
-		~Score() = default;
-		Score(const Score& other) = delete;
-		Score(Score&& other) noexcept = delete;
-		Score& operator=(const Score& other) = delete;
-		Score& operator=(Score&& other) noexcept = delete;
+		void Start() override;
+
+		void AddScore(unsigned int score);
 
 	private:
-		dae::TextComponent* m_TextComponent = nullptr;
-		int m_Score = 0;
+		std::weak_ptr<dae::TextComponent> m_TextComponent;
+		unsigned int m_Score;
 	};
 }

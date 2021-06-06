@@ -62,6 +62,7 @@ namespace dae
 		std::vector<std::shared_ptr<GameObject>> m_Children{};
 		bool m_Started;
 		bool m_Active;
+		bool m_Destroying;
 
 		friend class Scene;
 	};

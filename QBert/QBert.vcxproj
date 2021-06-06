@@ -207,7 +207,12 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Coily.cpp" />
+    <ClCompile Include="CoilyStates.cpp" />
     <ClCompile Include="Disc.cpp" />
+    <ClCompile Include="EnemyFactory.cpp" />
+    <ClCompile Include="EnemyHit.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="GameDone.cpp" />
     <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="Level.cpp" />
@@ -216,6 +221,7 @@
     <ClCompile Include="LevelFactory.cpp" />
     <ClCompile Include="Lives.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MoveDown.cpp" />
     <ClCompile Include="Movement.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -228,12 +234,22 @@
     <ClCompile Include="QbertDeleteThis.cpp" />
     <ClCompile Include="QbertFactory.cpp" />
     <ClCompile Include="Score.cpp" />
+    <ClCompile Include="ScoreDeleteThis.cpp" />
+    <ClCompile Include="SlickSam.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Walkable.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Coily.h" />
+    <ClInclude Include="CoilyStates.h" />
     <ClInclude Include="Disc.h" />
+    <ClInclude Include="DiscObserver.h" />
+    <ClInclude Include="EnemyFactory.h" />
+    <ClInclude Include="EnemyHit.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="GameDone.h" />
     <ClInclude Include="GameOver.h" />
+    <ClInclude Include="IState.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelCube.h" />
     <ClInclude Include="LevelCubeActivator.h" />
@@ -242,6 +258,7 @@
     <ClInclude Include="LevelEnums.h" />
     <ClInclude Include="LevelObserver.h" />
     <ClInclude Include="Lives.h" />
+    <ClInclude Include="MoveDown.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MovementObserver.h" />
     <ClInclude Include="pch.h" />
@@ -252,6 +269,9 @@
     <ClInclude Include="QbertObserver.h" />
     <ClInclude Include="QbertScenes.h" />
     <ClInclude Include="Score.h" />
+    <ClInclude Include="ScoreDeleteThis.h" />
+    <ClInclude Include="SlickSam.h" />
+    <ClInclude Include="StateMachine.h" />
     <ClInclude Include="Walkable.h" />
   </ItemGroup>
   <ItemGroup>

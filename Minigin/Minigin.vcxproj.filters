@@ -132,6 +132,9 @@
     <ClInclude Include="..\3rdParty\Simple-SDL2-Audio\audio.h">
       <Filter>SimpleSDL2Audio</Filter>
     </ClInclude>
+    <ClInclude Include="MathHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\3rdParty\imgui-1.81\imgui.cpp">

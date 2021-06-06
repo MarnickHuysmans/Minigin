@@ -2,6 +2,8 @@
 #include <Component.h>
 #include <functional>
 #include <vector>
+
+#include "DiscObserver.h"
 #include "LevelCubeObserver.h"
 
 namespace qbert
@@ -11,12 +13,13 @@ namespace qbert
 	class Walkable;
 	class Disc;
 	class LevelObserver;
+	class Score;
 
 	//The actual level is 2 sizes bigger but the LevelIndex(int row, int col) will return the index for the cubes when using row: 0-6 and col: 0-(0,1,2,3,4,5,6) depending on the row.
-	class Level final : public dae::Component, public LevelCubeObserver
+	class Level final : public dae::Component, public LevelCubeObserver, public DiscObserver
 	{
 	public:
-		Level(int levelSize, int discAmount);
+		Level(int levelSize, int discAmount, std::weak_ptr<Score> score);
 		virtual ~Level() = default;
 
 		void Start() override;
@@ -35,8 +38,12 @@ namespace qbert
 
 		int GetLevelSize() const { return m_LevelSize; }
 
-		void Done() override;
-		void Undone() override;
+		void CubeDone() override;
+		void CubeActivated() override;
+		void CubeUndone() override;
+		void DiscDoneMoving() override;
+
+		void AddScore(unsigned int score);
 
 		void AddObserver(const std::weak_ptr<LevelObserver>& observer);
 		
@@ -54,11 +61,14 @@ namespace qbert
 		
 		std::vector<std::weak_ptr<Walkable>> m_Level;
 		std::vector<std::weak_ptr<LevelObserver>> m_LevelObservers;
+		std::weak_ptr<Score> m_Score;
 		const int m_LevelSize;
 		const int m_DiscAmount;
 		const int m_Win;
 		int m_WinCounter;
 		unsigned int m_LevelCounter;
 		const unsigned int m_MaxLevel;
+
+		static unsigned int m_CubeScore;
 	};
 }

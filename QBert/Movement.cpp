@@ -12,6 +12,7 @@ qbert::Movement::Movement(const std::weak_ptr<Walkable>& currentWalkable, const 
 	m_Side(side),
 	m_MoveTimer(0),
 	m_MoveTime(moveTime),
+	m_Moving(false),
 	m_CanMove(true),
 	m_Enemy(enemy)
 {
@@ -30,7 +31,7 @@ void qbert::Movement::Start()
 
 void qbert::Movement::Update()
 {
-	if (m_MoveTimer <= 0)
+	if (!m_Moving)
 	{
 		return;
 	}
@@ -54,6 +55,7 @@ void qbert::Movement::Move(Direction direction)
 		m_NextWalkable = std::weak_ptr<Walkable>();
 	}
 	m_MoveTimer = m_MoveTime;
+	m_Moving = true;
 }
 
 void qbert::Movement::CanMove(bool canMove)
@@ -61,12 +63,13 @@ void qbert::Movement::CanMove(bool canMove)
 	m_CanMove = canMove;
 	if (!m_CanMove)
 	{
-		m_MoveTimer = 0;
+		m_Moving = false;
 	}
 }
 
 void qbert::Movement::SetCurrentWalkable(const std::weak_ptr<Walkable>& walkable)
 {
+	m_Moving = false;
 	m_CurrentWalkable = walkable;
 	if (m_CurrentWalkable.expired() || !m_CurrentWalkable.lock()->ActiveInScene())
 	{
@@ -89,7 +92,7 @@ void qbert::Movement::Respawn()
 	}
 	MoveToCurrent();
 	m_CanMove = true;
-	m_MoveTimer = 0;
+	m_Moving = false;
 }
 
 void qbert::Movement::AddObserver(const std::weak_ptr<MovementObserver>& observer)
@@ -105,6 +108,16 @@ void qbert::Movement::MoveToCurrent()
 
 	auto& middle = current->GetMiddleOffset(m_Side);
 	m_Transform->SetLocalPosition(middle + m_PositionOffset);
+
+	m_MovementObservers.erase(std::remove_if(std::begin(m_MovementObservers), std::end(m_MovementObservers), [this](const std::weak_ptr<MovementObserver>& observer)
+		{
+			if (observer.expired())
+			{
+				return true;
+			}
+			observer.lock()->Moved(this);
+			return false;
+		}), std::end(m_MovementObservers));
 }
 
 void qbert::Movement::Fall()

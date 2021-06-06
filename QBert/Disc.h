@@ -1,8 +1,12 @@
 #pragma once
+#include <vector>
+
 #include "Walkable.h"
 
 namespace qbert
 {
+	class DiscObserver;
+
 	class Disc : public Walkable
 	{
 	public:
@@ -17,12 +21,18 @@ namespace qbert
 
 		void NextLevel() override;
 
+		void AddObserver(const std::weak_ptr<DiscObserver>& observer);
+
 	private:
-		void DoneMoving() const;
-		
+		void DoneMoving();
+
+		std::vector<std::weak_ptr<DiscObserver>> m_DiscObservers;
+
 		Movement* m_Movement;
-		
+
 		float m_MoveTimer;
 		float m_MoveTime;
+
+		static unsigned int m_DiscScore;
 	};
 }

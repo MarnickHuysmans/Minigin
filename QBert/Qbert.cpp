@@ -67,6 +67,10 @@ void qbert::Qbert::Fall()
 	Damage();
 }
 
+void qbert::Qbert::Moved(Movement* movement)
+{
+}
+
 void qbert::Qbert::AddObserver(const std::weak_ptr<QbertObserver>& observer)
 {
 	m_QbertObservers.push_back(observer);

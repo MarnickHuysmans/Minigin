@@ -22,6 +22,7 @@ namespace qbert
 		void Damage();
 
 		void Fall() override;
+		void Moved(Movement* movement) override;
 
 		void AddObserver(const std::weak_ptr<QbertObserver>& observer);
 

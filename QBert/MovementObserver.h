@@ -7,5 +7,6 @@ namespace qbert
 		MovementObserver() = default;
 		virtual ~MovementObserver() = default;
 		virtual void Fall() = 0;
+		virtual void Moved(Movement* movement) = 0;
 	};
 }

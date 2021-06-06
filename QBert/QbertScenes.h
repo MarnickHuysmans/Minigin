@@ -12,7 +12,7 @@
 #include "QbertFactory.h"
 #include "RenderComponent.h"
 #include "ResourceManager.h"
-#include "Score.h"
+#include "ScoreDeleteThis.h"
 #include "ServiceLocator.h"
 #include "TextComponent.h"
 #include "UIComponent.h"
@@ -75,7 +75,7 @@ namespace qbert
 			go = std::make_shared<dae::GameObject>();
 			textComponent = std::make_shared<dae::TextComponent>(font, "", dae::Color{ 255,0,255 });
 			go->AddComponent(textComponent);
-			auto score = std::make_shared<Score>();
+			auto score = std::make_shared<ScoreDeleteThis>();
 			go->AddComponent(score);
 			qBert->AddObserver(score.get());
 			go->GetTransform().SetWorldPosition(0, 200, 0);
@@ -102,7 +102,7 @@ namespace qbert
 			go = std::make_shared<dae::GameObject>();
 			textComponent = std::make_shared<dae::TextComponent>(font, "", dae::Color{ 0,255,255 });
 			go->AddComponent(textComponent);
-			score = std::make_shared<Score>();
+			score = std::make_shared<ScoreDeleteThis>();
 			go->AddComponent(score);
 			qBert->AddObserver(score.get());
 			go->GetTransform().SetWorldPosition(0, 300, 0);

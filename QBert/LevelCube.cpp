@@ -127,7 +127,11 @@ void qbert::LevelCube::StepOnStandard(bool forward)
 		++m_State;
 		if (m_State == m_MaxStates - 1)
 		{
-			NotifyObservers(&LevelCubeObserver::Done);
+			NotifyObservers(&LevelCubeObserver::CubeDone);
+		}
+		else
+		{
+			NotifyObservers(&LevelCubeObserver::CubeActivated);
 		}
 		SetCurrentTexture();
 		return;
@@ -138,7 +142,11 @@ void qbert::LevelCube::StepOnStandard(bool forward)
 	}
 	if (m_State == m_MaxStates - 1)
 	{
-		NotifyObservers(&LevelCubeObserver::Undone);
+		NotifyObservers(&LevelCubeObserver::CubeUndone);
+	}
+	else
+	{
+		NotifyObservers(&LevelCubeObserver::CubeActivated);
 	}
 	--m_State;
 	SetCurrentTexture();
@@ -146,9 +154,11 @@ void qbert::LevelCube::StepOnStandard(bool forward)
 
 void qbert::LevelCube::StepOnCycle(bool forward)
 {
+	bool undone = false;
 	if (m_State == m_MaxStates - 1)
 	{
-		NotifyObservers(&LevelCubeObserver::Undone);
+		NotifyObservers(&LevelCubeObserver::CubeUndone);
+		undone = true;
 	}
 	m_State += forward ? 1 : -1;
 	if (forward)
@@ -161,7 +171,11 @@ void qbert::LevelCube::StepOnCycle(bool forward)
 	}
 	if (m_State == m_MaxStates - 1)
 	{
-		NotifyObservers(&LevelCubeObserver::Done);
+		NotifyObservers(&LevelCubeObserver::CubeDone);
+	}
+	else if (!undone)
+	{
+		NotifyObservers(&LevelCubeObserver::CubeActivated);
 	}
 	SetCurrentTexture();
 }

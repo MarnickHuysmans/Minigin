@@ -6,7 +6,8 @@ namespace qbert
 	public:
 		LevelCubeObserver() = default;
 		virtual ~LevelCubeObserver() = default;
-		virtual void Done() = 0;
-		virtual void Undone() = 0;
+		virtual void CubeDone() = 0;
+		virtual void CubeActivated() = 0;
+		virtual void CubeUndone() = 0;
 	};
 }

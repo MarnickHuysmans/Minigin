@@ -21,8 +21,6 @@ namespace qbert
 
 		void Start() override;
 
-		void Enable(bool enable) { m_Enabled = enable; }
-
 		static void SetPlayer1(InputType input);
 		static void SetPlayer2(InputType input);
 		static InputType GetPlayer1();
@@ -37,7 +35,6 @@ namespace qbert
 		std::weak_ptr<Movement> m_Movement;
 		dae::Player m_Player;
 		InputType m_InputType;
-		bool m_Enabled;
 
 		static InputType m_Player1;
 		static InputType m_Player2;

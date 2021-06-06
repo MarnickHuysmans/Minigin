@@ -17,10 +17,11 @@ namespace qbert
 		virtual ~GameDone() = default;
 
 		void Start() override;
-		
+
+		void LevelDisc() override;
 		void NextLevel() override;
 		void GameComplete() override;
-		
+
 	private:
 		std::weak_ptr<dae::UIComponent> m_UiComponent;
 	};

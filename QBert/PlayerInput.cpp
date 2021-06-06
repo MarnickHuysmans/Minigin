@@ -6,8 +6,7 @@ qbert::InputType qbert::PlayerInput::m_Player1 = InputType::Keyboard;
 qbert::InputType qbert::PlayerInput::m_Player2 = InputType::Keyboard;
 
 qbert::PlayerInput::PlayerInput(dae::Player player) :
-	m_Player(player),
-	m_Enabled(true)
+	m_Player(player)
 {
 	switch (m_Player)
 	{
@@ -83,7 +82,7 @@ void qbert::PlayerInput::KeyboardInput(dae::InputManager& inputManager)
 {
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -92,7 +91,7 @@ void qbert::PlayerInput::KeyboardInput(dae::InputManager& inputManager)
 
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -101,7 +100,7 @@ void qbert::PlayerInput::KeyboardInput(dae::InputManager& inputManager)
 
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -110,7 +109,7 @@ void qbert::PlayerInput::KeyboardInput(dae::InputManager& inputManager)
 
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -122,7 +121,7 @@ void qbert::PlayerInput::ControllerInput(dae::InputManager& inputManager)
 {
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -131,7 +130,7 @@ void qbert::PlayerInput::ControllerInput(dae::InputManager& inputManager)
 
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -140,7 +139,7 @@ void qbert::PlayerInput::ControllerInput(dae::InputManager& inputManager)
 
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}
@@ -149,7 +148,7 @@ void qbert::PlayerInput::ControllerInput(dae::InputManager& inputManager)
 
 	inputManager.AddCommand([this]()
 		{
-			if (m_Movement.expired() || !m_Enabled)
+			if (m_Movement.expired() || ActiveInScene())
 			{
 				return;
 			}

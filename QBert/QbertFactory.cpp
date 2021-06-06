@@ -13,7 +13,7 @@ const std::weak_ptr<qbert::Qbert> qbert::QbertFactory::CreateQbert(const std::we
 {
 	auto qbertObject = std::make_shared<dae::GameObject>();
 
-	auto renderComponent = std::make_shared<dae::RenderComponent>("Sprites/Qbert.png");
+	auto renderComponent = std::make_shared<dae::RenderComponent>(player == dae::Player::Player1 ? "Sprites/Qbert.png" : "Sprites/Qbert2.png");
 	auto movementComponent = std::make_shared<Movement>(startCube, m_PositionOffset, Side::Top, 0.5f, false);
 	auto levelCubeActivator = std::make_shared<LevelCubeActivator>(true);
 	auto playerInput = std::make_shared<PlayerInput>(player);
