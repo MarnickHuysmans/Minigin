@@ -1,207 +1,198 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{014d8c5b-ae06-4a91-93cc-f87c0eb92e61}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="Characters\Player">
+      <UniqueIdentifier>{a2a939b9-ee85-43a9-96fe-e283e4d9a853}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Characters\Enemy">
+      <UniqueIdentifier>{49c5a1d0-d389-48da-a3b9-915bcb712241}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{f2c27ffa-e708-484a-8929-9e13c59f0916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StateMachine">
+      <UniqueIdentifier>{787fc4ed-344c-4a70-bde2-9da855b13427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{36306c3e-467e-4257-a969-7ae81f880e2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{8a0d2233-d1d3-45bf-a286-bea968932eb5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LivesDeleteThis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="QbertDeleteThis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScoreDeleteThis.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelCube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Walkable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Movement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelCubeActivator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Disc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerInput.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters\Player</Filter>
     </ClCompile>
     <ClCompile Include="Qbert.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOver.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters\Player</Filter>
     </ClCompile>
     <ClCompile Include="QbertFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GameDone.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MoveDown.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SlickSam.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyHit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Score.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Coily.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StateMachine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CoilyStates.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Lives.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters\Player</Filter>
     </ClCompile>
     <ClCompile Include="QbertScenes.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Coily.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="CoilyStates.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyFactory.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyHit.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveDown.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="SlickSam.cpp">
+      <Filter>Characters\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelCubeActivator.cpp">
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Disc.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelCube.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelFactory.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Walkable.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="StateMachine.cpp">
+      <Filter>StateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDone.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOver.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Lives.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LivesDeleteThis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertDeleteThis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScoreDeleteThis.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelCube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Walkable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelEnums.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Movement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelCubeActivator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MovementObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Disc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelCubeObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerInput.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters\Player</Filter>
     </ClInclude>
     <ClInclude Include="Qbert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="QbertScenes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOver.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters\Player</Filter>
     </ClInclude>
     <ClInclude Include="QbertFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters\Player</Filter>
     </ClInclude>
-    <ClInclude Include="LevelObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameDone.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveDown.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SlickSam.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyHit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DiscObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Score.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="QbertObserver.h">
+      <Filter>Characters\Player</Filter>
     </ClInclude>
     <ClInclude Include="Coily.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StateMachine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="CoilyStates.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyFactory.h">
+      <Filter>Characters\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyHit.h">
+      <Filter>Characters\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawner.h">
+      <Filter>Characters\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveDown.h">
+      <Filter>Characters\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="SlickSam.h">
+      <Filter>Characters\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementObserver.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelCubeActivator.h">
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Disc.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="DiscObserver.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelCube.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelCubeObserver.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelEnums.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelFactory.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelObserver.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Walkable.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="StateMachine.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="IState.h">
+      <Filter>StateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDone.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOver.h">
+      <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="Lives.h">
-      <Filter>Header Files</Filter>
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="QbertScenes.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

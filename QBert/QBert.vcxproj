@@ -220,7 +220,6 @@
     <ClCompile Include="LevelCubeActivator.cpp" />
     <ClCompile Include="LevelFactory.cpp" />
     <ClCompile Include="Lives.cpp" />
-    <ClCompile Include="LivesDeleteThis.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MoveDown.cpp" />
     <ClCompile Include="Movement.cpp" />
@@ -232,11 +231,9 @@
     </ClCompile>
     <ClCompile Include="PlayerInput.cpp" />
     <ClCompile Include="Qbert.cpp" />
-    <ClCompile Include="QbertDeleteThis.cpp" />
     <ClCompile Include="QbertFactory.cpp" />
     <ClCompile Include="QbertScenes.cpp" />
     <ClCompile Include="Score.cpp" />
-    <ClCompile Include="ScoreDeleteThis.cpp" />
     <ClCompile Include="SlickSam.cpp" />
     <ClCompile Include="StateMachine.cpp" />
     <ClCompile Include="Walkable.cpp" />
@@ -260,19 +257,16 @@
     <ClInclude Include="LevelEnums.h" />
     <ClInclude Include="LevelObserver.h" />
     <ClInclude Include="Lives.h" />
-    <ClInclude Include="LivesDeleteThis.h" />
     <ClInclude Include="MoveDown.h" />
     <ClInclude Include="Movement.h" />
     <ClInclude Include="MovementObserver.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerInput.h" />
     <ClInclude Include="Qbert.h" />
-    <ClInclude Include="QbertDeleteThis.h" />
     <ClInclude Include="QbertFactory.h" />
     <ClInclude Include="QbertObserver.h" />
     <ClInclude Include="QbertScenes.h" />
     <ClInclude Include="Score.h" />
-    <ClInclude Include="ScoreDeleteThis.h" />
     <ClInclude Include="SlickSam.h" />
     <ClInclude Include="StateMachine.h" />
     <ClInclude Include="Walkable.h" />
