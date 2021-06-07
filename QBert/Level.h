@@ -15,6 +15,13 @@ namespace qbert
 	class LevelObserver;
 	class Score;
 
+	struct LevelSettings
+	{
+		int levelSize = 7;
+		int discAmount = 2;
+		float scale = 2.0f;
+	};
+
 	//The actual level is 2 sizes bigger but the LevelIndex(int row, int col) will return the index for the cubes when using row: 0-6 and col: 0-(0,1,2,3,4,5,6) depending on the row.
 	class Level final : public dae::Component, public LevelCubeObserver, public DiscObserver
 	{

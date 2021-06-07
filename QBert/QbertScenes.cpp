@@ -1,6 +1,8 @@
 #include "QbertScenes.h"
 
 #include <algorithm>
+#include <fstream>
+
 
 #include "EnemySpawner.h"
 #include "GameObject.h"
@@ -157,8 +159,41 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 	go->GetTransform().SetWorldPosition({ 320, 10,0 });
 	scene.Add(go);
 
+	std::ifstream levelFile;
+	std::string line;
+	levelFile.open("../Data/Level.txt");
+	LevelSettings levelSettings;
+	if (levelFile.is_open())
+	{
+		int lines = 0;
+		while (!levelFile.eof() && lines < 3)
+		{
+			std::getline(levelFile, line);
+			try
+			{
+				switch (lines)
+			{
+			case 0:
+				levelSettings.levelSize = std::stoi(line);
+				break;
+			case 1:
+				levelSettings.discAmount = std::stoi(line);
+				break;
+			case 2:
+				levelSettings.scale = std::stof(line);
+				break;
+			}
+			}
+			catch (...)
+			{
+			}
+			++lines;
+		}
+		levelFile.close();
+	}
+
 	//Level
-	auto weakLevel = LevelFactory::CreateLevel(scene, 2, 2, 7, score);
+	auto weakLevel = LevelFactory::CreateLevel(scene, score, levelSettings);
 	if (weakLevel.expired())
 	{
 		return;

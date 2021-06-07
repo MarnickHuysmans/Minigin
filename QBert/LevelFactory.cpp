@@ -10,21 +10,21 @@
 
 int qbert::LevelFactory::m_CubeHeightOffset = 8;
 
-std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, int discAmount, float scale, int levelSize, const std::weak_ptr<Score>& score)
+std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, const std::weak_ptr<Score>& score, LevelSettings levelSettings)
 {
 	int windowWidth = 0;
 	int windowHeight = 0;
 	dae::Renderer::GetInstance().GetWindowSize(windowWidth, windowHeight);
 
-	auto level = std::make_shared<Level>(levelSize, discAmount, score);
+	auto level = std::make_shared<Level>(levelSettings.levelSize, levelSettings.discAmount, score);
 	auto levelObject = std::make_shared<dae::GameObject>();
 	levelObject->AddComponent(level);
 
 	int levelMiddleX = windowWidth / 2;
 	int levelMiddleY = windowHeight / 2;
-	
-	levelObject->GetTransform().SetWorldPosition(static_cast<float>(levelMiddleX),static_cast<float>(levelMiddleY),0);
-	levelObject->GetTransform().SetWorldScale(scale, scale);
+
+	levelObject->GetTransform().SetWorldPosition(static_cast<float>(levelMiddleX), static_cast<float>(levelMiddleY), 0);
+	levelObject->GetTransform().SetWorldScale(levelSettings.scale, levelSettings.scale);
 
 	//LevelCubes
 	auto cubeTexture1 = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Cube1.png");
@@ -36,10 +36,10 @@ std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, 
 	cubeTexture1->GetTextureSize(cubeWidth, cubeHeight);
 
 	int heightIncrement = cubeHeight - m_CubeHeightOffset;
-	int levelHeight = heightIncrement * levelSize + m_CubeHeightOffset;
+	int levelHeight = heightIncrement * levelSettings.levelSize + m_CubeHeightOffset;
 	int startHeight = -levelHeight / 2;
 
-	for (int row = 0; row < levelSize; ++row)
+	for (int row = 0; row < levelSettings.levelSize; ++row)
 	{
 		for (int col = 0; col <= row; ++col)
 		{
@@ -72,7 +72,7 @@ std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, 
 	int discHeight = 0;
 	discTexture->GetTextureSize(discWidth, discHeight);
 
-	for (int row = 0; row < levelSize - 1; ++row)
+	for (int row = 0; row < levelSettings.levelSize - 1; ++row)
 	{
 		CreateDisc(level, levelObject, cubeWidth, cubeHeight, heightIncrement, startHeight, discTexture, discWidth, discHeight, row, -1);
 		CreateDisc(level, levelObject, cubeWidth, cubeHeight, heightIncrement, startHeight, discTexture, discWidth, discHeight, row, row + 1);
