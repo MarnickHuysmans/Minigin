@@ -32,6 +32,8 @@ namespace dae
 		void AddRenderingComponents(const std::shared_ptr<GameObject>& object);
 		void SortRenderComponents();
 
+		void RemoveToDelete();
+
 		std::string m_Name{};
 		std::vector < std::shared_ptr<GameObject>> m_Objects{};
 		std::vector<std::weak_ptr<RenderComponent>> m_RenderComponents{};

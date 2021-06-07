@@ -1,4 +1,6 @@
 #include "EnemyFactory.h"
+
+#include "Coily.h"
 #include "Level.h"
 #include "EnemySpawner.h"
 #include "LevelCubeActivator.h"
@@ -9,6 +11,7 @@
 #include "MoveDown.h"
 #include "Movement.h"
 #include "PlayerInput.h"
+#include "ResourceManager.h"
 #include "SlickSam.h"
 
 glm::vec3 qbert::EnemyFactory::m_SlickOffset = { -8, -15, 1 };
@@ -76,24 +79,34 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateCoily(const std:
 
 	auto gameObject = std::make_shared<dae::GameObject>();
 
+	auto coilyTexture = dae::ResourceManager::GetInstance().LoadTexture("Sprites/Coily.png");
+
 	auto renderComponent = std::make_shared<dae::RenderComponent>("Sprites/CoilyEgg.png");
-	auto movementComponent = std::make_shared<Movement>(startCube, m_CoilyEggOffset, Side::Top, 0);
-	auto moveDown = std::make_shared<MoveDown>(Direction::Down , Direction::Right);
+	auto movementComponent = std::make_shared<Movement>(startCube, m_CoilyEggOffset, Side::Top);
+	auto moveDown = std::make_shared<MoveDown>(Direction::Down, Direction::Right);
 	auto enemyHit = std::make_shared<EnemyHit>(enemySpawner);
+	auto coily = std::make_shared<Coily>(enemySpawner, player, m_CoilyOffset, coilyTexture);
 	movementComponent->AddObserver(enemyHit);
+	movementComponent->AddObserver(coily);
 
 	gameObject->AddComponent(enemyHit);
 	gameObject->AddComponent(renderComponent);
 	gameObject->AddComponent(movementComponent);
 	gameObject->AddComponent(moveDown);
+	gameObject->AddComponent(coily);
 
 	if (player)
 	{
 		auto playerInput = std::make_shared<PlayerInput>(dae::Player::Player2);
 		gameObject->AddComponent(playerInput);
 	}
-	
-	startCube.lock()->GetGameObject()->AddChild(gameObject);
+
+	auto weakGameObject = startCube.lock()->GetGameObject();
+	if (weakGameObject.expired())
+	{
+		return std::weak_ptr<dae::GameObject>();
+	}
+	weakGameObject.lock()->AddChild(gameObject);
 	return gameObject;
 }
 
@@ -106,7 +119,7 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlickSam(const s
 	auto gameObject = std::make_shared<dae::GameObject>();
 
 	auto renderComponent = std::make_shared<dae::RenderComponent>(textureFile);
-	auto movementComponent = std::make_shared<Movement>(startCube, offset, Side::Top, 0);
+	auto movementComponent = std::make_shared<Movement>(startCube, offset, Side::Top, 0.0f);
 	auto levelCubeActivator = std::make_shared<LevelCubeActivator>(false);
 	auto moveDown = std::make_shared<MoveDown>(Direction::Right, Direction::Down);
 	auto slickSam = std::make_shared<SlickSam>(enemySpawner);
@@ -117,8 +130,13 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlickSam(const s
 	gameObject->AddComponent(movementComponent);
 	gameObject->AddComponent(levelCubeActivator);
 	gameObject->AddComponent(moveDown);
-	
-	startCube.lock()->GetGameObject()->AddChild(gameObject);
+
+	auto weakGameObject = startCube.lock()->GetGameObject();
+	if (weakGameObject.expired())
+	{
+		return std::weak_ptr<dae::GameObject>();
+	}
+	weakGameObject.lock()->AddChild(gameObject);
 	return gameObject;
 }
 
@@ -131,7 +149,7 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateUggWrongWay(cons
 	auto gameObject = std::make_shared<dae::GameObject>();
 
 	auto renderComponent = std::make_shared<dae::RenderComponent>(textureFile);
-	auto movementComponent = std::make_shared<Movement>(startCube, offset, side, 0);
+	auto movementComponent = std::make_shared<Movement>(startCube, offset, side, 0.0f);
 	auto moveDown = std::make_shared<MoveDown>(Direction::Up, side == Side::Right ? Direction::Left : Direction::Right);
 	auto enemyHit = std::make_shared<EnemyHit>(enenmySpawner, side);
 	movementComponent->AddObserver(enemyHit);
@@ -140,7 +158,12 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateUggWrongWay(cons
 	gameObject->AddComponent(renderComponent);
 	gameObject->AddComponent(movementComponent);
 	gameObject->AddComponent(moveDown);
-	
-	startCube.lock()->GetGameObject()->AddChild(gameObject);
+
+	auto weakGameObject = startCube.lock()->GetGameObject();
+	if (weakGameObject.expired())
+	{
+		return std::weak_ptr<dae::GameObject>();
+	}
+	weakGameObject.lock()->AddChild(gameObject);
 	return gameObject;
 }

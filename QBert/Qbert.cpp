@@ -3,22 +3,34 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "Movement.h"
+#include "ServiceLocator.h"
 
-qbert::Qbert::Qbert() :
-	m_Lives(3),
+qbert::Qbert::Qbert(int lives, float respawnTime) :
+	m_Lives(lives),
 	m_RespawnTimer(0),
-	m_RespawnTime(1)
+	m_RespawnTime(respawnTime),
+	m_NotifyLife(false)
 {
 }
 
 void qbert::Qbert::Start()
 {
-	m_Movement = m_GameObject->GetComponent<Movement>();
-	m_RenderComponent = m_GameObject->GetComponent<dae::RenderComponent>();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	auto gameObject = m_GameObject.lock();
+	m_Movement = gameObject->GetComponent<Movement>();
+	m_RenderComponent = gameObject->GetComponent<dae::RenderComponent>();
 }
 
 void qbert::Qbert::Update()
 {
+	if (m_NotifyLife)
+	{
+		NotifyObservers([this](QbertObserver* observer) {observer->QbertLives(m_Lives); });
+		m_NotifyLife = false;
+	}
 	if (m_Lives <= 0 || m_RespawnTimer <= 0)
 	{
 		return;
@@ -35,6 +47,7 @@ void qbert::Qbert::Update()
 	}
 	if (m_Movement.expired())
 	{
+		Damage();
 		return;
 	}
 	auto movement = m_Movement.lock();
@@ -49,7 +62,7 @@ void qbert::Qbert::Damage()
 		return;
 	}
 	--m_Lives;
-	NotifyObservers([this](QbertObserver* observer) {observer->QbertLives(m_Lives); });
+	m_NotifyLife = true;
 	m_RespawnTimer = m_RespawnTime;
 	if (!m_RenderComponent.expired())
 	{
@@ -64,16 +77,53 @@ void qbert::Qbert::Damage()
 
 void qbert::Qbert::Fall()
 {
+	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/QbertOverTheEdge.wav");
 	Damage();
 }
 
-void qbert::Qbert::Moved(Movement* movement)
+void qbert::Qbert::Moved(std::weak_ptr<Movement>)
 {
+	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/Hop.wav");
 }
 
 void qbert::Qbert::AddObserver(const std::weak_ptr<QbertObserver>& observer)
 {
 	m_QbertObservers.push_back(observer);
+}
+
+void qbert::Qbert::LevelDisc()
+{
+}
+
+void qbert::Qbert::NextLevel()
+{
+	if (m_Movement.expired())
+	{
+		return;
+	}
+	m_Movement.lock()->Respawn(true);
+}
+
+void qbert::Qbert::GameComplete()
+{
+	if (m_Movement.expired())
+	{
+		return;
+	}
+	m_Movement.lock()->CanMove(false);
+}
+
+void qbert::Qbert::QbertLives(int lives)
+{
+	if (lives != 0 || m_Movement.expired())
+	{
+		return;
+	}
+	m_Movement.lock()->CanMove(false);
+}
+
+void qbert::Qbert::QbertRespawn()
+{
 }
 
 void qbert::Qbert::NotifyObservers(std::function<void(QbertObserver*)> observerFunction)

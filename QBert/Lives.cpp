@@ -1,32 +1,37 @@
 #include "Lives.h"
-
 #include "GameObject.h"
-#include "QbertDeleteThis.h"
 #include "TextComponent.h"
+
+qbert::Lives::Lives(int lives) :
+	m_Lives(lives)
+{
+}
 
 void qbert::Lives::Start()
 {
-	auto textComponent = m_GameObject->GetComponent<dae::TextComponent>();
-	if (!textComponent.expired())
+	if (m_GameObject.expired())
 	{
-		m_TextComponent = textComponent.lock().get();
-		m_TextComponent->SetText(std::to_string(m_Qbert->GetLives()));
+		return;
 	}
+	m_TextComponent = m_GameObject.lock()->GetComponent<dae::TextComponent>();
+	SetText();
 }
 
-void qbert::Lives::Update()
+void qbert::Lives::QbertLives(int lives)
+{
+	m_Lives = lives;
+	SetText();
+}
+
+void qbert::Lives::QbertRespawn()
 {
 }
 
-void qbert::Lives::Notify(const std::string& message)
+void qbert::Lives::SetText()
 {
-	if (m_TextComponent && message == "PlayerDied")
+	if (m_TextComponent.expired())
 	{
-		m_TextComponent->SetText(std::to_string(m_Qbert->GetLives()));
+		return;
 	}
-}
-
-qbert::Lives::Lives(QbertDeleteThis* qbert)
-	:m_Qbert(qbert)
-{
+	m_TextComponent.lock()->SetText(std::to_string(m_Lives));
 }

@@ -12,7 +12,7 @@ namespace dae
 		virtual void Start() {}
 		virtual void Update() {}
 
-		std::shared_ptr<GameObject> GetGameObject() const;
+		std::weak_ptr<GameObject> GetGameObject() const;
 
 		bool IsActive() const { return m_Active; }
 		void SetActive(bool active) { m_Active = active; }
@@ -26,7 +26,7 @@ namespace dae
 		Component& operator=(Component&& other) noexcept = delete;
 	protected:
 		friend class GameObject;
-		GameObject* m_GameObject = nullptr;
+		std::weak_ptr<GameObject> m_GameObject;
 		bool m_Active = true;
 	};
 }

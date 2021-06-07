@@ -8,7 +8,8 @@ dae::Transform::Transform(GameObject* gameObject) :
 	m_LocalPosition(0, 0, 0),
 	m_WorldPosition(0, 0, 0),
 	m_LocalScale(1, 1),
-	m_WorldScale(1, 1)
+	m_WorldScale(1, 1),
+	m_Pivot(0, 0)
 {
 }
 

@@ -12,6 +12,7 @@ qbert::Movement::Movement(const std::weak_ptr<Walkable>& currentWalkable, const 
 	m_Side(side),
 	m_MoveTimer(0),
 	m_MoveTime(moveTime),
+	m_StartMoveTime(moveTime),
 	m_Moving(false),
 	m_CanMove(true),
 	m_Enemy(enemy)
@@ -20,7 +21,11 @@ qbert::Movement::Movement(const std::weak_ptr<Walkable>& currentWalkable, const 
 
 void qbert::Movement::Start()
 {
-	m_Transform = &GetGameObject()->GetTransform();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_Transform = &m_GameObject.lock()->GetTransform();
 	if (m_CurrentWalkable.expired())
 	{
 		Fall();
@@ -80,9 +85,9 @@ void qbert::Movement::SetCurrentWalkable(const std::weak_ptr<Walkable>& walkable
 	m_CurrentWalkable.lock()->StepOn(this);
 }
 
-void qbert::Movement::Respawn()
+void qbert::Movement::Respawn(bool toStart)
 {
-	if (m_CurrentWalkable.expired())
+	if (m_CurrentWalkable.expired() || toStart)
 	{
 		if (m_StartWalkable.expired())
 		{
@@ -92,6 +97,7 @@ void qbert::Movement::Respawn()
 	}
 	MoveToCurrent();
 	m_CanMove = true;
+	m_MoveTimer = 0;
 	m_Moving = false;
 }
 
@@ -104,7 +110,13 @@ void qbert::Movement::MoveToCurrent()
 {
 	auto current = m_CurrentWalkable.lock();
 
-	current->GetGameObject()->AddChild(GetGameObject());
+	auto weakGameObject = current->GetGameObject();
+	if (weakGameObject.expired() || m_GameObject.expired())
+	{
+		return;
+	}
+
+	weakGameObject.lock()->AddChild(m_GameObject.lock());
 
 	auto& middle = current->GetMiddleOffset(m_Side);
 	m_Transform->SetLocalPosition(middle + m_PositionOffset);
@@ -115,7 +127,7 @@ void qbert::Movement::MoveToCurrent()
 			{
 				return true;
 			}
-			observer.lock()->Moved(this);
+			observer.lock()->Moved(weak_from_this());
 			return false;
 		}), std::end(m_MovementObservers));
 }
@@ -123,11 +135,6 @@ void qbert::Movement::MoveToCurrent()
 void qbert::Movement::Fall()
 {
 	m_CurrentWalkable = std::weak_ptr<Walkable>();
-	if (m_MovementObservers.empty())
-	{
-		GetGameObject()->Destroy();
-		return;
-	}
 	for (auto& movementObserver : m_MovementObservers)
 	{
 		if (movementObserver.expired())

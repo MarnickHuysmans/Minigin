@@ -1,6 +1,7 @@
 #include <vld.h>
 #include "Minigin.h"
 #include "QbertScenes.h"
+#include "ServiceLocator.h"
 
 class QBertGame : public dae::Minigin
 {
@@ -12,9 +13,7 @@ public:
 void QBertGame::LoadGame() const
 {
 	dae::SceneManager::GetInstance().CreateScene("StartScene", qbert::StartScene());
-	dae::SceneManager::GetInstance().CreateScene("SingleScene", qbert::SingleScene());
-	dae::SceneManager::GetInstance().CreateScene("CoopScene", qbert::CoopScene());
-	dae::SceneManager::GetInstance().CreateScene("VersusScene", qbert::VersusScene());
+	dae::SceneManager::GetInstance().CreateScene("GameScene", qbert::GameScene());
 
 	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/GameStartMusic.wav");
 }

@@ -4,7 +4,7 @@
 #include "Movement.h"
 
 qbert::MoveDown::MoveDown(Direction direction1, Direction direction2, float moveTime) :
-	m_MoveTimer(0.1f),
+	m_MoveTimer(moveTime),
 	m_MoveTime(moveTime),
 	m_Direction1(direction1),
 	m_Direction2(direction2)
@@ -13,7 +13,11 @@ qbert::MoveDown::MoveDown(Direction direction1, Direction direction2, float move
 
 void qbert::MoveDown::Start()
 {
-	m_Movement = m_GameObject->GetComponent<Movement>();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_Movement = m_GameObject.lock()->GetComponent<Movement>();
 }
 
 void qbert::MoveDown::Update()

@@ -215,8 +215,16 @@ void qbert::Level::ActivateDiscs()
 			left = !left;
 			continue;
 		}
-		disc.lock()->GetGameObject()->SetActive(true);
+		auto weakGameObject = disc.lock()->GetGameObject();
+		if (weakGameObject.expired())
+		{
+			RemoveUsedDisc(left ? leftDiscs : rightDiscs, row);
+			left = !left;
+			continue;
+		}
 
+		weakGameObject.lock()->SetActive(true);
+		RemoveUsedDisc(left ? leftDiscs : rightDiscs, row);
 		left = !left;
 	}
 }

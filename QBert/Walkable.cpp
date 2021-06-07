@@ -51,3 +51,11 @@ int qbert::Walkable::GetLevelSize() const
 	}
 	return m_Level.lock()->GetLevelSize();
 }
+
+int qbert::Walkable::GetDistanceTo(const std::shared_ptr<Walkable>& other) const
+{
+	int otherRow = other->GetRow();
+	int otherCol = other->GetColumn();
+
+	return abs(m_Row - m_Column - (otherRow - otherCol)) + abs(m_Column - otherCol);
+}

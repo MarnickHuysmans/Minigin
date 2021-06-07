@@ -13,17 +13,21 @@ qbert::EnemyHit::EnemyHit(const std::weak_ptr<EnemySpawner>& enemySpawner, Side 
 
 void qbert::EnemyHit::Fall()
 {
-	m_GameObject->Destroy();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_GameObject.lock()->Destroy();
 }
 
-void qbert::EnemyHit::Moved(Movement* movement)
+void qbert::EnemyHit::Moved(std::weak_ptr<qbert::Movement> movement)
 {
-	if (m_EnemySpawner.expired())
+	if (!ActiveInScene() || m_EnemySpawner.expired() || movement.expired())
 	{
 		return;
 	}
 
-	m_CurrentLocation = movement->GetCurrentWalkable();
+	m_CurrentLocation = movement.lock()->GetCurrentWalkable();
 	if (m_CurrentLocation.expired())
 	{
 		return;
@@ -42,6 +46,11 @@ void qbert::EnemyHit::Moved(Movement* movement)
 
 void qbert::EnemyHit::PlayerMoved(const Movement* playerMovement)
 {
+	if (!ActiveInScene())
+	{
+		return;
+	}
+
 	if (m_CurrentLocation.expired())
 	{
 		return;
@@ -64,7 +73,12 @@ void qbert::EnemyHit::CheckPlayerMovement(const Movement* playerMovement)
 
 	if (HitCheck(playerWalkable.lock().get(), m_CurrentLocation.lock().get()))
 	{
-		auto qbert = playerMovement->GetGameObject()->GetComponent<Qbert>();
+		auto weakGameObject = playerMovement->GetGameObject();
+		if (weakGameObject.expired())
+		{
+			return;
+		}
+		auto qbert = weakGameObject.lock()->GetComponent<Qbert>();
 		if (qbert.expired())
 		{
 			return;

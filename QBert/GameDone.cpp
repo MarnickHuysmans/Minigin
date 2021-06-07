@@ -4,7 +4,11 @@
 
 void qbert::GameDone::Start()
 {
-	auto uiComponents = m_GameObject->GetUIComponents();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	auto uiComponents = m_GameObject.lock()->GetUIComponents();
 	if (uiComponents.empty())
 	{
 		return;

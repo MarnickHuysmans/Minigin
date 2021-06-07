@@ -38,6 +38,8 @@ namespace qbert
 
 		virtual void NextLevel() {}
 
+		int GetDistanceTo(const std::shared_ptr<Walkable>& other) const;
+
 	private:
 		glm::vec3 m_TopMiddle;
 		glm::vec3 m_RightMiddle;

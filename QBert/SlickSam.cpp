@@ -11,7 +11,11 @@ qbert::SlickSam::SlickSam(const std::weak_ptr<EnemySpawner>& enemySpawner) :
 
 void qbert::SlickSam::OnPlayerHit(Qbert*)
 {
-	m_GameObject->Destroy();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_GameObject.lock()->Destroy();
 	if (m_EnemySpawner.expired())
 	{
 		return;

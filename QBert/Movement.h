@@ -16,10 +16,10 @@ namespace qbert
 	class Walkable;
 	class MovementObserver;
 
-	class Movement : public dae::Component
+	class Movement : public dae::Component, public std::enable_shared_from_this<Movement>
 	{
 	public:
-		Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime = 0.5f, bool enemy = true);
+		Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime = 0.75f, bool enemy = true);
 		virtual ~Movement() = default;
 
 		void Start() override;
@@ -30,12 +30,13 @@ namespace qbert
 		void CanMove(bool canMove);
 		std::weak_ptr<Walkable> GetCurrentWalkable() const { return m_CurrentWalkable; }
 		void SetCurrentWalkable(const std::weak_ptr<Walkable>& walkable);
-		void Respawn();
+		void Respawn(bool toStart = false);
 
 		void AddObserver(const std::weak_ptr<MovementObserver>& observer);
 
 		void SetPositionOffset(const glm::vec3& offset) { m_PositionOffset = offset; }
-		void SetMoveTime(float moveTime = 0.5f) { m_MoveTime = moveTime; }
+		void SetMoveTime(float moveTime) { m_MoveTime = moveTime; }
+		void ResetMoveTime() { m_MoveTime = m_StartMoveTime; }
 
 	private:
 		void MoveToCurrent();
@@ -55,6 +56,7 @@ namespace qbert
 
 		float m_MoveTimer;
 		float m_MoveTime;
+		float m_StartMoveTime;
 		bool m_Moving;
 
 		bool m_CanMove;

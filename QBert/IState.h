@@ -5,7 +5,8 @@ namespace qbert
 	class IState
 	{
 	public:
-		virtual ~IState() = 0;
+		IState() = default;
+		virtual ~IState() = default;
 
 		virtual void Initialize() = 0;
 		virtual void Enter() = 0;

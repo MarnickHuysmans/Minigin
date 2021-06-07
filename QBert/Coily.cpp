@@ -1,6 +1,11 @@
 #include "Coily.h"
+#include "EnemySpawner.h"
+#include "GameObject.h"
+#include "ServiceLocator.h"
 
-qbert::Coily::Coily(const std::weak_ptr<EnemySpawner>& enemySpawner, bool player, float moveTime) :
+qbert::Coily::Coily(const std::weak_ptr<EnemySpawner>& enemySpawner, bool player, const glm::vec3& offset, const std::shared_ptr<dae::Texture2D>& texture, float moveTime) :
+	m_Offset(offset),
+	m_Texture(texture),
 	m_EnemySpawner(enemySpawner),
 	m_MoveTime(moveTime),
 	m_IsPlayer(player)
@@ -46,4 +51,33 @@ float qbert::Coily::GetMoveTime() const
 bool qbert::Coily::IsPlayer() const
 {
 	return m_IsPlayer;
+}
+
+const glm::vec3& qbert::Coily::GetOffset() const
+{
+	return m_Offset;
+}
+
+const std::shared_ptr<dae::Texture2D>& qbert::Coily::GetTexture() const
+{
+	return m_Texture;
+}
+
+void qbert::Coily::Fall()
+{
+	if (m_EnemySpawner.expired())
+	{
+		return;
+	}
+	m_EnemySpawner.lock()->CoilyFall();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_GameObject.lock()->Destroy();
+	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/CoilyOverTheEdge.wav");
+}
+
+void qbert::Coily::Moved(std::weak_ptr<Movement>)
+{
 }

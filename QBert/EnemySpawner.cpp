@@ -6,6 +6,9 @@
 #include "GameObject.h"
 #include "GameTime.h"
 #include "MathHelper.h"
+#include "Movement.h"
+
+unsigned int qbert::EnemySpawner::m_CoilyScore = 500;
 
 qbert::EnemySpawner::EnemySpawner(const std::weak_ptr<Level>& level, const std::vector<std::weak_ptr<Movement>>& playerMovements, bool coilyPlayer, float slickSamMinTime, float slickSamMaxTime, float uggWrongWayMinTime, float uggWrongWayMaxTime, float coilyMinTime, float coilyMaxTime) :
 	m_PlayerMovements(playerMovements),
@@ -22,12 +25,27 @@ qbert::EnemySpawner::EnemySpawner(const std::weak_ptr<Level>& level, const std::
 	m_QbertSpawnDelay(),
 	m_EraseTimer(30),
 	m_EraseTime(m_EraseTimer),
-	m_CoilyPlayer(coilyPlayer)
+	m_CoilyPlayer(coilyPlayer),
+	m_DestroyEnemies(false),
+	m_DestroyCoily(false),
+	m_Spawning(true)
 {
 }
 
 void qbert::EnemySpawner::Update()
 {
+	if (m_DestroyEnemies)
+	{
+		DestroyEnemies();
+	}
+	if (m_DestroyCoily)
+	{
+		DestroyCoily();
+	}
+	if (!m_Spawning)
+	{
+		return;
+	}
 	float elapsed = dae::GameTime::GetInstance().GetDeltaTime();
 	SpawnSlickSam(elapsed);
 	SpawnUggWrongWay(elapsed);
@@ -51,15 +69,15 @@ void qbert::EnemySpawner::AddScore(unsigned score)
 
 void qbert::EnemySpawner::LevelDisc()
 {
-	DestroyEnemies();
+	m_DestroyEnemies = true;
 	m_SlickSamTimer = m_SlickSamTimeMax;
 	m_UggWrongWayTimer = randF(m_UggWrongWayTimeMin, m_UggWrongWayTimeMax);
 }
 
 void qbert::EnemySpawner::NextLevel()
 {
-	DestroyEnemies();
-	DestroyCoily();
+	m_DestroyEnemies = true;
+	m_DestroyCoily = true;
 	m_SlickSamTimer = m_SlickSamTimeMax;
 	m_UggWrongWayTimer = m_UggWrongWayTimeMax;
 	m_CoilyTimer = m_CoilyTimeMax;
@@ -67,26 +85,65 @@ void qbert::EnemySpawner::NextLevel()
 
 void qbert::EnemySpawner::GameComplete()
 {
-	DestroyEnemies();
-	DestroyCoily();
+	m_DestroyEnemies = true;
+	m_DestroyCoily = true;
+	SetActive(false);
 }
 
-void qbert::EnemySpawner::QbertLives(int lives)
+void qbert::EnemySpawner::QbertLives(int)
 {
-	m_UggWrongWayTimer = m_UggWrongWayTimeMax;
+	m_DestroyEnemies = true;
+	m_DestroyCoily = true;
+	float spawnTime = randF(m_UggWrongWayTimeMin, m_UggWrongWayTimeMax);
+	if (m_UggWrongWayTimer < spawnTime)
+	{
+		m_UggWrongWayTimer = spawnTime;
+	}
+	spawnTime = randF(m_SlickSamTimeMin, m_SlickSamTimeMax);
+	if (m_SlickSamTimer < spawnTime)
+	{
+		m_SlickSamTimer = spawnTime;
+	}
+	m_CoilyTimer = randF(m_CoilyTimeMin, m_CoilyTimeMax);
+	m_Spawning = false;
 }
 
 void qbert::EnemySpawner::QbertRespawn()
 {
+	m_Spawning = true;
 }
 
 void qbert::EnemySpawner::Fall()
 {
 }
 
-void qbert::EnemySpawner::Moved(Movement* movement)
+void qbert::EnemySpawner::Moved(std::weak_ptr<Movement> movement)
 {
-	m_Enemies.erase(std::remove_if(std::begin(m_Enemies), std::end(m_Enemies), [&movement](const std::weak_ptr<dae::GameObject>& enemy)
+	if (movement.expired())
+	{
+		return;
+	}
+	Movement* movementPtr = movement.lock().get();
+	for (auto& coily : m_Coily)
+	{
+		if (coily.expired())
+		{
+			continue;
+		}
+		auto enemyHit = coily.lock()->GetComponent<EnemyHit>();
+		if (enemyHit.expired())
+		{
+			continue;
+		}
+		enemyHit.lock()->PlayerMoved(movementPtr);
+	}
+
+	m_EraseTimer = m_EraseTime;
+	if (m_Enemies.empty())
+	{
+		return;
+	}
+	m_Enemies.erase(std::remove_if(std::begin(m_Enemies), std::end(m_Enemies), [&movementPtr](const std::weak_ptr<dae::GameObject>& enemy)
 		{
 			if (enemy.expired())
 			{
@@ -97,26 +154,15 @@ void qbert::EnemySpawner::Moved(Movement* movement)
 			{
 				return false;
 			}
-			enemyHit.lock()->PlayerMoved(movement);
+			enemyHit.lock()->PlayerMoved(movementPtr);
 			return false;
 		}), std::end(m_Enemies));
-	m_EraseTimer = m_EraseTime;
-
-	if (m_Coily.expired())
-	{
-		return;
-	}
-	auto enemyHit = m_Coily.lock()->GetComponent<EnemyHit>();
-	if (enemyHit.expired())
-	{
-		return;
-	}
-	enemyHit.lock()->PlayerMoved(movement);
 }
 
 void qbert::EnemySpawner::CoilyFall()
 {
 	m_CoilyTimer = randF(m_CoilyTimeMin, m_CoilyTimeMax);
+	AddScore(m_CoilyScore);
 }
 
 void qbert::EnemySpawner::SpawnSlickSam(float elapsed)
@@ -130,11 +176,11 @@ void qbert::EnemySpawner::SpawnSlickSam(float elapsed)
 	bool slick = rand() % 2;
 	if (slick)
 	{
-		m_Enemies.push_back(EnemyFactory::CreateSlick(this->shared_from_this()));
+		m_Enemies.push_back(EnemyFactory::CreateSlick(shared_from_this()));
 	}
 	else
 	{
-		m_Enemies.push_back(EnemyFactory::CreateSam(this->shared_from_this()));
+		m_Enemies.push_back(EnemyFactory::CreateSam(shared_from_this()));
 	}
 }
 
@@ -149,11 +195,11 @@ void qbert::EnemySpawner::SpawnUggWrongWay(float elapsed)
 	bool ugg = rand() % 2;
 	if (ugg)
 	{
-		m_Enemies.push_back(EnemyFactory::CreateUgg(this->shared_from_this()));
+		m_Enemies.push_back(EnemyFactory::CreateUgg(shared_from_this()));
 	}
 	else
 	{
-		m_Enemies.push_back(EnemyFactory::CreateWrongWay(this->shared_from_this()));
+		m_Enemies.push_back(EnemyFactory::CreateWrongWay(shared_from_this()));
 	}
 }
 
@@ -168,7 +214,8 @@ void qbert::EnemySpawner::SpawnCoily(float elapsed)
 	{
 		return;
 	}
-	m_Coily = EnemyFactory::CreateCoily(this->shared_from_this(), m_CoilyPlayer);
+	DestroyCoily();
+	m_Coily.push_back(EnemyFactory::CreateCoily(shared_from_this(), m_CoilyPlayer));
 }
 
 void qbert::EnemySpawner::EraseEnemies(float elapsed)
@@ -179,14 +226,23 @@ void qbert::EnemySpawner::EraseEnemies(float elapsed)
 		return;
 	}
 	m_EraseTimer = m_EraseTime;
-	m_Enemies.erase(std::remove_if(std::begin(m_Enemies), std::end(m_Enemies), [](const std::weak_ptr<dae::GameObject>& enemy)
+	if (m_Enemies.empty())
 	{
-		return enemy.expired();
-	}), std::end(m_Enemies));
+		return;
+	}
+	m_Enemies.erase(std::remove_if(std::begin(m_Enemies), std::end(m_Enemies), [](const std::weak_ptr<dae::GameObject>& enemy)
+		{
+			return enemy.expired();
+		}), std::end(m_Enemies));
 }
 
 void qbert::EnemySpawner::DestroyEnemies()
 {
+	m_DestroyEnemies = false;
+	if (m_Enemies.empty())
+	{
+		return;
+	}
 	for (auto& enemy : m_Enemies)
 	{
 		if (enemy.expired())
@@ -200,9 +256,18 @@ void qbert::EnemySpawner::DestroyEnemies()
 
 void qbert::EnemySpawner::DestroyCoily()
 {
-	if (m_Coily.expired())
+	m_DestroyCoily = false;
+	if (m_Coily.empty())
 	{
 		return;
 	}
-	m_Coily.lock()->Destroy();
+	for (auto& coily : m_Coily)
+	{
+		if (coily.expired())
+		{
+			continue;
+		}
+		coily.lock()->Destroy();
+	}
+	m_Coily.clear();
 }

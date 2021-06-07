@@ -18,7 +18,7 @@ namespace qbert
 		virtual ~EnemyHit() = default;
 
 		void Fall() override final;
-		void Moved(Movement* movement) override final;
+		void Moved(std::weak_ptr<Movement> movement) override final;
 
 		void PlayerMoved(const Movement* playerMovement);
 

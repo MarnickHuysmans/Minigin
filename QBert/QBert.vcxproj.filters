@@ -21,7 +21,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Lives.cpp">
+    <ClCompile Include="LivesDeleteThis.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="QbertDeleteThis.cpp">
@@ -93,12 +93,18 @@
     <ClCompile Include="CoilyStates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Lives.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="QbertScenes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Lives.h">
+    <ClInclude Include="LivesDeleteThis.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="QbertDeleteThis.h">
@@ -192,6 +198,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CoilyStates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lives.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

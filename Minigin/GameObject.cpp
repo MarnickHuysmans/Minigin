@@ -29,10 +29,18 @@ void dae::GameObject::Update()
 	}
 	for (auto& component : m_Components)
 	{
+		if (component.get() == nullptr)
+		{
+			continue;
+		}
 		component->RootUpdate();
 	}
 	for (auto& child : m_Children)
 	{
+		if (child.get() == nullptr)
+		{
+			continue;
+		}
 		child->Update();
 	}
 }
@@ -49,12 +57,12 @@ const dae::Transform& dae::GameObject::GetTransform() const
 
 void dae::GameObject::AddComponent(const std::shared_ptr<Component>& component)
 {
-	if (component->m_GameObject != nullptr)
+	if (!component->m_GameObject.expired())
 	{
 		return;
 	}
 	m_Components.push_back(component);
-	component->m_GameObject = this;
+	component->m_GameObject = weak_from_this();
 	if (m_Started)
 	{
 		component->Start();
@@ -73,7 +81,7 @@ void dae::GameObject::RemoveComponent(const std::weak_ptr<Component>& component)
 		return;
 	}
 	auto localComponent = component.lock();
-	localComponent->m_GameObject = nullptr;
+	localComponent->m_GameObject = std::weak_ptr<GameObject>();
 	m_Components.erase(std::remove(std::begin(m_Components), std::end(m_Components), localComponent), std::end(m_Components));
 }
 
@@ -131,13 +139,14 @@ void dae::GameObject::Destroy()
 	{
 		return;
 	}
+	m_Destroying = true;
+	m_Active = false;
 	auto* scene = GetScene();
 	if (scene == nullptr)
 	{
 		return;
 	}
-	scene->m_ObjectsToDelete.push_back(this->weak_from_this());
-	m_Destroying = true;
+	scene->m_ObjectsToDelete.push_back(weak_from_this());
 }
 
 const std::vector<std::shared_ptr<dae::GameObject>>& dae::GameObject::GetChildren() const

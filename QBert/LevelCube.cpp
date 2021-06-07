@@ -26,7 +26,11 @@ void qbert::LevelCube::SetTexture(std::shared_ptr<dae::Texture2D>& texture, size
 
 void qbert::LevelCube::Start()
 {
-	m_RenderComponent = m_GameObject->GetComponent<dae::RenderComponent>();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_RenderComponent = m_GameObject.lock()->GetComponent<dae::RenderComponent>();
 	SetCurrentTexture();
 }
 
@@ -35,14 +39,19 @@ qbert::Walkable::WalkableType qbert::LevelCube::GetWalkableType()
 	return WalkableType::LevelCube;
 }
 
-void qbert::LevelCube::StepOn(qbert::Movement* movement)
+void qbert::LevelCube::StepOn(Movement* movement)
 {
 	if (movement == nullptr)
 	{
 		return;
 	}
 
-	auto activator = movement->GetGameObject()->GetComponent<LevelCubeActivator>();
+	auto weakGameObject =movement->GetGameObject();
+	if (weakGameObject.expired())
+	{
+		return;
+	}
+	auto activator = weakGameObject.lock()->GetComponent<LevelCubeActivator>();
 	if (activator.expired())
 	{
 		return;

@@ -12,7 +12,7 @@ namespace dae
 	public:
 		virtual void Render() const;
 		void SetTexture(const std::string& filename);
-		void SetTexture(std::shared_ptr<Texture2D>& texture);
+		void SetTexture(const std::shared_ptr<Texture2D>& texture);
 
 		explicit RenderComponent(const std::string& filename = "");
 		virtual ~RenderComponent() = default;

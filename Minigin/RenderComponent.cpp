@@ -6,16 +6,19 @@
 
 void dae::RenderComponent::Render() const
 {
-	if (!ActiveInScene())
+	if (!ActiveInScene() || m_Texture == nullptr)
 	{
 		return;
 	}
-	if (m_Texture != nullptr)
+	if (m_GameObject.expired())
 	{
-		const auto& pos = m_GameObject->GetTransform().GetWorldPosition();
-		const auto& scale = m_GameObject->GetTransform().GetWorldScale();
-		Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y, scale.x, scale.y);
+		return;
 	}
+	auto gameObject = m_GameObject.lock();
+	const auto& pos = gameObject->GetTransform().GetWorldPosition();
+	const auto& scale = gameObject->GetTransform().GetWorldScale();
+	const auto& pivot = gameObject->GetTransform().GetPivot();
+	Renderer::GetInstance().RenderTexture(*m_Texture, pos.x, pos.y, scale.x, scale.y, pivot.x, pivot.y);
 }
 
 void dae::RenderComponent::SetTexture(const std::string& filename)
@@ -26,7 +29,7 @@ void dae::RenderComponent::SetTexture(const std::string& filename)
 	}
 }
 
-void dae::RenderComponent::SetTexture(std::shared_ptr<Texture2D>& texture)
+void dae::RenderComponent::SetTexture(const std::shared_ptr<Texture2D>& texture)
 {
 	m_Texture = texture;
 }

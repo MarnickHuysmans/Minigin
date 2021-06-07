@@ -10,7 +10,7 @@ namespace qbert
 	class Disc : public Walkable
 	{
 	public:
-		Disc(const std::weak_ptr<Level>& level, int row, int col, const glm::vec3& topMiddle, float moveTime = 1);
+		Disc(const std::weak_ptr<Level>& level, int row, int col, const glm::vec3& topMiddle, float moveTime = 6.0f);
 		virtual ~Disc() = default;
 
 		void Update() override;

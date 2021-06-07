@@ -28,6 +28,9 @@ namespace dae
 		void SetLocalScale(float x, float y);
 		void SetLocalScale(const glm::vec2& scale);
 
+		const glm::vec2& GetPivot() const { return m_Pivot; }
+		void SetPivot(const glm::vec2& pivot) { m_Pivot = pivot; }
+
 	private:
 		void UpdatePosition();
 		void UpdateChildrenPosition();
@@ -52,6 +55,8 @@ namespace dae
 
 		glm::vec2 m_LocalScale;
 		glm::vec2 m_WorldScale;
+
+		glm::vec2 m_Pivot;
 
 		friend class GameObject;
 		friend class Scene;

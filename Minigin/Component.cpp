@@ -11,18 +11,18 @@ void dae::Component::RootUpdate()
 	Update();
 }
 
-std::shared_ptr<dae::GameObject> dae::Component::GetGameObject() const
+std::weak_ptr<dae::GameObject> dae::Component::GetGameObject() const
 {
-	return m_GameObject->shared_from_this();
+	return m_GameObject;
 }
 
 bool dae::Component::ActiveInScene() const
 {
-	if (!m_Active || m_GameObject == nullptr)
+	if (!m_Active || m_GameObject.expired())
 	{
 		return false;
 	}
-	return m_GameObject->ActiveInScene();
+	return m_GameObject.lock()->ActiveInScene();
 }
 
 dae::Component::~Component()

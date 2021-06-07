@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "Level.h"
 #include "DiscObserver.h"
+#include "ServiceLocator.h"
 
 unsigned int qbert::Disc::m_DiscScore = 50;
 
@@ -42,12 +43,17 @@ void qbert::Disc::StepOn(Movement* movement)
 	m_Movement = movement;
 	m_Movement->CanMove(false);
 	m_MoveTimer = m_MoveTime;
+	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/RideTheDisk.wav");
 }
 
 void qbert::Disc::NextLevel()
 {
 	m_MoveTimer = 0;
-	m_GameObject->SetActive(false);
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_GameObject.lock()->SetActive(false);
 	if (m_Level.expired())
 	{
 		return;
@@ -72,7 +78,11 @@ void qbert::Disc::DoneMoving()
 			return false;
 		}), std::end(m_DiscObservers));
 
-	m_GameObject->SetActive(false);
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	m_GameObject.lock()->SetActive(false);
 	if (m_Movement == nullptr || m_Level.expired())
 	{
 		return;

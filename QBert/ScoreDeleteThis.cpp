@@ -5,7 +5,11 @@
 
 void qbert::ScoreDeleteThis::Start()
 {
-	auto textComponent = m_GameObject->GetComponent<dae::TextComponent>();
+	if (m_GameObject.expired())
+	{
+		return;
+	}
+	auto textComponent = m_GameObject.lock()->GetComponent<dae::TextComponent>();
 	if (!textComponent.expired())
 	{
 		m_TextComponent = textComponent.lock().get();

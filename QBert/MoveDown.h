@@ -10,7 +10,7 @@ namespace qbert
 	class MoveDown : public dae::Component
 	{
 	public:
-		MoveDown(Direction direction1, Direction direction2, float moveTime = 0.6f);
+		MoveDown(Direction direction1, Direction direction2, float moveTime = 2.0f);
 		virtual ~MoveDown() = default;
 
 		void Start() override;

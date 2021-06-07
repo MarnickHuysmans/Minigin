@@ -60,27 +60,13 @@ void Scene::Start()
 
 void Scene::Update()
 {
-	for (auto& object : m_ObjectsToDelete)
-	{
-		if (object.expired())
-		{
-			continue;
-		}
-		auto gameObject = object.lock();
-		if (gameObject->m_Scene != nullptr)
-		{
-			Remove(object);
-			continue;
-		}
-		auto parent = gameObject->m_Parent;
-		if (parent != nullptr)
-		{
-			parent->RemoveChild(object);
-		}
-	}
-	m_ObjectsToDelete.clear();
+	RemoveToDelete();
 	for (auto& object : m_Objects)
 	{
+		if (object.get() == nullptr)
+		{
+			return;
+		}
 		object->Update();
 	}
 }
@@ -175,7 +161,44 @@ void Scene::SortRenderComponents()
 			{
 				return true;
 			}
-			return renderComponent1.lock()->GetGameObject()->GetTransform().GetWorldPosition().z < renderComponent2.lock()->GetGameObject()->GetTransform().GetWorldPosition().z;
+			auto gameObject1 = renderComponent1.lock()->GetGameObject();
+			if (gameObject1.expired())
+			{
+				return false;
+			}
+			auto gameObject2 = renderComponent2.lock()->GetGameObject();
+			if (gameObject2.expired())
+			{
+				return true;
+			}
+			return gameObject1.lock()->GetTransform().GetWorldPosition().z < gameObject2.lock()->GetTransform().GetWorldPosition().z;
 		});
 	m_Sort = false;
+}
+
+void Scene::RemoveToDelete()
+{
+	if (m_ObjectsToDelete.empty())
+	{
+		return;
+	}
+	for (auto& object : m_ObjectsToDelete)
+	{
+		if (object.expired())
+		{
+			continue;
+		}
+		auto gameObject = object.lock();
+		if (gameObject->m_Scene != nullptr)
+		{
+			Remove(object);
+			continue;
+		}
+		auto parent = gameObject->m_Parent;
+		if (parent != nullptr)
+		{
+			parent->RemoveChild(object);
+		}
+	}
+	m_ObjectsToDelete.clear();
 }

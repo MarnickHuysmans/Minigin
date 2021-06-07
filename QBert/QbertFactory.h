@@ -9,6 +9,7 @@
 namespace dae {
 	enum class Player;
 	class Scene;
+	class Font;
 }
 
 namespace qbert
@@ -17,7 +18,7 @@ namespace qbert
 	class QbertFactory
 	{
 	public:
-		static const std::weak_ptr<Qbert> CreateQbert(const std::weak_ptr<Walkable>& startCube, dae::Player player);
+		static const std::weak_ptr<Qbert> CreateQbert(dae::Scene& scene, const std::weak_ptr<Walkable>& startCube, dae::Player player, const std::shared_ptr<dae::Font>& font);
 
 	private:
 		static glm::vec3 m_PositionOffset;
