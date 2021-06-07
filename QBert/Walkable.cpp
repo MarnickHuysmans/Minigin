@@ -4,7 +4,8 @@
 #include "Level.h"
 #include "LevelEnums.h"
 
-qbert::Walkable::Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec3& topMiddle, const glm::vec3& rightMiddle, const glm::vec3& leftMiddle) :
+qbert::Walkable::Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec3& topMiddle,
+                          const glm::vec3& rightMiddle, const glm::vec3& leftMiddle) :
 	m_TopMiddle(topMiddle),
 	m_RightMiddle(rightMiddle),
 	m_LeftMiddle(leftMiddle),

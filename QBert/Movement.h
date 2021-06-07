@@ -7,7 +7,8 @@
 #include <vector>
 #include "LevelEnums.h"
 
-namespace dae {
+namespace dae
+{
 	class Transform;
 }
 
@@ -19,7 +20,8 @@ namespace qbert
 	class Movement : public dae::Component, public std::enable_shared_from_this<Movement>
 	{
 	public:
-		Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime = 0.75f, bool enemy = true);
+		Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side,
+		         float moveTime = 0.75f, bool enemy = true);
 		virtual ~Movement() = default;
 
 		void Start() override;

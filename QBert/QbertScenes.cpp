@@ -47,7 +47,7 @@ void qbert::StartScene::operator()(dae::Scene& scene) const
 
 	//FPS
 	go = std::make_shared<dae::GameObject>();
-	textComponent = std::make_shared<dae::TextComponent>(font, "", dae::Color{ 255, 255, 0 });
+	textComponent = std::make_shared<dae::TextComponent>(font, "", dae::Color{255, 255, 0});
 	go->AddComponent(textComponent);
 	auto fps = std::make_shared<dae::FPS>();
 	go->AddComponent(fps);
@@ -58,65 +58,65 @@ void qbert::StartScene::operator()(dae::Scene& scene) const
 	ImGuiWindowFlags flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize |
 		ImGuiWindowFlags_NoSavedSettings;
 	auto uiComponent = std::make_shared<dae::UIComponent>([]()
+	{
+		if (ImGui::Button("Single Player"))
 		{
-			if (ImGui::Button("Single Player"))
-			{
-				GameScene::SetGameType(GameScene::GameType::Single);
-				dae::SceneManager::GetInstance().SwitchScene("GameScene");
-			}
-			if (ImGui::Button("Co-op"))
-			{
-				GameScene::SetGameType(GameScene::GameType::Coop);
-				dae::SceneManager::GetInstance().SwitchScene("GameScene");
-			}
-			if (ImGui::Button("Versus"))
-			{
-				GameScene::SetGameType(GameScene::GameType::Versus);
-				dae::SceneManager::GetInstance().SwitchScene("GameScene");
-			}
-		}, "Menu", nullptr, flags);
-	uiComponent->SetPosition({ 10, 75 });
+			GameScene::SetGameType(GameScene::GameType::Single);
+			dae::SceneManager::GetInstance().SwitchScene("GameScene");
+		}
+		if (ImGui::Button("Co-op"))
+		{
+			GameScene::SetGameType(GameScene::GameType::Coop);
+			dae::SceneManager::GetInstance().SwitchScene("GameScene");
+		}
+		if (ImGui::Button("Versus"))
+		{
+			GameScene::SetGameType(GameScene::GameType::Versus);
+			dae::SceneManager::GetInstance().SwitchScene("GameScene");
+		}
+	}, "Menu", nullptr, flags);
+	uiComponent->SetPosition({10, 75});
 	go->AddComponent(uiComponent);
 
 	uiComponent = std::make_shared<dae::UIComponent>([]()
-		{
-			ImGui::Text("Keyboard: WASD & arrow keys");
-			ImGui::Text("Controller: DPAD");
-			ImGui::Text("Controller 1 and WASD will be used before arrow keys and controller 2");
-		}, "Controls", nullptr, flags);
-	uiComponent->SetPivot({ .5f, 1 });
-	uiComponent->SetPosition({ 320, 470 });
+	{
+		ImGui::Text("Keyboard: WASD & arrow keys");
+		ImGui::Text("Controller: DPAD");
+		ImGui::Text("Controller 1 and WASD will be used before arrow keys and controller 2");
+	}, "Controls", nullptr, flags);
+	uiComponent->SetPivot({.5f, 1});
+	uiComponent->SetPosition({320, 470});
 	go->AddComponent(uiComponent);
 
 	uiComponent = std::make_shared<dae::UIComponent>([]()
+	{
+		auto player1 = PlayerInput::GetPlayer1();
+		auto player2 = PlayerInput::GetPlayer2();
+
+		ImGui::Text("Player 1 Input:");
+		if (ImGui::RadioButton("Keyboard##1", player1 == InputType::Keyboard))
 		{
-			auto player1 = PlayerInput::GetPlayer1();
-			auto player2 = PlayerInput::GetPlayer2();
+			PlayerInput::SetPlayer1(InputType::Keyboard);
+		}
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Controller##1", player1 == InputType::Controller))
+		{
+			PlayerInput::SetPlayer1(InputType::Controller);
+		}
 
-			ImGui::Text("Player 1 Input:");
-			if (ImGui::RadioButton("Keyboard##1", player1 == InputType::Keyboard))
-			{
-				PlayerInput::SetPlayer1(InputType::Keyboard);
-			}
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Controller##1", player1 == InputType::Controller))
-			{
-				PlayerInput::SetPlayer1(InputType::Controller);
-			}
-
-			ImGui::Text("Player 2 Input:");
-			if (ImGui::RadioButton("Keyboard##2", player2 == InputType::Keyboard))
-			{
-				PlayerInput::SetPlayer2(InputType::Keyboard);
-			}
-			ImGui::SameLine();
-			if (ImGui::RadioButton("Controller##2", player2 == InputType::Controller))
-			{
-				PlayerInput::SetPlayer2(InputType::Controller);
-			}
-		}, "PlayerInput", nullptr, flags);
-	uiComponent->SetPosition({ 630, 75 });
-	uiComponent->SetPivot({ 1, 0 });
+		ImGui::Text("Player 2 Input:");
+		if (ImGui::RadioButton("Keyboard##2", player2 == InputType::Keyboard))
+		{
+			PlayerInput::SetPlayer2(InputType::Keyboard);
+		}
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Controller##2", player2 == InputType::Controller))
+		{
+			PlayerInput::SetPlayer2(InputType::Controller);
+		}
+	}, "PlayerInput", nullptr, flags);
+	uiComponent->SetPosition({630, 75});
+	uiComponent->SetPivot({1, 0});
 	go->AddComponent(uiComponent);
 	scene.Add(go);
 
@@ -125,7 +125,7 @@ void qbert::StartScene::operator()(dae::Scene& scene) const
 	go->AddComponent(renderComponent);
 	go->GetTransform().SetWorldPosition(320, 400, 0);
 	go->GetTransform().SetPivot({0.5f, 1});
-	go->GetTransform().SetWorldScale(2,2);
+	go->GetTransform().SetWorldScale(2, 2);
 	scene.Add(go);
 
 	go = std::make_shared<dae::GameObject>();
@@ -133,7 +133,7 @@ void qbert::StartScene::operator()(dae::Scene& scene) const
 	go->AddComponent(renderComponent);
 	go->GetTransform().SetWorldPosition(320, 300, 0);
 	go->GetTransform().SetPivot({0.5f, 0});
-	go->GetTransform().SetWorldScale(2,2);
+	go->GetTransform().SetWorldScale(2, 2);
 	scene.Add(go);
 }
 
@@ -143,7 +143,7 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 
 	//FPS
 	auto go = std::make_shared<dae::GameObject>();
-	auto textComponent = std::make_shared<dae::TextComponent>(font, "", dae::Color{ 255, 255, 0 });
+	auto textComponent = std::make_shared<dae::TextComponent>(font, "", dae::Color{255, 255, 0});
 	go->AddComponent(textComponent);
 	auto fps = std::make_shared<dae::FPS>();
 	go->AddComponent(fps);
@@ -151,12 +151,12 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 
 	//Score
 	go = std::make_shared<dae::GameObject>();
-	textComponent = std::make_shared<dae::TextComponent>(font, "0", dae::Color{ 200, 200, 200 });
+	textComponent = std::make_shared<dae::TextComponent>(font, "0", dae::Color{200, 200, 200});
 	go->AddComponent(textComponent);
 	auto score = std::make_shared<Score>();
 	go->AddComponent(score);
-	go->GetTransform().SetPivot({ 0.5f,0 });
-	go->GetTransform().SetWorldPosition({ 320, 10,0 });
+	go->GetTransform().SetPivot({0.5f, 0});
+	go->GetTransform().SetWorldPosition({320, 10, 0});
 	scene.Add(go);
 
 	std::ifstream levelFile;
@@ -172,17 +172,17 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 			try
 			{
 				switch (lines)
-			{
-			case 0:
-				levelSettings.levelSize = std::stoi(line);
-				break;
-			case 1:
-				levelSettings.discAmount = std::stoi(line);
-				break;
-			case 2:
-				levelSettings.scale = std::stof(line);
-				break;
-			}
+				{
+				case 0:
+					levelSettings.levelSize = std::stoi(line);
+					break;
+				case 1:
+					levelSettings.discAmount = std::stoi(line);
+					break;
+				case 2:
+					levelSettings.scale = std::stof(line);
+					break;
+				}
 			}
 			catch (...)
 			{
@@ -202,7 +202,9 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 
 	//Qbert Players
 	std::vector<std::weak_ptr<Qbert>> players{};
-	players.push_back(QbertFactory::CreateQbert(scene, m_GameType == GameType::Coop ? level->GetBottomLeftCube() : level->GetTopCube(), dae::Player::Player1, font));
+	players.push_back(QbertFactory::CreateQbert(
+		scene, m_GameType == GameType::Coop ? level->GetBottomLeftCube() : level->GetTopCube(), dae::Player::Player1,
+		font));
 	level->AddObserver(players[0]);
 	if (m_GameType == GameType::Coop)
 	{
@@ -223,16 +225,16 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 		ImGuiWindowFlags_NoSavedSettings;
 	go = std::make_shared<dae::GameObject>();
 	auto uiComponent = std::make_shared<dae::UIComponent>([]()
+	{
+		ImGui::Text("----------Game Over----------");
+		ImGui::SetCursorPosX(75);
+		if (ImGui::Button("Main Menu"))
 		{
-			ImGui::Text("----------Game Over----------");
-			ImGui::SetCursorPosX(75);
-			if (ImGui::Button("Main Menu"))
-			{
-				dae::SceneManager::GetInstance().SwitchScene("StartScene");
-			}
-		}, "Game Over", nullptr, flags);
-	uiComponent->SetPivot({ 0.5f, 0.5f });
-	uiComponent->SetPosition({ 320, 240 });
+			dae::SceneManager::GetInstance().SwitchScene("StartScene");
+		}
+	}, "Game Over", nullptr, flags);
+	uiComponent->SetPivot({0.5f, 0.5f});
+	uiComponent->SetPosition({320, 240});
 	go->AddComponent(uiComponent);
 	auto gameOver = std::make_shared<GameOver>();
 	go->AddComponent(gameOver);
@@ -241,16 +243,16 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 	//Game Complete UI
 	go = std::make_shared<dae::GameObject>();
 	uiComponent = std::make_shared<dae::UIComponent>([]()
+	{
+		ImGui::Text("----------Game Complete----------");
+		ImGui::SetCursorPosX(90);
+		if (ImGui::Button("Main Menu"))
 		{
-			ImGui::Text("----------Game Complete----------");
-			ImGui::SetCursorPosX(90);
-			if (ImGui::Button("Main Menu"))
-			{
-				dae::SceneManager::GetInstance().SwitchScene("StartScene");
-			}
-		}, "Game Done", nullptr, flags);
-	uiComponent->SetPivot({ 0.5f, 0.5f });
-	uiComponent->SetPosition({ 320, 240 });
+			dae::SceneManager::GetInstance().SwitchScene("StartScene");
+		}
+	}, "Game Done", nullptr, flags);
+	uiComponent->SetPivot({0.5f, 0.5f});
+	uiComponent->SetPosition({320, 240});
 	go->AddComponent(uiComponent);
 	auto gameDone = std::make_shared<GameDone>();
 	go->AddComponent(gameDone);
@@ -259,20 +261,21 @@ void qbert::GameScene::operator()(dae::Scene& scene) const
 
 	//EnemySpawner
 	go = std::make_shared<dae::GameObject>();
-	std::vector<std::weak_ptr<Movement>> playerMovements{ players.size() };
-	std::transform(std::begin(players), std::end(players), std::begin(playerMovements), [](const std::weak_ptr<Qbert>& player)
-		{
-			if (player.expired())
-			{
-				return std::weak_ptr<Movement>();
-			}
-			auto weakGameObject = player.lock()->GetGameObject();
-			if (weakGameObject.expired())
-			{
-				return std::weak_ptr<Movement>();
-			}
-			return weakGameObject.lock()->GetComponent<Movement>();
-		});
+	std::vector<std::weak_ptr<Movement>> playerMovements{players.size()};
+	std::transform(std::begin(players), std::end(players), std::begin(playerMovements),
+	               [](const std::weak_ptr<Qbert>& player)
+	               {
+		               if (player.expired())
+		               {
+			               return std::weak_ptr<Movement>();
+		               }
+		               auto weakGameObject = player.lock()->GetGameObject();
+		               if (weakGameObject.expired())
+		               {
+			               return std::weak_ptr<Movement>();
+		               }
+		               return weakGameObject.lock()->GetComponent<Movement>();
+	               });
 	auto enemySpawner = std::make_shared<EnemySpawner>(level, playerMovements, m_GameType == GameType::Versus);
 	go->AddComponent(enemySpawner);
 	scene.Add(go);

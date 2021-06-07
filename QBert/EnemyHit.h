@@ -10,11 +10,11 @@ namespace qbert
 	class Qbert;
 	class Movement;
 	class EnemySpawner;
-	
+
 	class EnemyHit : public dae::Component, public MovementObserver
 	{
 	public:
-		EnemyHit(const std::weak_ptr<EnemySpawner>& enemySpawner, Side side = Side::Top);
+		EnemyHit(std::weak_ptr<EnemySpawner> enemySpawner, Side side = Side::Top);
 		virtual ~EnemyHit() = default;
 
 		void Fall() override final;
@@ -25,11 +25,11 @@ namespace qbert
 	protected:
 		virtual void OnPlayerHit(Qbert* qbert);
 		std::weak_ptr<EnemySpawner> m_EnemySpawner;
-		
+
 	private:
 		void CheckPlayerMovement(const Movement* playerMovement);
 		bool HitCheck(Walkable* playerLocation, Walkable* location) const;
-		
+
 		std::weak_ptr<Walkable> m_CurrentLocation;
 		Side m_Side;
 	};

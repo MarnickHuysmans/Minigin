@@ -85,87 +85,107 @@ qbert::InputType qbert::PlayerInput::GetPlayer2()
 void qbert::PlayerInput::KeyboardInput(dae::InputManager& inputManager)
 {
 	inputManager.AddCommand([this]()
-		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Up);
-		}, m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_W : dae::KeyboardCode::SDL_SCANCODE_UP, dae::InputState::Hold);
+	                        {
+		                        if (m_Movement.expired() || !ActiveInScene())
+		                        {
+			                        return;
+		                        }
+		                        m_Movement.lock()->Move(Direction::Up);
+	                        }, m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_W
+		                           : dae::KeyboardCode::SDL_SCANCODE_UP,
+	                        dae::InputState::Hold);
 
 	inputManager.AddCommand([this]()
-		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Right);
-		}, m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_D : dae::KeyboardCode::SDL_SCANCODE_RIGHT, dae::InputState::Hold);
+	                        {
+		                        if (m_Movement.expired() || !ActiveInScene())
+		                        {
+			                        return;
+		                        }
+		                        m_Movement.lock()->Move(Direction::Right);
+	                        }, m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_D
+		                           : dae::KeyboardCode::SDL_SCANCODE_RIGHT,
+	                        dae::InputState::Hold);
 
 	inputManager.AddCommand([this]()
-		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Down);
-		}, m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_S : dae::KeyboardCode::SDL_SCANCODE_DOWN, dae::InputState::Hold);
+	                        {
+		                        if (m_Movement.expired() || !ActiveInScene())
+		                        {
+			                        return;
+		                        }
+		                        m_Movement.lock()->Move(Direction::Down);
+	                        }, m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_S
+		                           : dae::KeyboardCode::SDL_SCANCODE_DOWN,
+	                        dae::InputState::Hold);
 
 	inputManager.AddCommand([this]()
-		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Left);
-		}, m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_A : dae::KeyboardCode::SDL_SCANCODE_LEFT, dae::InputState::Hold);
+	                        {
+		                        if (m_Movement.expired() || !ActiveInScene())
+		                        {
+			                        return;
+		                        }
+		                        m_Movement.lock()->Move(Direction::Left);
+	                        }, m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_A
+		                           : dae::KeyboardCode::SDL_SCANCODE_LEFT,
+	                        dae::InputState::Hold);
 }
 
 void qbert::PlayerInput::ControllerInput(dae::InputManager& inputManager)
 {
 	inputManager.AddCommand([this]()
+	{
+		if (m_Movement.expired() || !ActiveInScene())
 		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Up);
-		}, m_Player, dae::ControllerButton::DpadUp, dae::InputState::Hold);
+			return;
+		}
+		m_Movement.lock()->Move(Direction::Up);
+	}, m_Player, dae::ControllerButton::DpadUp, dae::InputState::Hold);
 
 	inputManager.AddCommand([this]()
+	{
+		if (m_Movement.expired() || !ActiveInScene())
 		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Right);
-		}, m_Player, dae::ControllerButton::DpadRight, dae::InputState::Hold);
+			return;
+		}
+		m_Movement.lock()->Move(Direction::Right);
+	}, m_Player, dae::ControllerButton::DpadRight, dae::InputState::Hold);
 
 	inputManager.AddCommand([this]()
+	{
+		if (m_Movement.expired() || !ActiveInScene())
 		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Down);
-		}, m_Player, dae::ControllerButton::DpadDown, dae::InputState::Hold);
+			return;
+		}
+		m_Movement.lock()->Move(Direction::Down);
+	}, m_Player, dae::ControllerButton::DpadDown, dae::InputState::Hold);
 
 	inputManager.AddCommand([this]()
+	{
+		if (m_Movement.expired() || !ActiveInScene())
 		{
-			if (m_Movement.expired() || !ActiveInScene())
-			{
-				return;
-			}
-			m_Movement.lock()->Move(Direction::Left);
-		}, m_Player, dae::ControllerButton::DpadLeft, dae::InputState::Hold);
+			return;
+		}
+		m_Movement.lock()->Move(Direction::Left);
+	}, m_Player, dae::ControllerButton::DpadLeft, dae::InputState::Hold);
 }
 
 void qbert::PlayerInput::RemoveKeyboardInput(dae::InputManager& inputManager) const
 {
-	inputManager.RemoveCommand(m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_W : dae::KeyboardCode::SDL_SCANCODE_UP, dae::InputState::Hold);
-	inputManager.RemoveCommand(m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_D : dae::KeyboardCode::SDL_SCANCODE_RIGHT, dae::InputState::Hold);
-	inputManager.RemoveCommand(m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_S : dae::KeyboardCode::SDL_SCANCODE_DOWN, dae::InputState::Hold);
-	inputManager.RemoveCommand(m_Player == dae::Player::Player1 ? dae::KeyboardCode::SDL_SCANCODE_A : dae::KeyboardCode::SDL_SCANCODE_LEFT, dae::InputState::Hold);
+	inputManager.RemoveCommand(m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_W
+		                           : dae::KeyboardCode::SDL_SCANCODE_UP, dae::InputState::Hold);
+	inputManager.RemoveCommand(m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_D
+		                           : dae::KeyboardCode::SDL_SCANCODE_RIGHT, dae::InputState::Hold);
+	inputManager.RemoveCommand(m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_S
+		                           : dae::KeyboardCode::SDL_SCANCODE_DOWN, dae::InputState::Hold);
+	inputManager.RemoveCommand(m_Player == dae::Player::Player1
+		                           ? dae::KeyboardCode::SDL_SCANCODE_A
+		                           : dae::KeyboardCode::SDL_SCANCODE_LEFT, dae::InputState::Hold);
 }
 
 void qbert::PlayerInput::RemoveControllerInput(dae::InputManager& inputManager) const

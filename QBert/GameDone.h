@@ -12,7 +12,7 @@ namespace qbert
 {
 	class GameDone : public dae::Component, public LevelObserver
 	{
-		public:
+	public:
 		GameDone() = default;
 		virtual ~GameDone() = default;
 

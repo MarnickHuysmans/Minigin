@@ -4,7 +4,8 @@
 #include "GameTime.h"
 #include "MovementObserver.h"
 
-qbert::Movement::Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side, float moveTime, bool enemy) :
+qbert::Movement::Movement(const std::weak_ptr<Walkable>& currentWalkable, const glm::vec3& positionOffset, Side side,
+                          float moveTime, bool enemy) :
 	m_CurrentWalkable(currentWalkable),
 	m_StartWalkable(currentWalkable),
 	m_Transform(nullptr),
@@ -55,7 +56,8 @@ void qbert::Movement::Move(Direction direction)
 	}
 
 	m_NextWalkable = m_CurrentWalkable.lock()->GetWalkable(m_Side, direction);
-	if (m_Enemy && !m_NextWalkable.expired() && m_NextWalkable.lock()->GetWalkableType() != Walkable::WalkableType::LevelCube)
+	if (m_Enemy && !m_NextWalkable.expired() && m_NextWalkable.lock()->GetWalkableType() !=
+		Walkable::WalkableType::LevelCube)
 	{
 		m_NextWalkable = std::weak_ptr<Walkable>();
 	}
@@ -121,15 +123,16 @@ void qbert::Movement::MoveToCurrent()
 	auto& middle = current->GetMiddleOffset(m_Side);
 	m_Transform->SetLocalPosition(middle + m_PositionOffset);
 
-	m_MovementObservers.erase(std::remove_if(std::begin(m_MovementObservers), std::end(m_MovementObservers), [this](const std::weak_ptr<MovementObserver>& observer)
-		{
-			if (observer.expired())
-			{
-				return true;
-			}
-			observer.lock()->Moved(weak_from_this());
-			return false;
-		}), std::end(m_MovementObservers));
+	m_MovementObservers.erase(std::remove_if(std::begin(m_MovementObservers), std::end(m_MovementObservers),
+	                                         [this](const std::weak_ptr<MovementObserver>& observer)
+	                                         {
+		                                         if (observer.expired())
+		                                         {
+			                                         return true;
+		                                         }
+		                                         observer.lock()->Moved(weak_from_this());
+		                                         return false;
+	                                         }), std::end(m_MovementObservers));
 }
 
 void qbert::Movement::Fall()

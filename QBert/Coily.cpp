@@ -1,12 +1,15 @@
 #include "Coily.h"
+
+#include <utility>
 #include "EnemySpawner.h"
 #include "GameObject.h"
 #include "ServiceLocator.h"
 
-qbert::Coily::Coily(const std::weak_ptr<EnemySpawner>& enemySpawner, bool player, const glm::vec3& offset, const std::shared_ptr<dae::Texture2D>& texture, float moveTime) :
+qbert::Coily::Coily(std::weak_ptr<EnemySpawner> enemySpawner, bool player, const glm::vec3& offset,
+                    std::shared_ptr<dae::Texture2D> texture, float moveTime) :
 	m_Offset(offset),
-	m_Texture(texture),
-	m_EnemySpawner(enemySpawner),
+	m_Texture(std::move(texture)),
+	m_EnemySpawner(std::move(enemySpawner)),
 	m_MoveTime(moveTime),
 	m_IsPlayer(player)
 {
@@ -35,7 +38,7 @@ std::shared_ptr<qbert::CoilyAIState> qbert::Coily::GetAiState() const
 
 std::shared_ptr<qbert::CoilyPlayerState> qbert::Coily::GetPlayerState() const
 {
-	return  m_PlayerState;
+	return m_PlayerState;
 }
 
 std::weak_ptr<qbert::EnemySpawner> qbert::Coily::GetEnemySpawner() const

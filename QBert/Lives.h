@@ -23,7 +23,7 @@ namespace qbert
 
 	private:
 		void SetText();
-		
+
 		std::weak_ptr<dae::TextComponent> m_TextComponent;
 		int m_Lives;
 	};

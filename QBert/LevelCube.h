@@ -14,7 +14,9 @@ namespace qbert
 	class LevelCube final : public Walkable
 	{
 	public:
-		LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col, const glm::vec3& topMiddle = glm::vec3(0, 0, 0), const glm::vec3& rightMiddle = glm::vec3(0, 0, 0), const glm::vec3& leftMiddle = glm::vec3(0, 0, 0));
+		LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col,
+		          const glm::vec3& topMiddle = glm::vec3(0, 0, 0), const glm::vec3& rightMiddle = glm::vec3(0, 0, 0),
+		          const glm::vec3& leftMiddle = glm::vec3(0, 0, 0));
 		virtual ~LevelCube() = default;
 
 		void SetTexture(std::shared_ptr<dae::Texture2D>& texture, size_t index);

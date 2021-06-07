@@ -1,12 +1,14 @@
 #include "EnemyHit.h"
+
+#include <utility>
 #include "Qbert.h"
 #include "EnemySpawner.h"
 #include "Movement.h"
 #include "GameObject.h"
 #include "Walkable.h"
 
-qbert::EnemyHit::EnemyHit(const std::weak_ptr<EnemySpawner>& enemySpawner, Side side) :
-	m_EnemySpawner(enemySpawner),
+qbert::EnemyHit::EnemyHit(std::weak_ptr<EnemySpawner> enemySpawner, Side side) :
+	m_EnemySpawner(std::move(enemySpawner)),
 	m_Side(side)
 {
 }
@@ -20,7 +22,7 @@ void qbert::EnemyHit::Fall()
 	m_GameObject.lock()->Destroy();
 }
 
-void qbert::EnemyHit::Moved(std::weak_ptr<qbert::Movement> movement)
+void qbert::EnemyHit::Moved(std::weak_ptr<Movement> movement)
 {
 	if (!ActiveInScene() || m_EnemySpawner.expired() || movement.expired())
 	{
@@ -94,9 +96,11 @@ bool qbert::EnemyHit::HitCheck(Walkable* playerLocation, Walkable* location) con
 	case Side::Top:
 		return playerLocation == location;
 	case Side::Right:
-		return playerLocation->GetRow() - 1 == location->GetRow() && playerLocation->GetColumn() - 1 == location->GetColumn();
+		return playerLocation->GetRow() - 1 == location->GetRow() && playerLocation->GetColumn() - 1 == location->
+			GetColumn();
 	case Side::Left:
-		return playerLocation->GetRow() - 1 == location->GetRow() && playerLocation->GetColumn() == location->GetColumn();
+		return playerLocation->GetRow() - 1 == location->GetRow() && playerLocation->GetColumn() == location->
+			GetColumn();
 	default:
 		return false;
 	}

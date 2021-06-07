@@ -28,7 +28,7 @@ void qbert::Qbert::Update()
 {
 	if (m_NotifyLife)
 	{
-		NotifyObservers([this](QbertObserver* observer) {observer->QbertLives(m_Lives); });
+		NotifyObservers([this](QbertObserver* observer) { observer->QbertLives(m_Lives); });
 		m_NotifyLife = false;
 	}
 	if (m_Lives <= 0 || m_RespawnTimer <= 0)
@@ -129,13 +129,13 @@ void qbert::Qbert::QbertRespawn()
 void qbert::Qbert::NotifyObservers(std::function<void(QbertObserver*)> observerFunction)
 {
 	m_QbertObservers.erase(std::remove_if(std::begin(m_QbertObservers), std::end(m_QbertObservers),
-		[&observerFunction](const std::weak_ptr<QbertObserver>& observer)
-		{
-			if (observer.expired())
-			{
-				return true;
-			}
-			observerFunction(observer.lock().get());
-			return false;
-		}), std::end(m_QbertObservers));
+	                                      [&observerFunction](const std::weak_ptr<QbertObserver>& observer)
+	                                      {
+		                                      if (observer.expired())
+		                                      {
+			                                      return true;
+		                                      }
+		                                      observerFunction(observer.lock().get());
+		                                      return false;
+	                                      }), std::end(m_QbertObservers));
 }

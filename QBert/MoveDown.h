@@ -6,7 +6,7 @@
 namespace qbert
 {
 	class Movement;
-	
+
 	class MoveDown : public dae::Component
 	{
 	public:
@@ -18,7 +18,7 @@ namespace qbert
 
 	protected:
 		std::weak_ptr<Movement> m_Movement;
-		
+
 		float m_MoveTimer;
 		float m_MoveTime;
 

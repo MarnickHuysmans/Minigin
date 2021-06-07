@@ -68,15 +68,16 @@ void qbert::Disc::AddObserver(const std::weak_ptr<DiscObserver>& observer)
 
 void qbert::Disc::DoneMoving()
 {
-	m_DiscObservers.erase(std::remove_if(std::begin(m_DiscObservers), std::end(m_DiscObservers), [](const std::weak_ptr<DiscObserver>& observer)
-		{
-			if (observer.expired())
-			{
-				return true;
-			}
-			observer.lock()->DiscDoneMoving();
-			return false;
-		}), std::end(m_DiscObservers));
+	m_DiscObservers.erase(std::remove_if(std::begin(m_DiscObservers), std::end(m_DiscObservers),
+	                                     [](const std::weak_ptr<DiscObserver>& observer)
+	                                     {
+		                                     if (observer.expired())
+		                                     {
+			                                     return true;
+		                                     }
+		                                     observer.lock()->DiscDoneMoving();
+		                                     return false;
+	                                     }), std::end(m_DiscObservers));
 
 	if (m_GameObject.expired())
 	{

@@ -6,7 +6,8 @@
 #include "Movement.h"
 #include "LevelCubeObserver.h"
 
-qbert::LevelCube::LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col, const glm::vec3& topMiddle, const glm::vec3& rightMiddle, const glm::vec3& leftMiddle) :
+qbert::LevelCube::LevelCube(LevelType type, const std::weak_ptr<Level>& level, int row, int col,
+                            const glm::vec3& topMiddle, const glm::vec3& rightMiddle, const glm::vec3& leftMiddle) :
 	Walkable(level, row, col, topMiddle, rightMiddle, leftMiddle),
 	m_State(0),
 	m_MaxStates(MaxStates(type)),
@@ -46,7 +47,7 @@ void qbert::LevelCube::StepOn(Movement* movement)
 		return;
 	}
 
-	auto weakGameObject =movement->GetGameObject();
+	auto weakGameObject = movement->GetGameObject();
 	if (weakGameObject.expired())
 	{
 		return;
@@ -106,13 +107,13 @@ size_t qbert::LevelCube::MaxStates(LevelType type) const
 	switch (type)
 	{
 	case LevelType::Single:
-		return  2;
+		return 2;
 	case LevelType::Double:
-		return  3;
+		return 3;
 	case LevelType::Cycle:
-		return  2;
+		return 2;
 	default:
-		return  1;
+		return 1;
 	}
 }
 
@@ -192,13 +193,13 @@ void qbert::LevelCube::StepOnCycle(bool forward)
 void qbert::LevelCube::NotifyObservers(std::function<void(LevelCubeObserver*)> observerFunction)
 {
 	m_LevelCubeObservers.erase(std::remove_if(std::begin(m_LevelCubeObservers), std::end(m_LevelCubeObservers),
-		[&observerFunction](const std::weak_ptr<LevelCubeObserver>& observer)
-		{
-			if (observer.expired())
-			{
-				return true;
-			}
-			observerFunction(observer.lock().get());
-			return false;
-		}), std::end(m_LevelCubeObservers));
+	                                          [&observerFunction](const std::weak_ptr<LevelCubeObserver>& observer)
+	                                          {
+		                                          if (observer.expired())
+		                                          {
+			                                          return true;
+		                                          }
+		                                          observerFunction(observer.lock().get());
+		                                          return false;
+	                                          }), std::end(m_LevelCubeObservers));
 }

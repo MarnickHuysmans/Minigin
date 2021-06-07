@@ -20,7 +20,8 @@ namespace qbert
 	class Coily : public dae::Component, public MovementObserver
 	{
 	public:
-		Coily(const std::weak_ptr<EnemySpawner>& enemySpawner, bool player, const glm::vec3& offset, const std::shared_ptr<dae::Texture2D>& texture, float moveTime = 2.0f);
+		Coily(std::weak_ptr<EnemySpawner> enemySpawner, bool player, const glm::vec3& offset,
+		      std::shared_ptr<dae::Texture2D> texture, float moveTime = 2.0f);
 		virtual ~Coily() = default;
 
 		void Start() override;
@@ -37,7 +38,7 @@ namespace qbert
 
 		void Fall() override;
 		void Moved(std::weak_ptr<Movement> movement) override;
-		
+
 	private:
 		StateMachine m_StateMachine;
 		std::shared_ptr<CoilyAIState> m_AiState;

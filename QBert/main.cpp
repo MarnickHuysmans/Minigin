@@ -18,7 +18,7 @@ void QBertGame::LoadGame() const
 	dae::ServiceLocator::GetSoundSystem().PlaySound("../Data/Sound/GameStartMusic.wav");
 }
 
-int main(int, char* [])
+int main(int, char*[])
 {
 	QBertGame game{};
 	game.Run();

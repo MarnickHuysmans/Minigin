@@ -1,6 +1,7 @@
 #include "Level.h"
 
 #include <numeric>
+#include <utility>
 
 #include "Walkable.h"
 #include "LevelEnums.h"
@@ -12,7 +13,7 @@ unsigned int qbert::Level::m_CubeScore = 25;
 
 qbert::Level::Level(int levelSize, int discAmount, std::weak_ptr<Score> score) :
 	m_Level(LevelIndex(levelSize, -1)),
-	m_Score(score),
+	m_Score(std::move(score)),
 	m_LevelSize(levelSize),
 	m_DiscAmount(discAmount),
 	m_Win(LevelIndex(levelSize - 2, -1)),
@@ -253,13 +254,13 @@ void qbert::Level::NextLevel()
 void qbert::Level::NotifyObservers(std::function<void(LevelObserver*)> observerFunction)
 {
 	m_LevelObservers.erase(std::remove_if(std::begin(m_LevelObservers), std::end(m_LevelObservers),
-		[&observerFunction](const std::weak_ptr<LevelObserver>& observer)
-		{
-			if (observer.expired())
-			{
-				return true;
-			}
-			observerFunction(observer.lock().get());
-			return false;
-		}), std::end(m_LevelObservers));
+	                                      [&observerFunction](const std::weak_ptr<LevelObserver>& observer)
+	                                      {
+		                                      if (observer.expired())
+		                                      {
+			                                      return true;
+		                                      }
+		                                      observerFunction(observer.lock().get());
+		                                      return false;
+	                                      }), std::end(m_LevelObservers));
 }

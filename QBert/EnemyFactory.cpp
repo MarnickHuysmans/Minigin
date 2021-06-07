@@ -14,14 +14,14 @@
 #include "ResourceManager.h"
 #include "SlickSam.h"
 
-glm::vec3 qbert::EnemyFactory::m_SlickOffset = { -8, -15, 1 };
-glm::vec3 qbert::EnemyFactory::m_SamOffset = { -8, -15, 1 };
-glm::vec3 qbert::EnemyFactory::m_UggOffset = { -3,-3,1 };
-glm::vec3 qbert::EnemyFactory::m_WrongWayOffset = { -13,-3,1 };
-glm::vec3 qbert::EnemyFactory::m_CoilyOffset = { -8, -14,1 };
-glm::vec3 qbert::EnemyFactory::m_CoilyEggOffset = { -8, -15,1 };
+glm::vec3 qbert::EnemyFactory::m_SlickOffset = {-8, -15, 1};
+glm::vec3 qbert::EnemyFactory::m_SamOffset = {-8, -15, 1};
+glm::vec3 qbert::EnemyFactory::m_UggOffset = {-3, -3, 1};
+glm::vec3 qbert::EnemyFactory::m_WrongWayOffset = {-13, -3, 1};
+glm::vec3 qbert::EnemyFactory::m_CoilyOffset = {-8, -14, 1};
+glm::vec3 qbert::EnemyFactory::m_CoilyEggOffset = {-8, -15, 1};
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlick(const std::shared_ptr<qbert::EnemySpawner>& enemySpawner)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlick(const std::shared_ptr<EnemySpawner>& enemySpawner)
 {
 	auto& level = enemySpawner->GetLevel();
 	if (level.expired())
@@ -31,7 +31,7 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlick(const std:
 	return CreateSlickSam("Sprites/Slick.png", enemySpawner, level.lock()->GetTopLeftCube(), m_SlickOffset);
 }
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSam(const std::shared_ptr<qbert::EnemySpawner>& enemySpawner)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSam(const std::shared_ptr<EnemySpawner>& enemySpawner)
 {
 	auto& level = enemySpawner->GetLevel();
 	if (level.expired())
@@ -41,27 +41,31 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSam(const std::s
 	return CreateSlickSam("Sprites/Sam.png", enemySpawner, level.lock()->GetTopRightCube(), m_SamOffset);
 }
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateUgg(const std::shared_ptr<qbert::EnemySpawner>& enemySpawner)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateUgg(const std::shared_ptr<EnemySpawner>& enemySpawner)
 {
 	auto& level = enemySpawner->GetLevel();
 	if (level.expired())
 	{
 		return std::weak_ptr<dae::GameObject>();
 	}
-	return CreateUggWrongWay("Sprites/Ugg.png", enemySpawner, level.lock()->GetBottomRightCube(), m_UggOffset, Side::Right);
+	return CreateUggWrongWay("Sprites/Ugg.png", enemySpawner, level.lock()->GetBottomRightCube(), m_UggOffset,
+	                         Side::Right);
 }
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateWrongWay(const std::shared_ptr<qbert::EnemySpawner>& enemySpawner)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateWrongWay(
+	const std::shared_ptr<EnemySpawner>& enemySpawner)
 {
 	auto& level = enemySpawner->GetLevel();
 	if (level.expired())
 	{
 		return std::weak_ptr<dae::GameObject>();
 	}
-	return CreateUggWrongWay("Sprites/WrongWay.png", enemySpawner, level.lock()->GetBottomLeftCube(), m_WrongWayOffset, Side::Left);
+	return CreateUggWrongWay("Sprites/WrongWay.png", enemySpawner, level.lock()->GetBottomLeftCube(), m_WrongWayOffset,
+	                         Side::Left);
 }
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateCoily(const std::shared_ptr<EnemySpawner>& enemySpawner, bool player)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateCoily(const std::shared_ptr<EnemySpawner>& enemySpawner,
+                                                                      bool player)
 {
 	auto& level = enemySpawner->GetLevel();
 	if (level.expired())
@@ -110,7 +114,9 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateCoily(const std:
 	return gameObject;
 }
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlickSam(const std::string& textureFile, const std::weak_ptr<EnemySpawner>& enemySpawner, const std::weak_ptr<Walkable>& startCube, const glm::vec3& offset)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlickSam(
+	const std::string& textureFile, const std::weak_ptr<EnemySpawner>& enemySpawner,
+	const std::weak_ptr<Walkable>& startCube, const glm::vec3& offset)
 {
 	if (startCube.expired())
 	{
@@ -140,7 +146,9 @@ const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateSlickSam(const s
 	return gameObject;
 }
 
-const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateUggWrongWay(const std::string& textureFile, const std::weak_ptr<EnemySpawner>& enenmySpawner, const std::weak_ptr<Walkable>& startCube, const glm::vec3& offset, Side side)
+const std::weak_ptr<dae::GameObject> qbert::EnemyFactory::CreateUggWrongWay(
+	const std::string& textureFile, const std::weak_ptr<EnemySpawner>& enenmySpawner,
+	const std::weak_ptr<Walkable>& startCube, const glm::vec3& offset, Side side)
 {
 	if (startCube.expired())
 	{

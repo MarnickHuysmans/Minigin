@@ -19,7 +19,8 @@ namespace qbert
 	class PlayerInput;
 	class Walkable;
 
-	class CoilyMoveDownState : public IState, public MovementObserver, public std::enable_shared_from_this<CoilyMoveDownState>
+	class CoilyMoveDownState : public IState, public MovementObserver,
+	                           public std::enable_shared_from_this<CoilyMoveDownState>
 	{
 	public:
 		CoilyMoveDownState(StateMachine& stateMachine, Coily* coily);
@@ -57,7 +58,8 @@ namespace qbert
 		void GameComplete() override;
 
 	private:
-		void MoveTo(const std::weak_ptr<Movement>& playerMovement, const std::shared_ptr<Walkable>& enemyWalkable, const std::shared_ptr<Movement>& enemyMovement);
+		void MoveTo(const std::weak_ptr<Movement>& playerMovement, const std::shared_ptr<Walkable>& enemyWalkable,
+		            const std::shared_ptr<Movement>& enemyMovement);
 
 		StateMachine& m_StateMachine;
 		Coily* m_Coily;
@@ -65,7 +67,8 @@ namespace qbert
 		float m_MoveTimer;
 	};
 
-	class CoilyPlayerState : public IState, public MovementObserver, public std::enable_shared_from_this<CoilyPlayerState>
+	class CoilyPlayerState : public IState, public MovementObserver,
+	                         public std::enable_shared_from_this<CoilyPlayerState>
 	{
 	public:
 		CoilyPlayerState(StateMachine& stateMachine, Coily* coily);

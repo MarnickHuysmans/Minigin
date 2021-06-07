@@ -53,7 +53,7 @@ namespace qbert
 		void AddScore(unsigned int score);
 
 		void AddObserver(const std::weak_ptr<LevelObserver>& observer);
-		
+
 	private:
 		std::weak_ptr<Walkable> GetWalkableTop(Direction direction, int row, int col) const;
 		std::weak_ptr<Walkable> GetWalkableRight(Direction direction, int row, int col) const;
@@ -65,7 +65,7 @@ namespace qbert
 		void NextLevel();
 
 		void NotifyObservers(std::function<void(LevelObserver*)> observerFunction);
-		
+
 		std::vector<std::weak_ptr<Walkable>> m_Level;
 		std::vector<std::weak_ptr<LevelObserver>> m_LevelObservers;
 		std::weak_ptr<Score> m_Score;

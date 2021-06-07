@@ -18,7 +18,7 @@ namespace qbert
 	class Movement;
 	class Walkable;
 	class EnemySpawner;
-	
+
 	class EnemyFactory
 	{
 	public:
@@ -28,11 +28,18 @@ namespace qbert
 		static const std::weak_ptr<dae::GameObject> CreateUgg(const std::shared_ptr<EnemySpawner>& enemySpawner);
 		static const std::weak_ptr<dae::GameObject> CreateWrongWay(const std::shared_ptr<EnemySpawner>& enemySpawner);
 
-		static const std::weak_ptr<dae::GameObject> CreateCoily(const std::shared_ptr<EnemySpawner>& enemySpawner, bool player);
+		static const std::weak_ptr<dae::GameObject> CreateCoily(const std::shared_ptr<EnemySpawner>& enemySpawner,
+		                                                        bool player);
 
 	private:
-		static const std::weak_ptr<dae::GameObject> CreateSlickSam(const std::string& textureFile, const std::weak_ptr<EnemySpawner>& enemySpawner, const std::weak_ptr<Walkable>& startCube, const glm::vec3& offset);
-		static const std::weak_ptr<dae::GameObject> CreateUggWrongWay(const std::string& textureFile, const std::weak_ptr<EnemySpawner>& enenmySpawner, const std::weak_ptr<Walkable>& startCube, const glm::vec3& offset, Side side);
+		static const std::weak_ptr<dae::GameObject> CreateSlickSam(const std::string& textureFile,
+		                                                           const std::weak_ptr<EnemySpawner>& enemySpawner,
+		                                                           const std::weak_ptr<Walkable>& startCube,
+		                                                           const glm::vec3& offset);
+		static const std::weak_ptr<dae::GameObject> CreateUggWrongWay(const std::string& textureFile,
+		                                                              const std::weak_ptr<EnemySpawner>& enenmySpawner,
+		                                                              const std::weak_ptr<Walkable>& startCube,
+		                                                              const glm::vec3& offset, Side side);
 
 		static glm::vec3 m_SlickOffset;
 		static glm::vec3 m_SamOffset;

@@ -10,13 +10,17 @@ namespace qbert
 {
 	class Movement;
 	class Level;
-	
-	class EnemySpawner : public dae::Component, public LevelObserver, public QbertObserver, public MovementObserver, public std::enable_shared_from_this<EnemySpawner>
+
+	class EnemySpawner : public dae::Component, public LevelObserver, public QbertObserver, public MovementObserver,
+	                     public std::enable_shared_from_this<EnemySpawner>
 	{
 	public:
-		EnemySpawner(const std::weak_ptr<Level>& level, const std::vector<std::weak_ptr<Movement>>& playerMovements, bool coilyPlayer = false, float slickSamMinTime = 15.0f, float slickSamMaxTime = 30.0f, float uggWrongWayMinTime = 7.0f, float uggWrongWayMaxTime = 15.0f, float coilyMinTime = 4.0f, float coilyMaxTime = 8.0f);
+		EnemySpawner(std::weak_ptr<Level> level, std::vector<std::weak_ptr<Movement>> playerMovements,
+		             bool coilyPlayer = false, float slickSamMinTime = 15.0f, float slickSamMaxTime = 30.0f,
+		             float uggWrongWayMinTime = 7.0f, float uggWrongWayMaxTime = 15.0f, float coilyMinTime = 4.0f,
+		             float coilyMaxTime = 8.0f);
 		virtual ~EnemySpawner() = default;
-		
+
 		void Update() override;
 
 		const std::vector<std::weak_ptr<Movement>>& GetPlayerMovements() const;
@@ -25,17 +29,17 @@ namespace qbert
 		void LevelDisc() override;
 		void NextLevel() override;
 		void GameComplete() override;
-		
+
 		void QbertLives(int lives) override;
 		void QbertRespawn() override;
 
 		void Fall() override;
 		void Moved(std::weak_ptr<Movement> movement) override;
-		
+
 		void CoilyFall();
 
-		const std::weak_ptr<Level>& GetLevel() const {return m_Level;}
-		
+		const std::weak_ptr<Level>& GetLevel() const { return m_Level; }
+
 	private:
 		void SpawnSlickSam(float elapsed);
 		void SpawnUggWrongWay(float elapsed);
@@ -44,7 +48,7 @@ namespace qbert
 
 		void DestroyEnemies();
 		void DestroyCoily();
-		
+
 	private:
 		std::vector<std::weak_ptr<dae::GameObject>> m_Enemies;
 		std::vector<std::weak_ptr<dae::GameObject>> m_Coily;

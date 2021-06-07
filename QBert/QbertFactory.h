@@ -6,7 +6,8 @@
 #pragma warning(pop)
 #include "Qbert.h"
 
-namespace dae {
+namespace dae
+{
 	enum class Player;
 	class Scene;
 	class Font;
@@ -15,10 +16,12 @@ namespace dae {
 namespace qbert
 {
 	class Walkable;
+
 	class QbertFactory
 	{
 	public:
-		static const std::weak_ptr<Qbert> CreateQbert(dae::Scene& scene, const std::weak_ptr<Walkable>& startCube, dae::Player player, const std::shared_ptr<dae::Font>& font);
+		static const std::weak_ptr<Qbert> CreateQbert(dae::Scene& scene, const std::weak_ptr<Walkable>& startCube,
+		                                              dae::Player player, const std::shared_ptr<dae::Font>& font);
 
 	private:
 		static glm::vec3 m_PositionOffset;

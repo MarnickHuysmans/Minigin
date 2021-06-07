@@ -21,7 +21,8 @@ namespace qbert
 			Disc
 		};
 
-		Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec3& topMiddle = glm::vec3(0, 0, 0), const glm::vec3& rightMiddle = glm::vec3(0, 0, 0), const glm::vec3& leftMiddle = glm::vec3(0, 0, 0));
+		Walkable(std::weak_ptr<Level> level, int row, int col, const glm::vec3& topMiddle = glm::vec3(0, 0, 0),
+		         const glm::vec3& rightMiddle = glm::vec3(0, 0, 0), const glm::vec3& leftMiddle = glm::vec3(0, 0, 0));
 		virtual ~Walkable() = 0;
 
 		const glm::vec3& GetMiddleOffset(Side side) const;
@@ -34,9 +35,13 @@ namespace qbert
 
 		virtual WalkableType GetWalkableType() = 0;
 
-		virtual void StepOn(Movement*) {}
+		virtual void StepOn(Movement*)
+		{
+		}
 
-		virtual void NextLevel() {}
+		virtual void NextLevel()
+		{
+		}
 
 		int GetDistanceTo(const std::shared_ptr<Walkable>& other) const;
 

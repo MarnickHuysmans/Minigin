@@ -10,7 +10,8 @@
 
 int qbert::LevelFactory::m_CubeHeightOffset = 8;
 
-std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, const std::weak_ptr<Score>& score, LevelSettings levelSettings)
+std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, const std::weak_ptr<Score>& score,
+                                                             LevelSettings levelSettings)
 {
 	int windowWidth = 0;
 	int windowHeight = 0;
@@ -43,7 +44,8 @@ std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, 
 	{
 		for (int col = 0; col <= row; ++col)
 		{
-			auto levelCube = std::make_shared<LevelCube>(LevelType::Single, level, row, col, glm::vec3(16, 8, 0), glm::vec3(24, 20, 0), glm::vec3(8, 20, 0));
+			auto levelCube = std::make_shared<LevelCube>(LevelType::Single, level, row, col, glm::vec3(16, 8, 0),
+			                                             glm::vec3(24, 20, 0), glm::vec3(8, 20, 0));
 			levelCube->SetTexture(cubeTexture1, 0);
 			levelCube->SetTexture(cubeTexture2, 1);
 			levelCube->SetTexture(cubeTexture3, 2);
@@ -74,15 +76,20 @@ std::weak_ptr<qbert::Level> qbert::LevelFactory::CreateLevel(dae::Scene& scene, 
 
 	for (int row = 0; row < levelSettings.levelSize - 1; ++row)
 	{
-		CreateDisc(level, levelObject, cubeWidth, cubeHeight, heightIncrement, startHeight, discTexture, discWidth, discHeight, row, -1);
-		CreateDisc(level, levelObject, cubeWidth, cubeHeight, heightIncrement, startHeight, discTexture, discWidth, discHeight, row, row + 1);
+		CreateDisc(level, levelObject, cubeWidth, cubeHeight, heightIncrement, startHeight, discTexture, discWidth,
+		           discHeight, row, -1);
+		CreateDisc(level, levelObject, cubeWidth, cubeHeight, heightIncrement, startHeight, discTexture, discWidth,
+		           discHeight, row, row + 1);
 	}
 
 	scene.Add(levelObject);
 	return level;
 }
 
-void qbert::LevelFactory::CreateDisc(std::shared_ptr<Level> level, std::shared_ptr<dae::GameObject> levelObject, int cubeWidth, int cubeHeight, int heightIncrement, int startHeight, std::shared_ptr<dae::Texture2D> discTexture, int discWidth, int discHeight, int row, int col)
+void qbert::LevelFactory::CreateDisc(std::shared_ptr<Level> level, std::shared_ptr<dae::GameObject> levelObject,
+                                     int cubeWidth, int cubeHeight, int heightIncrement, int startHeight,
+                                     std::shared_ptr<dae::Texture2D> discTexture, int discWidth, int discHeight,
+                                     int row, int col)
 {
 	auto disc = std::make_shared<Disc>(level, row, col, glm::vec3(8, 6, 0));
 

@@ -71,7 +71,7 @@ void qbert::CoilyMoveDownState::Fall()
 {
 }
 
-void qbert::CoilyMoveDownState::Moved(std::weak_ptr<qbert::Movement> movement)
+void qbert::CoilyMoveDownState::Moved(std::weak_ptr<Movement> movement)
 {
 	if (movement.expired())
 	{
@@ -175,28 +175,30 @@ void qbert::CoilyAIState::Update()
 	}
 
 	auto it = std::min_element(std::begin(playerMovements), std::end(playerMovements),
-		[&enemyWalkable](const std::weak_ptr<Movement>& leftMovement, const std::weak_ptr<Movement>& rightMovement)
-		{
-			if (leftMovement.expired())
-			{
-				return false;
-			}
-			if (rightMovement.expired())
-			{
-				return true;
-			}
-			auto left = leftMovement.lock()->GetCurrentWalkable();
-			if (left.expired())
-			{
-				return false;
-			}
-			auto right = rightMovement.lock()->GetCurrentWalkable();
-			if (right.expired())
-			{
-				return true;
-			}
-			return enemyWalkable->GetDistanceTo(left.lock()) < enemyWalkable->GetDistanceTo(right.lock());
-		});
+	                           [&enemyWalkable](const std::weak_ptr<Movement>& leftMovement,
+	                                            const std::weak_ptr<Movement>& rightMovement)
+	                           {
+		                           if (leftMovement.expired())
+		                           {
+			                           return false;
+		                           }
+		                           if (rightMovement.expired())
+		                           {
+			                           return true;
+		                           }
+		                           auto left = leftMovement.lock()->GetCurrentWalkable();
+		                           if (left.expired())
+		                           {
+			                           return false;
+		                           }
+		                           auto right = rightMovement.lock()->GetCurrentWalkable();
+		                           if (right.expired())
+		                           {
+			                           return true;
+		                           }
+		                           return enemyWalkable->GetDistanceTo(left.lock()) < enemyWalkable->GetDistanceTo(
+			                           right.lock());
+	                           });
 	if (it == std::end(playerMovements) || it->expired())
 	{
 		return;
@@ -226,7 +228,9 @@ void qbert::CoilyAIState::GameComplete()
 {
 }
 
-void qbert::CoilyAIState::MoveTo(const std::weak_ptr<Movement>& playerMovement, const std::shared_ptr<Walkable>& enemyWalkable, const std::shared_ptr<Movement>& enemyMovement)
+void qbert::CoilyAIState::MoveTo(const std::weak_ptr<Movement>& playerMovement,
+                                 const std::shared_ptr<Walkable>& enemyWalkable,
+                                 const std::shared_ptr<Movement>& enemyMovement)
 {
 	if (playerMovement.expired())
 	{
