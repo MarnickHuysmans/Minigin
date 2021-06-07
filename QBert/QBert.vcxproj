@@ -121,8 +121,7 @@
       <AdditionalDependencies>Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(SolutionDir)Data" "$(SolutionDir)$(BaseOutputPath)Data" /R /Y /E /C /H /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -147,8 +146,7 @@
       <AdditionalDependencies>Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(SolutionDir)Data" "$(SolutionDir)$(BaseOutputPath)Data" /R /Y /E /C /H /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -176,8 +174,7 @@
       <AdditionalDependencies>Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(SolutionDir)Data" "$(SolutionDir)$(BaseOutputPath)Data" /R /Y /E /C /H /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -202,8 +199,7 @@
       <AdditionalDependencies>Minigin.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>
-      </Command>
+      <Command>xcopy "$(SolutionDir)Data" "$(SolutionDir)$(BaseOutputPath)Data" /R /Y /E /C /H /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
