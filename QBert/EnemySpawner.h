@@ -71,6 +71,7 @@ namespace qbert
 		bool m_DestroyEnemies;
 		bool m_DestroyCoily;
 		bool m_Spawning;
+		bool m_CoilyFell;
 
 		static unsigned int m_CoilyScore;
 	};

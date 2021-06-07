@@ -41,7 +41,7 @@ namespace qbert
 
 		std::weak_ptr<Walkable> GetWalkable(Side side, Direction direction, int row, int col) const;
 
-		static size_t LevelIndex(int row, int col);
+		static unsigned int LevelIndex(int row, int col);
 
 		int GetLevelSize() const { return m_LevelSize; }
 
@@ -71,8 +71,8 @@ namespace qbert
 		std::weak_ptr<Score> m_Score;
 		const int m_LevelSize;
 		const int m_DiscAmount;
-		const int m_Win;
-		int m_WinCounter;
+		const unsigned int m_Win;
+		unsigned int m_WinCounter;
 		unsigned int m_LevelCounter;
 		const unsigned int m_MaxLevel;
 

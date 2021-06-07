@@ -78,7 +78,7 @@ std::weak_ptr<qbert::Walkable> qbert::Level::GetWalkable(Side side, Direction di
 	}
 }
 
-size_t qbert::Level::LevelIndex(int row, int col)
+unsigned int qbert::Level::LevelIndex(int row, int col)
 {
 	row += 2;
 	col += 1;
